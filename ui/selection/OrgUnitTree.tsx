@@ -1,5 +1,9 @@
 import { IOrgUnit } from "@/types/definations"
 import { useEffect, useState } from "react"
+import SelectionHeader from "../basics/SelectionHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { setOrgUnit } from "@/store/selectionSlice";
 
 
 export default function OrgUnitTree() {
@@ -7,6 +11,7 @@ export default function OrgUnitTree() {
     const [roots, setRoots] = useState<IOrgUnit[]>([]);
     const [childrenMap, setChildrenMap] = useState<Record<string, IOrgUnit[]>>({});
     const [expended, setExpanded] = useState<Record<string, boolean>>({});
+    const [showed, setShowed] = useState<boolean>(false);
     
     useEffect(() => {
         fetchRoots();
@@ -34,17 +39,24 @@ export default function OrgUnitTree() {
     }
     
     return (
-        <div className="p-4 border border-slate-200 min-h-screen">
-            {roots.length > 0 ? (
-                <OrgUnitNode
-                    nodes={roots}
-                    expended={expended}
-                    fetchChildren={fetchChildren}
-                    childrenMap={childrenMap}
-                />
-            ) : (
-                <p>Loading...</p>
-            )}
+        <div className="p-4 relative">
+            
+            <SelectionHeader title="OrgUnit" showed={showed} setShowed={setShowed} />
+            
+            {showed && <div className="absolute z-50 top-14 right-5 w-80 border border-slate-200 h-96 shadow-lg overflow-auto">
+                <div className="border border-slate-200 min-h-96">
+                    {roots.length > 0 ? (
+                            <OrgUnitNode
+                                nodes={roots}
+                                expended={expended}
+                                fetchChildren={fetchChildren}
+                                childrenMap={childrenMap}
+                            />
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                </div>
+            </div>}
         </div>
     )
 }
@@ -61,6 +73,9 @@ const OrgUnitNode = ({
         childrenMap: Record<string, IOrgUnit[]>;
     }) => {
     
+        const selectedOrgUnit = useSelector((state: RootState) => state.selection.orgUnit);
+        const dispatch = useDispatch();
+        
         return (
             <ul className="ml-4 border-l border-gray-400">
                 {nodes.map((node) => (
@@ -71,7 +86,7 @@ const OrgUnitNode = ({
                         >
                             {expended[node._id] ? "[-]" : "[+]"}
                         </button>
-                        <span className="ml-2">{node.name}</span>
+                        <span className={`ml-2 ${selectedOrgUnit && selectedOrgUnit._id === node._id && "font-bold"}`} onClick={() => dispatch(setOrgUnit(node))}>{node.name}</span>
                 
                         {expended[node._id] && childrenMap[node._id] && (
                             <OrgUnitNode
