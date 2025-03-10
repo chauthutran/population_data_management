@@ -18,10 +18,20 @@ export type IDataElement = {
     shortName: string;
 }
 
+// Used for Database Layer (IPeriod type)
 export type IPeriod = {
+    _id?: string;
     name: string;
     startDate: Date;
     endDate: Date;
+}
+
+// Used for UI Layer / Redux Layer (ISerializePeriod type)
+export type ISerializePeriod = {
+    _id?: string;
+    name: string;
+    startDate: string;
+    endDate: string;
 }
 
 export type IDataSet = {
@@ -30,4 +40,27 @@ export type IDataSet = {
     dataElements: IDataElement[];
     periodType: IPeriodType;
     orgUnits: IOrgUnit[];
+}
+
+export type IUser = {
+    _id: string;
+    username: string;
+}
+
+export type IApprovalData = {
+    _id: string;
+    dataSet: IDataSet,
+    period: IPeriod,
+    approvedBy: IUser,
+    approvedDate: Date,
+    acceptedBy: IUser,
+    acceptedDate: Date,
+}
+
+export type IDataValue = {
+    _id: string,
+    dataElement: IDataElement,
+    period: IPeriod,
+    orgUnit: IOrgUnit,
+    value: string,
 }

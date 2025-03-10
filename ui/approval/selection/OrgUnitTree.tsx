@@ -1,9 +1,10 @@
 import { IOrgUnit } from "@/types/definations"
 import { useEffect, useState } from "react"
-import SelectionHeader from "../basics/SelectionHeader";
+import SelectionHeader from "../../basics/SelectionHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setOrgUnit } from "@/store/selectionSlice";
+import useClickOutside from "@/hooks/useClickOutside";
 
 
 export default function OrgUnitTree() {
@@ -12,6 +13,7 @@ export default function OrgUnitTree() {
     const [childrenMap, setChildrenMap] = useState<Record<string, IOrgUnit[]>>({});
     const [expended, setExpanded] = useState<Record<string, boolean>>({});
     const [showed, setShowed] = useState<boolean>(false);
+    const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
     
     useEffect(() => {
         fetchRoots();
@@ -39,11 +41,11 @@ export default function OrgUnitTree() {
     }
     
     return (
-        <div className="p-4 relative">
+        <div className="p-4 relative w-64">
             
             <SelectionHeader title="OrgUnit" showed={showed} setShowed={setShowed} />
             
-            {showed && <div className="absolute z-50 top-14 right-5 w-80 border border-slate-200 h-96 shadow-lg overflow-auto">
+            {showed && <div className="absolute z-50 top-14 right-5 w-80 left-8 border border-slate-200 h-96 shadow-lg overflow-auto bg-white" ref={dropdownRef}>
                 <div className="border border-slate-200 min-h-96">
                     {roots.length > 0 ? (
                             <OrgUnitNode

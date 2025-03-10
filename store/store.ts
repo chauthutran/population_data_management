@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import selectionReducer from "./selectionSlice";
+import currentPageReducer from "./currentPageSlide";
 
 export const store = configureStore({
     reducer: {
-        selection: selectionReducer
+        selection: selectionReducer,
+        currentPage: currentPageReducer
     },
 });
 

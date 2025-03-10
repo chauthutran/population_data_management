@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IDataSet, IOrgUnit, IPeriod } from './../types/definations';
+import { IDataSet, IOrgUnit, IPeriod, ISerializePeriod } from './../types/definations';
 
 interface SelectionState {
     dataSet: IDataSet | null;
-    period: IPeriod | null;
+    period: ISerializePeriod | null;
     orgUnit: IOrgUnit | null;
 }
 
@@ -23,7 +23,7 @@ const selectionSlide = createSlice({
             state.period = null;
             state.orgUnit = null;
         },
-        setPeriod: (state, action: PayloadAction<IPeriod>) => {
+        setPeriod: (state, action: PayloadAction<ISerializePeriod>) => {
             state.period = action.payload;
         },
         setOrgUnit: (state, action: PayloadAction<IOrgUnit>) => {

@@ -1,3 +1,4 @@
+import { IPeriod } from "@/types/definations";
 import mongoose, { Schema } from "mongoose";
 
 const PeriodSchema = new Schema(
@@ -12,6 +13,6 @@ const PeriodSchema = new Schema(
     }
 );
 
-const Period = mongoose.models.Period || mongoose.model("Period", PeriodSchema);
+const Period = mongoose.models.Period || mongoose.model<IPeriod>("Period", PeriodSchema);
 
 export default Period;

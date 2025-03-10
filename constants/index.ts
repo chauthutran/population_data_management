@@ -1,0 +1,3 @@
+export const PAGE_LOGIN = "PAGE_LOGIN";
+export const PAGE_DASHBOARD = "PAGE_DASHBOARD";
+export const PAGE_APPROVAL = "PAGE_APPROVAL";
