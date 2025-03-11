@@ -21,6 +21,7 @@ export type IDataElement = {
 // Used for Database Layer (IPeriod type)
 export type IPeriod = {
     _id?: string;
+    code: string;
     name: string;
     startDate: Date;
     endDate: Date;
@@ -29,6 +30,7 @@ export type IPeriod = {
 // Used for UI Layer / Redux Layer (ISerializePeriod type)
 export type ISerializePeriod = {
     _id?: string;
+    code: string;
     name: string;
     startDate: string;
     endDate: string;

@@ -1,10 +1,10 @@
 import DataSet from "@/libs/db/schemas/DatasetSchema";
-import Mongodb from "@/libs/db/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import connectToDatabase from "@/libs/db/mongodb";
 
 export async function GET(request: NextRequest, {params}: {params: any}) {
-    const db = Mongodb.getInstance();
-    await db.connect();
+    
+    await connectToDatabase();
     
     const { searchParams } = request.nextUrl; // Extract query parameters
     const orgUnitId = searchParams.get("ou") // Get "ou" value

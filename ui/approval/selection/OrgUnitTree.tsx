@@ -4,7 +4,10 @@ import SelectionHeader from "../../basics/SelectionHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setOrgUnit } from "@/store/selectionSlice";
-import useClickOutside from "@/hooks/useClickOutside";
+import useClickOutside from "@/ui/approval/selection/useClickOutside";
+import { useSelection } from "@/hooks/useSelection";
+import { useSetSelection } from "@/hooks/useSetSelection";
+import { get } from "@/utils/apiClient";
 
 
 export default function OrgUnitTree() {
@@ -20,9 +23,8 @@ export default function OrgUnitTree() {
     }, []);
     
     const fetchRoots = async() => {
-        const res = await fetch("/api/orgUnits");
-        const roots = await res.json();
-        setRoots(roots);
+        const list = await get<IOrgUnit[]>("/api/orgUnits");
+        setRoots(list);
     }
     
     // Fetch children for a given orgUnit
@@ -32,8 +34,7 @@ export default function OrgUnitTree() {
             return;
         }
         
-        const res = await fetch(`/api/orgUnits?parentId=${parentId}`);
-        const children = await res.json();
+        const children = await get<IOrgUnit[]>(`/api/orgUnits?parentId=${parentId}`);
         if (children) {
             setChildrenMap((prev) => ({ ...prev, [parentId]: children }));
             setExpanded((prev) => ({ ...prev, [parentId]: true}));
@@ -74,9 +75,8 @@ const OrgUnitNode = ({
         fetchChildren: (parentId: string) => void;
         childrenMap: Record<string, IOrgUnit[]>;
     }) => {
-    
-        const selectedOrgUnit = useSelector((state: RootState) => state.selection.orgUnit);
-        const dispatch = useDispatch();
+        const { selectedOrgUnit } = useSelection();
+        const { selectOrgUnit } = useSetSelection();
         
         return (
             <ul className="ml-4 border-l border-gray-400">
@@ -88,7 +88,7 @@ const OrgUnitNode = ({
                         >
                             {expended[node._id] ? "[-]" : "[+]"}
                         </button>
-                        <span className={`ml-2 ${selectedOrgUnit && selectedOrgUnit._id === node._id && "font-bold"}`} onClick={() => dispatch(setOrgUnit(node))}>{node.name}</span>
+                        <span className={`ml-2 ${selectedOrgUnit && selectedOrgUnit._id === node._id && "font-bold"}`} onClick={() => selectOrgUnit(node)}>{node.name}</span>
                 
                         {expended[node._id] && childrenMap[node._id] && (
                             <OrgUnitNode

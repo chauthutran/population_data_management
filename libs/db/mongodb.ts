@@ -1,96 +1,72 @@
-import PeriodType from '@/libs/db/schemas/PeriodTypeShema';
-import OrgUnit from '@/libs/db/schemas/OrgUnitSchema';
-import DataSet from '@/libs/db/schemas/DatasetSchema';
-import DataElement from '@/libs/db/schemas/DataElementSchema';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import OrgUnit from './schemas/OrgUnitSchema';
+import DataElement from './schemas/DataElementSchema';
+import PeriodType from './schemas/PeriodTypeShema';
+import DataSet from './schemas/DatasetSchema';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
-if(!MONGODB_URI) {
-    throw new Error("Please define MONGODB_URI in .evn.local");
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-class Mongodb {
-    
-    private static instance: Mongodb;
-    private connection: typeof mongoose | null = null;
-    
-    private constructor() {}
-    
-    public static getInstance(): Mongodb {
-        if(!Mongodb.instance) {
-            Mongodb.instance = new Mongodb();
-        }
-        
-        return Mongodb.instance;
-    }
-    
-    public async connect() {
-        if(this.connection) {
-            console.log("Using existing MongoDB connection");
-            this.connection;
-        }
-        
-        await this.establishConnection();
-        
-        // Ensure all schemas are loaded once
-        this.loadModels();
-    }
-    
-    public getConnection()  {
-        return this.connection;
-    }
-    
-    public async disconnect() {
-        if(!this.connection) {
-            console.log("No active MongoDB connection to close");
-            return;
-        }
-        
-        try {
-            await mongoose.disconnect();
-            this.connection = null;
-            console.log("MongoSB connection closed");
-        }
-        catch(error) {
-            console.log("Error closing MongoDB connection: ", error);
-        }
-    }
-    
-    // ================================================================================================
-    // Supportive methods
-    
-    private async establishConnection() {
-        try {
-            const opts = {
-                bufferCommands: false,
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            };
-
-            this.connection = await mongoose.connect(MONGODB_URI!, opts);
-            console.log("New MongoSB connection established");
-            
-            return this.connection;
-        }
-        catch(error: unknown) {
-            if( error instanceof Error) {
-                console.error("MongoDB connection error: ", error);
-                throw new Error("MongoDB connection failed. Details: " + error.message);
-            }
-            else {
-                console.error("Unexpected MongoDB connection error:", error);
-                throw new Error("MongoDB connection failed due to an unknown error");
-            }
-        }
-    }
-    
-    private async loadModels() {
-        if (!mongoose.models.OrgUnit) OrgUnit.findOne().select("_id"); // use ".select("_id")", just for performance
-        if (!mongoose.models.DataElement) DataElement.findOne().select("_id");
-        if (!mongoose.models.PeriodType) PeriodType.findOne().select("_id");
-        if (!mongoose.models.DataSet) DataSet.findOne().select("_id");
-    }
+// Explicitly type the global.mongoose usage
+interface MongooseCache {
+  conn: mongoose.Mongoose | null;
+  promise: Promise<mongoose.Mongoose> | null;
 }
 
-export default Mongodb;
+const globalWithMongoose = global as typeof globalThis & { mongoose: MongooseCache };
+
+let cached = globalWithMongoose.mongoose;
+
+if (!cached) {
+  cached = globalWithMongoose.mongoose = { conn: null, promise: null };
+}
+
+async function connectToDatabase() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    console.log('MongoDb connecting ... ');
+
+    const opts = {
+        // Mongoose buffers commands—that is, it queues database operations (like find, create, etc.) 
+        // if a connection to MongoDB hasn't been established yet. Once the connection is made, 
+        // Mongoose executes those queued commands.
+        bufferCommands: true,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log('New MongoBB connection established.');
+      // Ensure all schemas are loaded once
+      loadModels();
+      
+      return mongoose;
+    }).catch((error: unknown) => {
+        if( error instanceof Error) {
+            console.error("MongoDB connection error: ", error);
+            throw new Error("MongoDB connection failed. Details: " + error.message);
+        }
+        else {
+            console.error("Unexpected MongoDB connection error:", error);
+            throw new Error("MongoDB connection failed due to an unknown error");
+        }
+    });
+  }
+
+  cached.conn = await cached.promise;
+  console.log("Using existing MongoDB connection");
+  return cached.conn;
+}
+
+function loadModels () {
+    if (!mongoose.models.OrgUnit) OrgUnit.findOne().select("_id"); // use ".select("_id")", just for performance
+    if (!mongoose.models.DataElement) DataElement.findOne().select("_id");
+    if (!mongoose.models.PeriodType) PeriodType.findOne().select("_id");
+    if (!mongoose.models.DataSet) DataSet.findOne().select("_id");
+}
+
+export default connectToDatabase;

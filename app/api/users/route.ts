@@ -1,13 +1,11 @@
-import Mongodb from "@/libs/db/mongodb";
+import connectToDatabase from "@/libs/db/mongodb";
 import User from "@/libs/db/schemas/UserSchema";
 import { comparePassword } from "@/ui/encryptPassword";
-import { Document } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST (request: NextRequest) {
     try {
-        const db = Mongodb.getInstance();
-        await db.connect();
+        await connectToDatabase();
         
         const {searchParams} = request.nextUrl;
         const action = searchParams.get("action");

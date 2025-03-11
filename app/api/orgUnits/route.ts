@@ -1,12 +1,11 @@
-import Mongodb from "@/libs/db/mongodb";
+import connectToDatabase from "@/libs/db/mongodb";
 import OrgUnit from "@/libs/db/schemas/OrgUnitSchema";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
-        const db = Mongodb.getInstance();
-        await db.connect();
+        await connectToDatabase();
         
         const { searchParams } = request.nextUrl; // Extract query parameters
         const parentId = searchParams.get("parentId") // Get "ou" value

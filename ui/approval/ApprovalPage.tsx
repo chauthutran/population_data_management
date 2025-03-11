@@ -14,18 +14,21 @@ export default function ApprovalPage () {
     <Header />
     
     <main className="flex-grow p-6">
-        <div className="flex flex-wrap gap-4 items-center justify-center mb-6">
-          
-            <DataSetSelect />
+        <div>
+          <div className="flex flex-wrap gap-4 items-center justify-center mb-6">
+                <DataSetSelect />
 
-            <PeriodSelect periodType="Yearly" />
+                <PeriodSelect periodType="Yearly" />
 
-            <OrgUnitTree />
+                <OrgUnitTree />
 
-            <button className="bg-primary-bg text-white px-4 py-3 rounded-lg">Clear Data</button>
+                <button className="bg-primary-bg text-white px-4 py-3 rounded-lg">Clear Data</button>
             
-
-            <DataValueList />
+            </div>
+            
+            <div>
+                <DataValueList />
+            </div>
             
         </div>
     </main>

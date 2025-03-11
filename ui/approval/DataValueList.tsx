@@ -2,13 +2,16 @@ import { RootState } from "@/store/store";
 import { IDataValue } from "@/types/definations";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ApproveButton from "./approvalButtons/ApproveButton";
+import ButtonBar from "./approvalButtons/ApprovalButtonBar";
+import ApprovalButtonBar from "./approvalButtons/ApprovalButtonBar";
+import { useSelection } from "@/hooks/useSelection";
+import { post } from "@/utils/apiClient";
 
 export default function DataValueList () {
     
-    const selectedDataSet = useSelector((state: RootState) => state.selection.dataSet);
-    const selectedPeriod = useSelector((state: RootState) => state.selection.period);
-    const selectedOrgUnit = useSelector((state: RootState) => state.selection.orgUnit);
- 
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
+    
     const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
     
     useEffect(() => {
@@ -18,48 +21,55 @@ export default function DataValueList () {
     }, [selectedDataSet, selectedPeriod, selectedOrgUnit]);
     
     const fetchDataValues = async () => {
-        const payload = {
-            period: selectedPeriod?._id,
+         const payload = {
+            period: selectedPeriod?.code,
             dataElements: selectedDataSet?.dataElements.map((de) => de._id),
             orgUnit: selectedOrgUnit?._id,
         }
-        const res = await fetch("/api/dataValues?action=loadData", {
-            method: "POST", 
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
-        
-        if (!res.ok) {
-            throw new Error("Failed to create data value set");
-          }
-          
-        const list = await res.json();
-        
+                
+        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
         setDataValues(list);
     }
     
-    if (dataValues === null) return (<div>Loading ...</div>);
+    if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
+    
+    if (dataValues === null) return (<>Loading ...</>);
     
     return (
-            <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Data Value Sets</h1>
-            <ul className="divide-y divide-gray-200">
+        <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">{selectedDataSet!.name} - {selectedPeriod!.name}</h1>
+        
+            {/* Table for larger screens (md and above) */}
+            <div className="hidden md:block">
+            <table className="min-w-full border border-gray-200">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border p-2 text-left">Data Element</th>
+                    <th className="border p-2 text-left">Value</th>
+                </tr>
+                </thead>
+                <tbody>
                 {dataValues.map((item: IDataValue) => (
-                <li key={item._id} className="py-4">
-                    <p>
-                        <span className="font-semibold">Data Element:</span> {item.dataElement.name}
-                    </p>
-                    <p>
-                        <span className="font-semibold">Period:</span> {item.period.name}
-                    </p>
-                    <p>
-                        <span className="font-semibold">Value:</span> {item.value}
-                    </p>
-                </li>
+                    <tr key={item._id} className="border">
+                    <td className="border p-2">{item.dataElement.name}</td>
+                    <td className="border p-2">{item.value}</td>
+                    </tr>
                 ))}
+                </tbody>
+            </table>
+            </div>
+        
+            {/* List format for small screens (below md) */}
+            <ul className="md:hidden divide-y divide-gray-200">
+            {dataValues.map((item: IDataValue) => (
+                <li key={item._id} className="py-4">
+                    <span className="font-semibold">{item.dataElement.name}:</span> {item.value}
+                </li>
+            ))}
             </ul>
-        </div>
+            
+            <ApprovalButtonBar />
+      </div>
+      
     )
 }

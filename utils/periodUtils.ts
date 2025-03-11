@@ -8,6 +8,43 @@ export const getCurrentYear = () => {
     return (new Date()).getFullYear();
 }
 
+/**
+ * 
+ * @param code 
+ *          For monthly period, code should be "YYYYMM", such as 202501 for "Jan 2025".
+ *          For yearly period, code should be "YYYY", such as 2025 for "2025".
+ */
+export const generatePeriodByCode = (code: string): IPeriod => {
+    if(code.length == 6 ) { // Monthy period
+        const year = code.substring(0,4);
+        const month = code.substring(4,8)
+        const monthIdx = parseInt(month) - 1
+        
+        // Start Date for the first day of the month
+        const startDate = new Date(`${year}-${month}-01T00:00:00`);
+        
+        // Create endDate by moving to the next month and subtracting 1 millisecond
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + 1);
+        endDate.setDate(0); // Sets it to the last day of the previous month
+        endDate.setHours(23, 59, 59, 999); // Set time to the end of the day
+        
+        return {
+            name: `${MONTHS[monthIdx]} ${year}`,
+            code,
+            startDate,
+            endDate,
+        } as IPeriod
+    }
+    
+    return {
+        name: code,
+        code: code,
+        startDate: new Date(`${code}-01-01T00:00:00`),
+        endDate: new Date(`${code}-12-31T23:59:59.999`)
+    } as IPeriod
+}
+
 export const serializePeriod = (period: IPeriod): ISerializePeriod => {
     return {
         ...period,
@@ -32,26 +69,11 @@ const generateMonthsInYear = (year: number): ISerializePeriod[] => {
     const periods: ISerializePeriod[] = [];
     
     for( var i=0; i<12; i++) {
-        const name = `${MONTHS[i]} ${year}`;
-        
         let month = i + 1;
         const monthStr = (month + "").padStart(2, "0");
+        const code = `${year}${monthStr}`;
         
-        // Start Date for the first day of the month
-        const startDate = new Date(`${year}-${monthStr}-01T00:00:00`);
-        
-        // Create endDate by moving to the next month and subtracting 1 millisecond
-        const endDate = new Date(startDate);
-        endDate.setMonth(endDate.getMonth() + 1);
-        endDate.setDate(0); // Sets it to the last day of the previous month
-        endDate.setHours(23, 59, 59, 999); // Set time to the end of the day
-        
-        const period: ISerializePeriod = {
-            name,
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
-        }
-        
+        const period: ISerializePeriod = serializePeriod(generatePeriodByCode(code));
         periods.push(period);
     }
     
@@ -63,12 +85,7 @@ const generateYears = (endYear: number): ISerializePeriod[] => {
     
     const startYear = endYear - 10;
     for (var year=startYear; year<=endYear; year++) {
-        const period: ISerializePeriod = {
-            name: `${year}`,
-            startDate: new Date(`${year}-01-01T00:00:00`).toISOString(),
-            endDate: new Date(`${year}-12-31T23:59:59.999`).toISOString()
-        }
-        
+        const period: ISerializePeriod = serializePeriod(generatePeriodByCode(`${year}`));
         periods.push(period);
     }
     

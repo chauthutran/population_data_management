@@ -4,12 +4,15 @@ import SelectionHeader from "../../basics/SelectionHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setDataSet } from "@/store/selectionSlice";
-import useClickOutside from "@/hooks/useClickOutside";
+import useClickOutside from "@/ui/approval/selection/useClickOutside";
+import { useSetSelection } from "@/hooks/useSetSelection";
+import { useSelection } from "@/hooks/useSelection";
+import { get } from "@/utils/apiClient";
 
 export default function DataSetSelect() {
     
-    const selectedDataSet = useSelector((state: RootState) => state.selection.dataSet);
-    const dispatch = useDispatch();
+    const { selectedDataSet } = useSelection();
+    const { selectDataSet} = useSetSelection();
     
     const[dataSets, setDataSets] = useState<IDataSet[] | null>(null);
     const [showed, setShowed] = useState<boolean>(false);
@@ -20,9 +23,7 @@ export default function DataSetSelect() {
     }, [])
     
     const fetchDataSets = async () => {
-        const res = await fetch("/api/dataSets");
-        const list = await res.json();
-        
+        const list = await get<IDataSet[]>("/api/dataSets");
         setDataSets(list);
     }
     
@@ -38,7 +39,7 @@ export default function DataSetSelect() {
                         {dataSets!.map((item: IDataSet) => (
                             <li key={item._id} 
                                 className={`cursor-pointer border-b border-slate-200 py-5 px-3 hover:bg-blue-100 ${selectedDataSet && selectedDataSet._id === item._id && "bg-slate-200"}`}
-                                onClick={() => dispatch(setDataSet(item))}
+                                onClick={() => selectDataSet(item)}
                             >
                                 {item.name}
                             </li>

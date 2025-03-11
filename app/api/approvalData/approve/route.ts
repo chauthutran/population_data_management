@@ -1,4 +1,3 @@
-import { IApprovalData } from '@/types/definations';
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
 import Period from '@/libs/db/schemas/PeriodSchema';
@@ -7,23 +6,24 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST (request: NextRequest) {
     try {
-        const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
+        const { dataSet, period: periodCode, orgUnit, approvedBy } = await request.json(); // Get request body
         
-        if (dataSet && periodCode && orgUnit) {
+        if(dataSet && periodCode && orgUnit && approvedBy) {
             await connectToDatabase();
     
             // Find period document by name
             const periodObj = await Period.findOne({ code: periodCode });
-            const condition = {
+            const approvalData = {
                 dataSet: new mongoose.Types.ObjectId(dataSet),
                 period: periodObj._id,
-                orgUnit: new mongoose.Types.ObjectId(orgUnit)
+                orgUnit: new mongoose.Types.ObjectId(orgUnit),
+                approvedBy: new mongoose.Types.ObjectId(approvedBy),
+                approvedDate: new Date(),
             };
-            console.log("== condition", condition);
-            let result = await ApprovalData.findOne(condition);
-            result = (result) ? result : {};
-
-            return NextResponse.json(result, {status: 200});
+            
+            const newApprovalData = await ApprovalData.create(approvalData);
+            
+            return NextResponse.json(newApprovalData, {status: 200});
         }
         
         return NextResponse.json(null, {status: 500});

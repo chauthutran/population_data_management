@@ -4,10 +4,11 @@ import mongoose, { Schema } from "mongoose";
 const ApprovalDataSchema = new Schema({
         dataSet: {type: mongoose.Schema.ObjectId, ref: "DataSet", required: true},
         period: {type: mongoose.Schema.Types.ObjectId, ref: "Period", required: true},
+        orgUnit: {type: mongoose.Schema.Types.ObjectId, ref: "OrgUnit", required: true},
         approvedBy: {type: mongoose.Schema.ObjectId, ref: "User", required: true},
         approvedDate: {type: Date, required: true},
         acceptedBy: {type: mongoose.Schema.ObjectId, ref: "User", required: false},
-        acceptedDate: {type: Date, required: true},
+        acceptedDate: {type: Date, required: false},
     }, {
         timestamps: true
     }

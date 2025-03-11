@@ -15,9 +15,10 @@ export default function () {
     
     return (
         <>
-            {curPage == PAGE_LOGIN && <LoginPage />}
+            <ApprovalPage />
+            {/* {curPage == PAGE_LOGIN && <LoginPage />}
             {curPage == PAGE_DASHBOARD && <DashboardPage />}
-            {curPage == PAGE_APPROVAL && <ApprovalPage />}
+            {curPage == PAGE_APPROVAL && <ApprovalPage />} */}
         </>
     )
 }

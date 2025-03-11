@@ -5,15 +5,20 @@ import SelectionHeader from "../../basics/SelectionHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setPeriod } from "@/store/selectionSlice";
-import useClickOutside from "@/hooks/useClickOutside";
+import useClickOutside from "@/ui/approval/selection/useClickOutside";
+import { useSelection } from "@/hooks/useSelection";
+import { useSetSelection } from "@/hooks/useSetSelection";
 
 
 const curYear = getCurrentYear();
 
 export default function PeriodSelect( {periodType}: {periodType: string} ) {
         
-    const selectedPeriod = useSelector((state: RootState) => state.selection.period);
-    const dispatch = useDispatch();
+    // const selectedPeriod = useSelector((state: RootState) => state.selection.period);
+    // const dispatch = useDispatch();
+    
+    const { selectedPeriod } = useSelection();
+    const { selectPeriod } = useSetSelection();
 
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
     const [showed, setShowed] = useState<boolean>(false);
@@ -69,8 +74,8 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
                     <ul className="border border-slate-200 max-h-80">
                         {periods.map((item: ISerializePeriod) => (
                             <li key={item.name} 
-                                className={`cursor-pointer py-5 px-3 border-y border-slate-200 bg-white hover:bg-blue-100 ${selectedPeriod && selectedPeriod.name === item.name && "bg-slate-300"}`}
-                                onClick={() => dispatch(setPeriod(item))}
+                                className={`cursor-pointer py-5 px-3 border-y border-slate-200  hover:bg-blue-100 ${selectedPeriod && selectedPeriod.code === item.code && "bg-slate-300"}`}
+                                onClick={() => selectPeriod(item)}
                             >
                                 {item.name}
                             </li>

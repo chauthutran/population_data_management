@@ -4,6 +4,7 @@ import mongoose, { Schema } from "mongoose";
 const PeriodSchema = new Schema(
     {
         name: {type: String, required: true, unique: true},
+        code: {type: String, required: true, unique: true},
         periodType: {type: mongoose.Schema.Types.ObjectId, ref: "PeriodType"},
         startDate: {type: Date, required: true},
         endDate: {type: Date, required: true}
