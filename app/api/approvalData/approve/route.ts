@@ -1,3 +1,4 @@
+import { getOrCreatePeriod } from '@/helpers/periodHelper';
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
 import Period from '@/libs/db/schemas/PeriodSchema';
@@ -11,8 +12,9 @@ export async function POST (request: NextRequest) {
         if(dataSet && periodCode && orgUnit && approvedBy) {
             await connectToDatabase();
     
-            // Find period document by name
-            const periodObj = await Period.findOne({ code: periodCode });
+            // Find period document by code and create if the period is not existed
+            const periodObj = await getOrCreatePeriod(periodCode);
+            
             const approvalData = {
                 dataSet: new mongoose.Types.ObjectId(dataSet),
                 period: periodObj._id,
@@ -30,5 +32,40 @@ export async function POST (request: NextRequest) {
     }
     catch(error: any) {
         return NextResponse.json({error: error.message}, {status: 500});
+    }
+}
+
+export async function DELETE (request: NextRequest) {
+    try {
+        const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
+        
+        if (!dataSet || !periodCode || !orgUnit) {
+            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+        }
+        
+        // Connect Mongodb
+        await connectToDatabase();
+
+        // Convert IDs to ObjectId
+        const dataSetIdObj = new mongoose.Types.ObjectId(dataSet);
+        const orgUnitIdObj = new mongoose.Types.ObjectId(orgUnit);
+        
+        // Find period document by code and create if the period is not existed
+        let periodDbObj = await Period.findOne({code: periodCode});
+        if( periodDbObj === null ) return NextResponse.json({message: "Approval data not found"}, {status: 404});
+        
+        // Find and delete the document
+        const deletedApproval = await ApprovalData.findOneAndDelete(
+            { dataSet: dataSetIdObj, period: periodDbObj._id, orgUnit: orgUnitIdObj}
+        );
+        
+        if (!deletedApproval) {
+            return NextResponse.json({ message: "Approval data not found" }, { status: 404 });
+        }
+        
+        return NextResponse.json({ message: "Approval data successfully deleted" }, { status: 200 });
+    }
+    catch(error: any) {
+        return NextResponse.json({message: error.message}, {status: 500});
     }
 }

@@ -7,20 +7,22 @@ import ButtonBar from "./approvalButtons/ApprovalButtonBar";
 import ApprovalButtonBar from "./approvalButtons/ApprovalButtonBar";
 import { useSelection } from "@/hooks/useSelection";
 import { post } from "@/utils/apiClient";
+import useAsyncData from "@/hooks/useAsyncData";
 
 export default function DataValueList () {
     
     const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
+    const { data, loading, error, refetch } = useAsyncData<IDataValue[]>();
     
-    const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
+    // const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
     
     useEffect(() => {
         if (selectedDataSet !== null && selectedPeriod !== null && selectedOrgUnit !== null) {
-            fetchDataValues();
+            refetch(fetchDataValues);
         }
     }, [selectedDataSet, selectedPeriod, selectedOrgUnit]);
     
-    const fetchDataValues = async () => {
+    const fetchDataValues = async (): Promise<IDataValue[]> => {
          const payload = {
             period: selectedPeriod?.code,
             dataElements: selectedDataSet?.dataElements.map((de) => de._id),
@@ -28,12 +30,14 @@ export default function DataValueList () {
         }
                 
         const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
-        setDataValues(list);
+        // setDataValues(list);
+        
+        return list;
     }
     
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
     
-    if (dataValues === null) return (<>Loading ...</>);
+    if (loading || !data) return (<>Loading ...</>);
     
     return (
         <div className="p-4">
@@ -49,7 +53,7 @@ export default function DataValueList () {
                 </tr>
                 </thead>
                 <tbody>
-                {dataValues.map((item: IDataValue) => (
+                {data!.map((item: IDataValue) => (
                     <tr key={item._id} className="border">
                     <td className="border p-2">{item.dataElement.name}</td>
                     <td className="border p-2">{item.value}</td>
@@ -61,7 +65,7 @@ export default function DataValueList () {
         
             {/* List format for small screens (below md) */}
             <ul className="md:hidden divide-y divide-gray-200">
-            {dataValues.map((item: IDataValue) => (
+            {data!.map((item: IDataValue) => (
                 <li key={item._id} className="py-4">
                     <span className="font-semibold">{item.dataElement.name}:</span> {item.value}
                 </li>

@@ -1,32 +1,37 @@
-import { IApprovalData } from '@/types/definations';
+import { IApprovalData, IPeriod } from '@/types/definations';
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
 import Period from '@/libs/db/schemas/PeriodSchema';
 import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
+import { generatePeriodByCode } from '@/utils/periodUtils';
+import { getOrCreatePeriod } from '@/helpers/periodHelper';
 
 export async function POST (request: NextRequest) {
     try {
         const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
         
-        if (dataSet && periodCode && orgUnit) {
-            await connectToDatabase();
-    
-            // Find period document by name
-            const periodObj = await Period.findOne({ code: periodCode });
-            const condition = {
-                dataSet: new mongoose.Types.ObjectId(dataSet),
-                period: periodObj._id,
-                orgUnit: new mongoose.Types.ObjectId(orgUnit)
-            };
-            console.log("== condition", condition);
-            let result = await ApprovalData.findOne(condition);
-            result = (result) ? result : {};
-
-            return NextResponse.json(result, {status: 200});
+        if (!dataSet || !periodCode || !orgUnit ) {
+            return NextResponse.json({message: "Missing required fields"}, {status: 500});
         }
         
-        return NextResponse.json(null, {status: 500});
+        // Connect Mongodb
+        await connectToDatabase();
+
+        // Find period document by code and create if the period is not existed
+        let periodDbObj: IPeriod = await getOrCreatePeriod(periodCode);
+        
+        const condition = {
+            dataSet: new mongoose.Types.ObjectId(dataSet),
+            period: periodDbObj._id,
+            orgUnit: new mongoose.Types.ObjectId(orgUnit)
+        };
+        
+        let result = await ApprovalData.findOne(condition);
+        result = (result) ? result : {};
+
+        return NextResponse.json(result, {status: 200});
+       
     }
     catch(error: any) {
         return NextResponse.json({error: error.message}, {status: 500});

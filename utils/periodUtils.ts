@@ -63,6 +63,9 @@ export const deserializePeriod = (period: ISerializePeriod): IPeriod => {
 }
 
 
+// ==================================================================================
+// Supportive methods
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const generateMonthsInYear = (year: number): ISerializePeriod[] => {

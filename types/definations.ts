@@ -52,7 +52,7 @@ export type IUser = {
 export type IApprovalData = {
     _id: string;
     dataSet: IDataSet,
-    period: IPeriod,
+    period: ISerializePeriod,
     approvedBy: IUser,
     approvedDate: Date,
     acceptedBy: IUser,
@@ -62,7 +62,7 @@ export type IApprovalData = {
 export type IDataValue = {
     _id: string,
     dataElement: IDataElement,
-    period: IPeriod,
+    period: ISerializePeriod,
     orgUnit: IOrgUnit,
     value: string,
 }

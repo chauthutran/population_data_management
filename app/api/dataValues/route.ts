@@ -1,7 +1,6 @@
 import connectToDatabase from "@/libs/db/mongodb";
 import DataValue from "@/libs/db/schemas/DataValueSchema";
 import Period from "@/libs/db/schemas/PeriodSchema";
-import { generatePeriodByCode } from "@/utils/periodUtils";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,16 +13,12 @@ export async function POST(request: NextRequest) {
         if (action && action === "loadData") {
             const { dataElements, period: periodCode, orgUnit } = await request.json();
             if(dataElements && periodCode && orgUnit) {
-                // Find period document by name
-                let periodDbObj = await Period.findOne({ code: periodCode });
-                // Create a new period if it does not exist in mongodb
-                if (periodDbObj === null) {
-                    periodDbObj = await Period.create(generatePeriodByCode(periodCode));
-                    console.log(periodDbObj);
-                }
+                // Find period document by code and create if the period is not existed
+                let periodDbObj = await Period.findOne({code: periodCode});
+                
+                if (!periodDbObj) return  NextResponse.json([], {status: 200});
                 
                 const dataElementIdObjs = dataElements.map((deId: string) => new mongoose.Types.ObjectId(deId));
-                
                 const dataValues = await DataValue.find({
                         dataElement: { $in: dataElementIdObjs},
                         period: periodDbObj._id,

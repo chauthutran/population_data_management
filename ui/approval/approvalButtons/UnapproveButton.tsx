@@ -2,35 +2,35 @@ import useAsyncData from "@/hooks/useAsyncData";
 import { useSelection } from "@/hooks/useSelection";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { IApprovalData } from "@/types/definations";
-import { post } from "@/utils/apiClient";
-import { useEffect } from "react";
+import { deleteData } from "@/utils/apiClient";
 
-export default function AcceptButton () {
+export default function UnapproveButton( ) {
+    
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
     const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
-    const acceptData = async (): Promise<IApprovalData> => {
+    const approveData = async (): Promise<IApprovalData> => {
         const payload = {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
             orgUnit: selectedOrgUnit?._id,
-            acceptedBy: "67cfb5d42edec25886c547a4",
+            approvedBy: "67cfb5d42edec25886c547a4",
         }
         
-        const result = await post<IApprovalData, any>("/api/approvalData/accept", payload);
-        selectApprovalData(result);
+        const result = await deleteData<IApprovalData, any>("/api/approvalData/approve", payload);
+        selectApprovalData(data!);
         
         return result;
     }
     
     return (
         <button 
-            onClick={() => refetch(acceptData)}
-            className="bg-orange-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
-            // disabled={!!approvalData?.acceptedBy} // Convert acceptedBy to a boolean
+            onClick={() => refetch(approveData)}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            disabled={loading}
         >
-            Accept
+            Un-Approve
         </button>
     )
 }

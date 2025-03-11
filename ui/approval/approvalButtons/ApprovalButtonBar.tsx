@@ -7,6 +7,8 @@ import AcceptButton from "./AcceptButton";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { post } from "@/utils/apiClient";
 import { setApprovalData } from "@/store/selectionSlice";
+import UnapproveButton from "./UnapproveButton";
+import UnacceptButton from "./UnacceptButton";
 
 export default function ApprovalButtonBar () {
     
@@ -21,11 +23,6 @@ export default function ApprovalButtonBar () {
         }
     }, [selectedDataSet, selectedPeriod, selectedOrgUnit]);
     
-    // useEffect(() => {
-    //     console.log("========== data 1", data);
-    //     selectApprovalData(data);
-    // }, [data]);
-    
     const fetchData = async (): Promise<IApprovalData> => {
         const payload = {
             dataSet: selectedDataSet!._id,
@@ -39,16 +36,13 @@ export default function ApprovalButtonBar () {
         return result;
     }
     
-    
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
     
     if (loading) return (<>Loading ...</>);
-    console.log("========== data ", data);
-    console.log("approvalData ", approvalData);
-    return (
-        <>
-            {(!approvalData || !approvalData.approvedBy) && <ApproveButton />}
-            {(approvalData && approvalData.approvedBy && !approvalData.acceptedBy) && <AcceptButton />}
-        </>
-    )
+    
+    if (!approvalData || !approvalData.approvedBy) return <ApproveButton />
+    if (approvalData && approvalData.approvedBy && !approvalData.acceptedBy) return <UnapproveButton />
+    if (approvalData && !approvalData.acceptedBy) return <AcceptButton />
+    if (approvalData && approvalData.acceptedBy) return <UnacceptButton />
+    
 }

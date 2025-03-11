@@ -39,3 +39,19 @@ export async function put<T, U>(url: string, payload: U): Promise<T> {
     
     return res.json() as Promise<T>;
 }
+
+export async function deleteData<T, U>(url: string, payload: U): Promise<T> {
+    const res = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+    
+    if (!res.ok) {
+        throw new Error(`DELETE ${url} failed: ${res.statusText}`);
+    }
+    
+    return res.json() as Promise<T>;
+}

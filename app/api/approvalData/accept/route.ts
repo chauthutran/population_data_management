@@ -1,0 +1,88 @@
+import { getOrCreatePeriod } from '@/helpers/periodHelper';
+import connectToDatabase from '@/libs/db/mongodb';
+import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
+import Period from '@/libs/db/schemas/PeriodSchema';
+import { IPeriod } from '@/types/definations';
+import mongoose from 'mongoose';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST (request: NextRequest) {
+    try {
+        const { dataSet, period: periodCode, orgUnit, acceptedBy } = await request.json(); // Get request body
+        
+        if (!dataSet || !periodCode || !orgUnit || !acceptedBy) {
+            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+        }
+        
+        // Connect Mongodb
+        await connectToDatabase();
+
+        // Convert IDs to ObjectId
+        const dataSetIdObj = new mongoose.Types.ObjectId(dataSet);
+        const orgUnitIdObj = new mongoose.Types.ObjectId(orgUnit);
+        const acceptedByIdObj = new mongoose.Types.ObjectId(acceptedBy);
+        
+        // Find period document by code and create if the period is not existed
+        let periodDbObj: IPeriod = await getOrCreatePeriod(periodCode);
+        
+        // Find and update the document
+        const updatedApproval = await ApprovalData.findOneAndUpdate(
+            { dataSet: dataSetIdObj, period: periodDbObj._id, orgUnit: orgUnitIdObj }, // Search criteria
+            {
+                acceptedBy: acceptedByIdObj,
+                acceptedDate: new Date(),
+                updatedAt: new Date() // Update timestamp
+            },
+            { new: true } // Return updated document
+        );
+        
+        if (!updatedApproval) {
+            return NextResponse.json({message: "Approval data not found"}, {status: 404});
+        }
+        
+        return NextResponse.json(updatedApproval, {status: 200});
+    }
+    catch(error: any) {
+        return NextResponse.json({error: error.message}, {status: 500});
+    }
+}
+
+export async function DELETE (request: NextRequest) {
+    try {
+        const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
+        
+        if (!dataSet || !periodCode || !orgUnit) {
+            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+        }
+        
+        // Connect Mongodb
+        await connectToDatabase();
+
+        // Convert IDs to ObjectId
+        const dataSetIdObj = new mongoose.Types.ObjectId(dataSet);
+        const orgUnitIdObj = new mongoose.Types.ObjectId(orgUnit);
+        
+        // Find period document by code and create if the period is not existed
+        let periodDbObj = await Period.findOne({code: periodCode});
+        if( periodDbObj === null ) return NextResponse.json({message: "Approval data not found"}, {status: 404});
+        
+        // Find and update the document (remove acceptedBy and acceptedDate)
+        const updatedApproval = await ApprovalData.findOneAndUpdate(
+            { dataSet: dataSetIdObj, period: periodDbObj._id, orgUnit: orgUnitIdObj },
+            {
+                $unset: { acceptedBy: "", acceptedDate: "" }, // Unset the fields (remove acceptedBy and acceptedDate from the document)
+                updatedAt: new Date() // Update timestamp
+            },
+            { new: true } // Return updated document
+        );
+        
+        if (!updatedApproval) {
+            return NextResponse.json({ message: "Approval data not found" }, { status: 404 });
+        }
+        
+        return NextResponse.json(updatedApproval, { status: 200 });
+    }
+    catch(error: any) {
+        return NextResponse.json({message: error.message}, {status: 500});
+    }
+}

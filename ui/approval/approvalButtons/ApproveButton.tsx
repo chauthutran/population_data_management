@@ -11,10 +11,6 @@ export default function ApproveButton( ) {
     const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
-    useEffect(() => {
-        selectApprovalData(data!);
-    }, [data]);
-    
     const approveData = async (): Promise<IApprovalData> => {
         const payload = {
             dataSet: selectedDataSet!._id,
@@ -23,7 +19,10 @@ export default function ApproveButton( ) {
             approvedBy: "67cfb5d42edec25886c547a4",
         }
         
-        return post<IApprovalData, any>("/api/approvalData/approve", payload);
+        const result = await post<IApprovalData, any>("/api/approvalData/approve", payload);
+        selectApprovalData(data!);
+        
+        return result;
     }
     
     return (

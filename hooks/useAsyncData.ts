@@ -14,7 +14,6 @@ export default function useAsyncData<T> () {
         
         try{
             const result = await asyncFunction();
-            console.log(" === =result: ", result);
             setData(result);
         }
         catch(error) {
