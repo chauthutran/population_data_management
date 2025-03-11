@@ -7,7 +7,7 @@ import { deleteData } from "@/utils/apiClient";
 export default function UnapproveButton( ) {
     
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
     const approveData = async (): Promise<IApprovalData> => {
@@ -19,7 +19,7 @@ export default function UnapproveButton( ) {
         }
         
         const result = await deleteData<IApprovalData, any>("/api/approvalData/approve", payload);
-        selectApprovalData(data!);
+        selectApprovalData(result);
         
         return result;
     }

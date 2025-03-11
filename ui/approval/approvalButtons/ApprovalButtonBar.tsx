@@ -40,9 +40,12 @@ export default function ApprovalButtonBar () {
     
     if (loading) return (<>Loading ...</>);
     
-    if (!approvalData || !approvalData.approvedBy) return <ApproveButton />
-    if (approvalData && approvalData.approvedBy && !approvalData.acceptedBy) return <UnapproveButton />
-    if (approvalData && !approvalData.acceptedBy) return <AcceptButton />
-    if (approvalData && approvalData.acceptedBy) return <UnacceptButton />
-    
+    return (
+        <>
+            {(!approvalData || !approvalData.approvedBy) && <ApproveButton />}
+            {(approvalData && approvalData.approvedBy && !approvalData.acceptedBy) && <UnapproveButton />}
+            {(approvalData && !approvalData.acceptedBy) &&  <AcceptButton /> }
+            {(approvalData && approvalData.acceptedBy) && <UnacceptButton />}
+        </>
+    )
 }

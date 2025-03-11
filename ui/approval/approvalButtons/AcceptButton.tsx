@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function AcceptButton () {
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
     const acceptData = async (): Promise<IApprovalData> => {

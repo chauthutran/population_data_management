@@ -63,7 +63,7 @@ export async function DELETE (request: NextRequest) {
             return NextResponse.json({ message: "Approval data not found" }, { status: 404 });
         }
         
-        return NextResponse.json({ message: "Approval data successfully deleted" }, { status: 200 });
+        return NextResponse.json(null, { status: 200 });
     }
     catch(error: any) {
         return NextResponse.json({message: error.message}, {status: 500});

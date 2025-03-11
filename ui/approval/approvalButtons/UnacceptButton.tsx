@@ -6,7 +6,7 @@ import { deleteData } from "@/utils/apiClient";
 
 export default function UnacceptButton () {
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
     const unacceptData = async (): Promise<IApprovalData> => {

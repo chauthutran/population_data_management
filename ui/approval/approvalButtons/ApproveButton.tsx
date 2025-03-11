@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function ApproveButton( ) {
     
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
     const approveData = async (): Promise<IApprovalData> => {
@@ -20,7 +20,7 @@ export default function ApproveButton( ) {
         }
         
         const result = await post<IApprovalData, any>("/api/approvalData/approve", payload);
-        selectApprovalData(data!);
+        selectApprovalData(result);
         
         return result;
     }
