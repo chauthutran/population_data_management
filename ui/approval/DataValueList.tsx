@@ -14,8 +14,6 @@ export default function DataValueList () {
     const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
     const { data, loading, error, refetch } = useAsyncData<IDataValue[]>();
     
-    // const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
-    
     useEffect(() => {
         if (selectedDataSet !== null && selectedPeriod !== null && selectedOrgUnit !== null) {
             refetch(fetchDataValues);
@@ -29,9 +27,7 @@ export default function DataValueList () {
             orgUnit: selectedOrgUnit?._id,
         }
                 
-        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
-        // setDataValues(list);
-        
+        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);        
         return list;
     }
     
@@ -45,7 +41,23 @@ export default function DataValueList () {
         
             {/* Table for larger screens (md and above) */}
             <div className="hidden md:block">
-            <table className="min-w-full border border-gray-200">
+                <table className="w-full border-collapse border border-steel-gray">
+                    <thead className="bg-steel-gray text-white">
+                        <tr>
+                            <th className="p-2 border">Data Element</th>
+                            <th className="p-2 border">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data!.map((item: IDataValue) => (
+                            <tr key={item._id} className="odd:bg-light-gray-blue-odd even:bg-light-gray-blue-event">
+                                <td className="border p-2">{item.dataElement.name}</td>
+                                <td className="border p-2">{item.value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            {/* <table className="min-w-full border border-gray-200">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border p-2 text-left">Data Element</th>
@@ -60,7 +72,7 @@ export default function DataValueList () {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table> */}
             </div>
         
             {/* List format for small screens (below md) */}
