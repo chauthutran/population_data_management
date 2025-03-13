@@ -18,6 +18,7 @@ export default function ApprovalButtonBar () {
     const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
     
     useEffect(() => {
+        console.log(" ============== ApprovalButtonBar - useEffect");
         if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
             refetch(fetchData);
         }

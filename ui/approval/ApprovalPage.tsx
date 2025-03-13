@@ -1,7 +1,11 @@
+import { useSelection } from "@/hooks/useSelection";
+import ApprovalButtonBar from "./BottomBar";
 import DataValueList from "./DataValueList";
 import TopBar from "./TopBar";
 
 export default function ApprovalPage () {
+    
+    
     return (
         <div className="bg-white shadow rounded">
             <TopBar />
@@ -9,7 +13,6 @@ export default function ApprovalPage () {
             <div>
                 <DataValueList />
             </div>
-            
         </div>
     )
 }

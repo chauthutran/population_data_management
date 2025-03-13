@@ -6,10 +6,8 @@ import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import SlideBar from "./layout/SlideBar";
 import LoginPage from "./login/LoginPage";
-import { RootState } from "@/store/store";
 import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
-import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 
 export default function AppWrapper() {

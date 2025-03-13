@@ -14,7 +14,7 @@ export default function DataValueList () {
         if (selectedDataSet !== null && selectedPeriod !== null && selectedOrgUnit !== null) {
             refetch(fetchDataValues);
         }
-    }, [selectedDataSet, selectedPeriod, selectedOrgUnit]);
+    }, [selectedDataSet?._id, selectedPeriod?.code, selectedOrgUnit?._id]);
     
     const fetchDataValues = async (): Promise<IDataValue[]> => {
          const payload = {
@@ -23,14 +23,17 @@ export default function DataValueList () {
             orgUnit: selectedOrgUnit?._id,
         }
                 
-        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
-        return list;
+        return await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
     }
     
+    
+console.log("----- DataValueList - re-rendered");    
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
-    
-    if (loading || !data) return (<>Loading ...</>);
-    
+
+    if (loading || !data) return <div className="flex justify-center items-center">Loading...</div>;
+
+    if (error) return <div className="text-red-500">An error occurred while fetching data. Please try again.</div>;
+
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">{selectedDataSet!.name} - {selectedPeriod!.name}</h1>

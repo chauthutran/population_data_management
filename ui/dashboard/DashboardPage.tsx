@@ -4,7 +4,7 @@ import SlideBar from "../layout/SlideBar";
 import PendingApprovalData from "./PendingApprovalData";
 
 export default function DashboardPage () {
-    
+    console.log("--- DashboardPage");
     return (
         // <div className="bg-gray-100 text-text-color">
         //     <div className="flex h-screen">
