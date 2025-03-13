@@ -3,30 +3,43 @@ import { useSelection } from "@/hooks/useSelection";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { IApprovalData } from "@/types/definations";
 import { deleteData } from "@/utils/apiClient";
+import { useRef } from "react";
 
 export default function UnacceptButton () {
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { loading, error, refetch } = useAsyncData<IApprovalData>();
-    const { selectApprovalData } = useSetSelection();
     
-    const unacceptData = async (): Promise<IApprovalData> => {
+    const { selectApprovalData } = useSetSelection();
+    // Need to have "approvalData" to re-render data after "selectApprovalData"
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
+    const isRequestInProgress = useRef(false);
+    
+    const unacceptData = async () => {
+        if (isRequestInProgress.current) return; // Prevent multiple requests at once
+        
+        // Set the ref value to indicate the request is in progress
+        isRequestInProgress.current = true;
+          
         const payload = {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
             orgUnit: selectedOrgUnit?._id,
         }
         
-        const result = await deleteData<IApprovalData, any>("/api/approvalData/accept", payload);
-        selectApprovalData(result);
-        
-        return result;
+        try {
+            const result = await deleteData<IApprovalData, any>("/api/approvalData/accept", payload);
+            selectApprovalData(result);
+        } catch (error) {
+            alert("Error occurred while unaccepting:" + error);
+        } finally {
+            // Reset the ref value once the request completes
+            isRequestInProgress.current = false;
+        }
     }
-    
+console.log("===unacceptData");
     return (
         <button 
-            onClick={() => refetch(unacceptData)}
-            className="bg-sky-blue hover:bg-soft-sky-blue text-white px-4 py-2 rounded disabled:bg-gray-400"
-            // disabled={!!approvalData?.acceptedBy} // Convert acceptedBy to a boolean
+            onClick={() => unacceptData()}
+            disabled={isRequestInProgress.current} // Disable the button if the request is in progress
+            className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
         >
             Un-Accept
         </button>

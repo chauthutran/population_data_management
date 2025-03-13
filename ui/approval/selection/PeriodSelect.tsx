@@ -28,6 +28,11 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
         else if (periodType === "Monthly") setSelectedYear((prev) => prev + 1);
     }
     
+    const handleOnClickItem = (item: ISerializePeriod) => {
+        selectPeriod(item);
+        setShowed(false);
+    }
+    
     const periods = generatePeriodsByType(periodType, selectedyear);
     const title = (selectedPeriod) ? selectedPeriod.name : "Select Period";
     
@@ -35,6 +40,7 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
         <div 
             className="relative bg-rich-teal border border-gray-200 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
             tabIndex={0}
+            ref={dropdownRef}
         >
             {/* Header Section */}
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedDataSet === null}/>
@@ -42,7 +48,6 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
             {showed && (
                 <div 
                     className="absolute w-full z-50 top-10 left-0 right-0 bg-rich-teal shadow-lg rounded-md border border-gray-200"
-                    ref={dropdownRef}
                 >
                     {/* Navigation Buttons */}
                     <div className="flex justify-between items-center bg-gray-300">
@@ -81,7 +86,7 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
                                         selectedPeriod && selectedPeriod.code === item.code 
                                             && "bg-lemon-green"
                                     }`}
-                                    onClick={() => selectPeriod(item)}
+                                    onClick={() => handleOnClickItem(item)}
                                 >
                                     {item.name}
                                 </li>

@@ -64,8 +64,6 @@ export default function DataValueList () {
                 </li>
             ))}
             </ul>
-            
-            {/* <ApprovalButtonBar /> */}
       </div>
       
     )

@@ -41,15 +41,7 @@ const selectionSlide = createSlice({
             }
         },
         setApprovalData: (state, action: PayloadAction<IApprovalData | null>) => {
-            const oldApprovalData = state.approvalData;
-            const newApprovalData = action.payload;
-            if (
-                (oldApprovalData && !action.payload)||
-                (!oldApprovalData && action.payload)||
-                (oldApprovalData && newApprovalData && oldApprovalData._id !== newApprovalData._id)
-            ) {
-                state.approvalData = action.payload;
-            }
+            state.approvalData = action.payload;
         },
         clearSelection: (state) => {
             if (state.dataSet || state.period || state.orgUnit || state.approvalData) {

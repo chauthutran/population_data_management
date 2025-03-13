@@ -45,24 +45,36 @@ export default function OrgUnitTree() {
         <div 
             className="relative bg-white border rounded-md border-gray-200 focus:ring-2 focus:ring-lemon-lime"
             tabIndex={0}
+            ref={dropdownRef}
         >
             
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedPeriod === null} />
             
-            {showed && <div className="absolute w-full z-50 top-10 left-0 right-0 border border-gray-200 h-96 shadow-lg overflow-auto bg-muted-teal text-black rounded-md bg-white" ref={dropdownRef}>
-                <div className="border border-gray-200 min-h-96">
-                    {roots.length > 0 ? (
+            {showed && <>
+                <div className="absolute flex flex-col w-full z-50 top-10 left-0 right-0 border border-gray-200 h-96 shadow-lg bg-muted-teal text-black rounded-md bg-white overflow-hidden">
+                    {/* Scrollable Content */}
+                    <div className="flex-1 border border-gray-200 overflow-auto p-2">
+                        {roots.length > 0 ? (
                             <OrgUnitNode
                                 nodes={roots}
                                 expended={expended}
                                 fetchChildren={fetchChildren}
                                 childrenMap={childrenMap}
                             />
-                    ) : (
-                        <p>Loading...</p>
-                    )}
+                        ) : (
+                            <p>Loading...</p>
+                        )}
+                    </div>
+                    
+                    {/* Sticky Close Button */}
+                    <div className="border-t border-gray-200">
+                        <button className="p-3 bg-color-4 hover:bg-deep-green text-white w-full" onClick={() => setShowed(false)}>
+                            Close
+                        </button>
+                    </div>
                 </div>
-            </div>}
+            </>}
+            
         </div>
     )
 }

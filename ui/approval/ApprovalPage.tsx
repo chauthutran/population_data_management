@@ -13,6 +13,10 @@ export default function ApprovalPage () {
             <div>
                 <DataValueList />
             </div>
+            
+            <div className="mx-4">
+                <ApprovalButtonBar />
+            </div>
         </div>
     )
 }

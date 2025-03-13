@@ -11,18 +11,10 @@ import UnapproveButton from "./approvalButtons/UnapproveButton";
 import UnacceptButton from "./approvalButtons/UnacceptButton";
 
 export default function ApprovalButtonBar () {
-    console.log(" --- ApprovalButtonBar");
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData } = useSelection();
     const { selectApprovalData } = useSetSelection();
     
     const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
-    
-    useEffect(() => {
-       
-        if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
-            refetch(fetchData);
-        }
-    }, [selectedDataSet?._id, selectedPeriod?.code, selectedOrgUnit?._id]);
     
     const fetchData = async (): Promise<IApprovalData> => {
         const payload = {
@@ -37,15 +29,24 @@ export default function ApprovalButtonBar () {
         return result;
     }
     
+    useEffect(() => {
+        if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
+            refetch(fetchData);
+        }
+    }, [selectedDataSet?._id, selectedPeriod?.code, selectedOrgUnit?._id]);
+    
+    
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
     
     if (loading) return (<>Loading ...</>);
-    
+    console.log(approvalData);
     return (
         <div className="flex space-x-4 my-4">
             {(!approvalData || !approvalData.approvedBy) && <ApproveButton />}
-            {(approvalData && approvalData.approvedBy && !approvalData.acceptedBy) && <UnapproveButton />}
-            {(approvalData && !approvalData.acceptedBy) &&  <AcceptButton /> }
+            {(approvalData && approvalData.approvedBy && !approvalData.acceptedBy) && <>
+                <UnapproveButton />
+                <AcceptButton />
+            </>}
             {(approvalData && approvalData.acceptedBy) && <UnacceptButton />}
         </div>
     )

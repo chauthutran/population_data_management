@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type AsyncFunction<T> = () => Promise<T>;
 
@@ -23,6 +23,7 @@ export default function useAsyncData<T> () {
             setLoading(false);
         }
     }, []);
+    
     
     return {data, loading, error, refetch}
 }

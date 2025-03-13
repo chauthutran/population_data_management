@@ -19,6 +19,9 @@ export default {
         "color-3": "#476501",
         "color-4": "#6a9801",
         "color-5": "#233300",
+        "bright-lime-green": "#80F802",
+        "soft-lavender": "#D6A2E8",
+        "muted-teal": "#66B2B2",
 
         // "deep-olive": "#4A6726",
         // "muted-teal": "#4F9D86",

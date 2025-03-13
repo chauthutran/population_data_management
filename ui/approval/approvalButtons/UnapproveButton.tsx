@@ -6,7 +6,7 @@ import { deleteData } from "@/utils/apiClient";
 
 export default function UnapproveButton( ) {
     
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
     const { selectApprovalData } = useSetSelection();
     
@@ -27,7 +27,7 @@ export default function UnapproveButton( ) {
     return (
         <button 
             onClick={() => refetch(approveData)}
-            className="bg-sunset-orange hover:bg-button-danger text-white px-4 py-2 rounded"
+            className="bg-teal-700 text-white hover:bg-teal-600 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
             disabled={loading}
         >
             Un-Approve

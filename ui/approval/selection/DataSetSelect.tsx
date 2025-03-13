@@ -23,9 +23,13 @@ export default function DataSetSelect() {
         setDataSets(list);
     }
     
+    const handleOnClickItem = (item: IDataSet) => {
+        selectDataSet(item);
+        setShowed(false);
+    }
+    
     const title = (selectedDataSet) ? selectedDataSet.name : "Select Data Set";
 
-console.log("--- DataSetSelect: " + showed);
     return (
         <div 
             className="relative border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
@@ -48,7 +52,7 @@ console.log("--- DataSetSelect: " + showed);
                                 className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-lemon-lime ${
                                     selectedDataSet && selectedDataSet._id === item._id && "bg-lemon-lime font-semibold"
                                 }`}
-                                // onClick={() => selectDataSet(item)}
+                                onClick={() => handleOnClickItem(item)}
                             >
                                 {item.name}
                             </li>

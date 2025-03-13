@@ -48,3 +48,8 @@
 .black-bg {
   clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
 }
+
+button {
+  text-transform: uppercase;
+  /* font-family: 'Times New Roman', Times, serif; */
+}
