@@ -7,7 +7,6 @@ import { useSelection } from "@/hooks/useSelection";
 import { get } from "@/utils/apiClient";
 
 export default function DataSetSelect() {
-    
     const { selectedDataSet } = useSelection();
     const { selectDataSet} = useSetSelection();
     
@@ -25,18 +24,19 @@ export default function DataSetSelect() {
     }
     
     const title = (selectedDataSet) ? selectedDataSet.name : "Select Data Set";
-    
+
+console.log("--- DataSetSelect: " + showed);
     return (
         <div 
             className="relative border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
             tabIndex={0}
+            ref={dropdownRef}
         >
            
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={false} />
             
             {showed && <div 
                 className="absolute w-full rounded-md z-50 top-10 left-0 right-0 bg-white shadow-lg overflow-y-auto"
-                ref={dropdownRef}
             >
                 {dataSets === null ? (
                     <div className="p-4">Loading...</div>
@@ -48,7 +48,7 @@ export default function DataSetSelect() {
                                 className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-lemon-lime ${
                                     selectedDataSet && selectedDataSet._id === item._id && "bg-lemon-lime font-semibold"
                                 }`}
-                                onClick={() => selectDataSet(item)}
+                                // onClick={() => selectDataSet(item)}
                             >
                                 {item.name}
                             </li>

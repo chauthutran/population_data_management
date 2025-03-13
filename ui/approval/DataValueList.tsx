@@ -26,8 +26,6 @@ export default function DataValueList () {
         return await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
     }
     
-    
-console.log("----- DataValueList - re-rendered");    
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
 
     if (loading || !data) return <div className="flex justify-center items-center">Loading...</div>;
@@ -67,7 +65,7 @@ console.log("----- DataValueList - re-rendered");
             ))}
             </ul>
             
-            <ApprovalButtonBar />
+            {/* <ApprovalButtonBar /> */}
       </div>
       
     )

@@ -21,27 +21,43 @@ const selectionSlide = createSlice({
     
     reducers: {
         setDataSet: (state, action: PayloadAction<IDataSet>) => {
-            state.dataSet = action.payload;
-            state.period = null;
-            state.orgUnit = null;
-            state.approvalData = null;
+            if (state.dataSet?._id !== action.payload._id) { // Avoid unnecessary updates
+                state.dataSet = action.payload;
+                state.period = null;
+                state.orgUnit = null;
+                state.approvalData = null;
+            }
         },
         setPeriod: (state, action: PayloadAction<ISerializePeriod>) => {
-            state.period = action.payload;
-            state.approvalData = null;
+            if (state.period?.code !== action.payload.code) { // Check if period is actually changing
+                state.period = action.payload;
+                state.approvalData = null;
+            }
         },
         setOrgUnit: (state, action: PayloadAction<IOrgUnit>) => {
-            state.orgUnit = action.payload;
-            state.approvalData = null;
+            if (state.orgUnit?._id !== action.payload._id) { // Check if orgUnit is actually changing
+                state.orgUnit = action.payload;
+                state.approvalData = null;
+            }
         },
         setApprovalData: (state, action: PayloadAction<IApprovalData | null>) => {
-            state.approvalData = action.payload;
+            const oldApprovalData = state.approvalData;
+            const newApprovalData = action.payload;
+            if (
+                (oldApprovalData && !action.payload)||
+                (!oldApprovalData && action.payload)||
+                (oldApprovalData && newApprovalData && oldApprovalData._id !== newApprovalData._id)
+            ) {
+                state.approvalData = action.payload;
+            }
         },
         clearSelection: (state) => {
-            state.dataSet = null;
-            state.period = null;
-            state.orgUnit = null;
-            state.approvalData = null;
+            if (state.dataSet || state.period || state.orgUnit || state.approvalData) {
+                state.dataSet = null;
+                state.period = null;
+                state.orgUnit = null;
+                state.approvalData = null;
+            }
         }
     }
 })

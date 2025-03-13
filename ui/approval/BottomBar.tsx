@@ -11,18 +11,18 @@ import UnapproveButton from "./approvalButtons/UnapproveButton";
 import UnacceptButton from "./approvalButtons/UnacceptButton";
 
 export default function ApprovalButtonBar () {
-    
+    console.log(" --- ApprovalButtonBar");
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData } = useSelection();
     const { selectApprovalData } = useSetSelection();
     
     const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
     
     useEffect(() => {
-        console.log(" ============== ApprovalButtonBar - useEffect");
+       
         if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
             refetch(fetchData);
         }
-    }, [selectedDataSet, selectedPeriod, selectedOrgUnit]);
+    }, [selectedDataSet?._id, selectedPeriod?.code, selectedOrgUnit?._id]);
     
     const fetchData = async (): Promise<IApprovalData> => {
         const payload = {
