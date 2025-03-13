@@ -1,3 +1,5 @@
 export const PAGE_LOGIN = "PAGE_LOGIN";
 export const PAGE_DASHBOARD = "PAGE_DASHBOARD";
-export const PAGE_APPROVAL = "PAGE_APPROVAL";
+export const PAGE_DATA_ENTRY = "PAGE_DATA_ENTRY";
+export const PAGE_APPROVALS = "PAGE_APPROVALS";
+export const PAGE_CHARTS = "PAGE_CHARTS";

@@ -17,7 +17,7 @@ export default function SelectionHeader ({
     }
     
     return (
-        <div className={`cursor-pointer py-2 px-3 space-x-3 text-justify flex items-center  ${disabled ? "bg-gray-300 text-gray-500" : "text-white"}`} onClick={() => handleOnClick()}>
+        <div className={`cursor-pointer py-2 px-3 space-x-3 text-justify flex items-center text-gray-700 ${disabled && "bg-gray-300"}`} onClick={() => handleOnClick()}>
             <span className="flex-1 truncate-text">{title}</span>
             {showed && (
                 <span className="">

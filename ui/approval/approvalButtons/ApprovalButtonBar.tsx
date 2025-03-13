@@ -41,11 +41,11 @@ export default function ApprovalButtonBar () {
     if (loading) return (<>Loading ...</>);
     
     return (
-        <>
+        <div className="flex space-x-4 my-4">
             {(!approvalData || !approvalData.approvedBy) && <ApproveButton />}
             {(approvalData && approvalData.approvedBy && !approvalData.acceptedBy) && <UnapproveButton />}
             {(approvalData && !approvalData.acceptedBy) &&  <AcceptButton /> }
             {(approvalData && approvalData.acceptedBy) && <UnacceptButton />}
-        </>
+        </div>
     )
 }

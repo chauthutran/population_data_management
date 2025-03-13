@@ -1,9 +1,5 @@
-import { RootState } from "@/store/store";
 import { IDataValue } from "@/types/definations";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import ApproveButton from "./approvalButtons/ApproveButton";
-import ButtonBar from "./approvalButtons/ApprovalButtonBar";
+import { useEffect } from "react";
 import ApprovalButtonBar from "./approvalButtons/ApprovalButtonBar";
 import { useSelection } from "@/hooks/useSelection";
 import { post } from "@/utils/apiClient";
@@ -27,7 +23,7 @@ export default function DataValueList () {
             orgUnit: selectedOrgUnit?._id,
         }
                 
-        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);        
+        const list = await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
         return list;
     }
     
@@ -41,44 +37,28 @@ export default function DataValueList () {
         
             {/* Table for larger screens (md and above) */}
             <div className="hidden md:block">
-                <table className="w-full border-collapse border border-steel-gray">
-                    <thead className="bg-steel-gray text-white">
+                <table className="w-full border-collapse border border-gray-200">
+                    <thead className="bg-grayish-yellow text-black">
                         <tr>
-                            <th className="p-2 border">Data Element</th>
+                            <th className="p-2 border text-left">Data Element</th>
                             <th className="p-2 border">Value</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data!.map((item: IDataValue) => (
-                            <tr key={item._id} className="odd:bg-light-gray-blue-odd even:bg-light-gray-blue-event">
+                            <tr key={item._id} className="odd:bg-white even:bg-gray-200">
                                 <td className="border p-2">{item.dataElement.name}</td>
                                 <td className="border p-2">{item.value}</td>
                             </tr>
                         ))}
-                    </tbody>
+                   </tbody>
                 </table>
-            {/* <table className="min-w-full border border-gray-200">
-                <thead className="bg-gray-100">
-                <tr>
-                    <th className="border p-2 text-left">Data Element</th>
-                    <th className="border p-2 text-left">Value</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data!.map((item: IDataValue) => (
-                    <tr key={item._id} className="border">
-                    <td className="border p-2">{item.dataElement.name}</td>
-                    <td className="border p-2">{item.value}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table> */}
             </div>
         
             {/* List format for small screens (below md) */}
             <ul className="md:hidden divide-y divide-gray-200">
             {data!.map((item: IDataValue) => (
-                <li key={item._id} className="py-4">
+                <li key={item._id} className="px-3 py-4 odd:bg-light-gray-blue-odd even:bg-light-gray-blue-event">
                     <span className="font-semibold">{item.dataElement.name}:</span> {item.value}
                 </li>
             ))}

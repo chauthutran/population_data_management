@@ -7,48 +7,33 @@ import Header from "./layout/Header";
 import SlideBar from "./layout/SlideBar";
 import LoginPage from "./login/LoginPage";
 import { RootState } from "@/store/store";
-import { PAGE_APPROVAL, PAGE_DASHBOARD, PAGE_LOGIN } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
+import { useCurrentPage } from "@/hooks/usePage";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 
-export default function () {
+export default function AppWrapper() {
     
-    const curPage  = useSelector((state: RootState) => state.currentPage.curPage);
+    const { curPage } = useCurrentPage();
+    const [openSlideBar, setOpenSlideBar] = useState(false);
     
     return (
-        <div className="bg-[#E5F0F7] text-[#2C3E50]">
-            <Header />
-            
-            <div className="flex">
-                <SlideBar />
+        <div className="bg-white text-rich-navy">
+            <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
+
+            <div className="flex flex-grow">
+                {curPage !== PAGE_LOGIN && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
                 
-                <main className="w-3/4 p-6">
-                    <ApprovalPage />
-{/*                     
-                    <form class="mt-6 p-4 bg-white shadow rounded flex items-center gap-4">
-                <label class="block">Selection:</label>
-                <select class="p-2 border rounded bg-[#CE8774] text-white">
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                </select>
-                <select class="p-2 border rounded bg-[#CE8774] text-white">
-                    <option>Dropdown 1</option>
-                    <option>Dropdown 2</option>
-                </select>
-                <button class="p-2 bg-[#417D7A] text-white rounded hover:bg-[#2A4D69]">Search</button>
-            </form> */}
+                <main className="w-full">
+                    {curPage === PAGE_LOGIN && <LoginPage />}
+                    {curPage === PAGE_DASHBOARD && <DashboardPage />}
+                    {curPage === PAGE_DATA_ENTRY && <DashboardPage />}
+                    {curPage === PAGE_APPROVALS && <ApprovalPage />}
+                    {curPage === PAGE_CHARTS && <ApprovalPage />}
                 </main>
             </div>
-            
-            <footer className="bg-[#2A4D69] text-white text-center p-4 mt-6">
-                Website Footer
-            </footer>
+
+            <Footer />
         </div>
-
-
-        // <>
-        //     <DashboardPage />
-        //     {/* {curPage == PAGE_LOGIN && <LoginPage />}
-        //     {curPage == PAGE_DASHBOARD && <DashboardPage />}
-        //     {curPage == PAGE_APPROVAL && <ApprovalPage />} */}
-        // </>
     )
 }

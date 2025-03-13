@@ -8,5 +8,5 @@ const UserShema = new Schema({
     timestamps: true,
 });
 
-const User = mongoose.models.Users || mongoose.model("User", UserShema);
+const User = mongoose.models.User || mongoose.model("User", UserShema);
 export default User;

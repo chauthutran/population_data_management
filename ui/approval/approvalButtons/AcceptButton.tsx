@@ -27,7 +27,7 @@ export default function AcceptButton () {
     return (
         <button 
             onClick={() => refetch(acceptData)}
-            className="bg-orange-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
+            className="bg-sky-blue hover:bg-soft-sky-blue text-white px-4 py-2 rounded disabled:bg-gray-400"
             // disabled={!!approvalData?.acceptedBy} // Convert acceptedBy to a boolean
         >
             Accept

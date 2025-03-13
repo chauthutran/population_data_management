@@ -1,16 +1,52 @@
 import { FcEnteringHeavenAlive } from "react-icons/fc";
 import { FaDatabase } from "react-icons/fa";
+import { useCurrentPage } from "@/hooks/usePage";
+import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY } from "@/constants";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import { useState } from "react";
+import Image from "next/image";
+import AppIcon from "./AppIcon";
 
 
-export default function SlideBar () {
+export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+    const { setCurrentPage } = useCurrentPage();
     
     return (
-        <aside className="w-1/4 bg-soft-sky-blue p-4 text-white">
-            <ul>
-                <li className="p-2 hover:bg-muted-teal">Data Entry</li>
-                <li className="p-2 hover:bg-muted-teal">Approvals</li>
-                <li className="p-2 hover:bg-muted-teal">Chart</li>
+        <aside
+            className={`fixed left-0 top-0 h-screen z-50 w-64 bg-deep-green shadow-lg p-5 flex flex-col text-white transition-transform duration-300 ${
+                isOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+        >
+            {/* Sidebar Header */}
+            <div className="flex justify-between items-center mb-6">
+                <AppIcon size={32} />
+                <button onClick={onClose} className="text-2xl hover:text-gray-300 transition">
+                    <MdKeyboardDoubleArrowLeft />
+                </button>
+            </div>
+
+            {/* Menu List */}
+            <ul className="space-y-2">
+                {[
+                    { label: "Dashboard", page: PAGE_DASHBOARD },
+                    { label: "Data Entry", page: PAGE_DATA_ENTRY },
+                    { label: "Approvals", page: PAGE_APPROVALS },
+                    { label: "Charts", page: PAGE_CHARTS },
+                ].map((item) => (
+                    <li
+                        key={item.page}
+                        className="p-3 rounded-lg hover:bg-muted-teal transition cursor-pointer"
+                        onClick={() => setCurrentPage(item.page, item.label)}
+                    >
+                        {item.label}
+                    </li>
+                ))}
+                {/* Logout Button */}
+                <li className="p-3 rounded-lg bg-red-600 hover:bg-red-700 transition cursor-pointer mt-4 text-center">
+                    Logout
+                </li>
             </ul>
         </aside>
-    )
+    );
 }

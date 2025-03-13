@@ -42,12 +42,15 @@ export default function OrgUnitTree() {
     const title = (selectedOrgUnit) ? selectedOrgUnit.name : "Select OrgUnit";
     
     return (
-        <div className="relative w-64 bg-muted-teal border rounded-md border-light-gray-blue-event">
+        <div 
+            className="relative bg-white border rounded-md border-gray-200 focus:ring-2 focus:ring-lemon-lime"
+            tabIndex={0}
+        >
             
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedPeriod === null} />
             
-            {showed && <div className="absolute w-full z-50 top-10 left-0 right-0 border border-slate-200 h-96 shadow-lg overflow-auto bg-muted-teal text-gray-100 rounded-md" ref={dropdownRef}>
-                <div className="border border-slate-200 min-h-96">
+            {showed && <div className="absolute w-full z-50 top-10 left-0 right-0 border border-gray-200 h-96 shadow-lg overflow-auto bg-muted-teal text-black rounded-md bg-white" ref={dropdownRef}>
+                <div className="border border-gray-200 min-h-96">
                     {roots.length > 0 ? (
                             <OrgUnitNode
                                 nodes={roots}
@@ -79,12 +82,12 @@ const OrgUnitNode = ({
     const { selectOrgUnit } = useSetSelection();
     
     return (
-        <ul className="ml-4 border-l border-gray-300">
+        <ul className="ml-4 border-l border-gray-200">
             {nodes.map((node) => (
                 <li key={node._id} className="relative pl-4 mb-2">
                     <button
                         onClick={() => fetchChildren(node._id)}
-                        className="text-sm text-white hover:text-white focus:outline-none transition-all duration-300"
+                        className="text-sm text-blue-600 focus:outline-none transition-all duration-300"
                     >
                         {expended[node._id] ? "[-]" : "[+]" }
                     </button>

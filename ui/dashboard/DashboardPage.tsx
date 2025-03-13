@@ -1,18 +1,17 @@
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import SlideBar from "../layout/SlideBar";
-import LoginHeader from "../login/LoginHeader";
 import PendingApprovalData from "./PendingApprovalData";
 
 export default function DashboardPage () {
     
     return (
-        <div className="bg-gray-100 text-text-color">
-            <div className="flex h-screen">
-                <SlideBar />
+        // <div className="bg-gray-100 text-text-color">
+        //     <div className="flex h-screen">
+        //         <SlideBar />
 
-                <main className="flex-1 p-6">
-                    <Header />
+        //         <main className="flex-1 p-6">
+        //             <Header />
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                         {/* <div className="bg-[var(--card-bg)] p-6 rounded-lg shadow-md">
@@ -31,8 +30,8 @@ export default function DashboardPage () {
                             <canvas id="populationChart"></canvas>
                         </div>
                     </div>
-                </main>
-            </div>
-        </div>
+        //         </main>
+        //     </div>
+        // </div>
     )
 }

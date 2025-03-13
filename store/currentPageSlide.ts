@@ -3,7 +3,8 @@ import { JSONObject } from "@/types/definations";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: JSONObject = {
-    curPage: PAGE_LOGIN,
+    name: PAGE_LOGIN,
+    title: "Login",
 }
 
 const currentPageSlide = createSlice({
@@ -12,7 +13,8 @@ const currentPageSlide = createSlice({
     
     reducers: {
         setPage: (state, action: PayloadAction<JSONObject>) => {
-            state.curPage  = action.payload; 
+            state.name = action.payload.name;
+            state.title = action.payload.title;
         }
     }
 });

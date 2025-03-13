@@ -1,4 +1,4 @@
-import { setApprovalData, setDataSet, setOrgUnit, setPeriod } from '@/store/selectionSlice';
+import { clearSelection, setApprovalData, setDataSet, setOrgUnit, setPeriod } from '@/store/selectionSlice';
 import { AppDispatch } from "@/store/store"
 import { IApprovalData, IDataSet, IOrgUnit, ISerializePeriod } from "@/types/definations";
 import { useCallback } from "react";
@@ -25,5 +25,10 @@ export const useSetSelection = () => {
         dispatch(setApprovalData(data));
     }, [dispatch]);
     
-    return {selectDataSet, selectPeriod, selectOrgUnit, selectApprovalData};
+    
+    const cleanAll = useCallback(() => {
+        dispatch(clearSelection());
+    }, [dispatch]);
+    
+    return { selectDataSet, selectPeriod, selectOrgUnit, selectApprovalData, cleanAll };
 }

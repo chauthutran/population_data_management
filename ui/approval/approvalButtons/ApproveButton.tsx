@@ -28,7 +28,7 @@ export default function ApproveButton( ) {
     return (
         <button 
             onClick={() => refetch(approveData)}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-bg-sunset-orange hover:bg-button-danger text-white px-4 py-2 rounded"
             disabled={loading}
         >
             Approve

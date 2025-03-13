@@ -25,7 +25,7 @@ export default function UnacceptButton () {
     return (
         <button 
             onClick={() => refetch(unacceptData)}
-            className="bg-orange-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
+            className="bg-sky-blue hover:bg-soft-sky-blue text-white px-4 py-2 rounded disabled:bg-gray-400"
             // disabled={!!approvalData?.acceptedBy} // Convert acceptedBy to a boolean
         >
             Un-Accept

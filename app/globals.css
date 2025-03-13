@@ -44,3 +44,7 @@
   overflow: hidden; /* Hide overflowed content */
   text-overflow: ellipsis; /* Add ellipsis at the end of the text */
 }
+
+.black-bg {
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
+}

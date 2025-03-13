@@ -27,23 +27,26 @@ export default function DataSetSelect() {
     const title = (selectedDataSet) ? selectedDataSet.name : "Select Data Set";
     
     return (
-        <div className="relative border rounded-md border-light-gray-blue-event bg-sunset-orange">
+        <div 
+            className="relative border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
+            tabIndex={0}
+        >
            
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={false} />
             
             {showed && <div 
-                className="absolute w-full rounded-md z-50 top-10 left-0 right-0 bg-sunset-orange shadow-lg min-w-56 max-h-96 min-h-fit overflow-y-auto"
+                className="absolute w-full rounded-md z-50 top-10 left-0 right-0 bg-white shadow-lg overflow-y-auto"
                 ref={dropdownRef}
             >
                 {dataSets === null ? (
-                    <div className="p-4 text-white">Loading...</div>
+                    <div className="p-4">Loading...</div>
                 ) : (
-                    <ul className="border border-gray-300 text-white divide-y divide-gray-300">
+                    <ul className="border border-gray-200 divide-y divide-gray-300">
                         {dataSets!.map((item: IDataSet) => (
                             <li 
                                 key={item._id} 
-                                className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-light-sunset-orange hover:text-gray-800 ${
-                                    selectedDataSet && selectedDataSet._id === item._id && "bg-light-sunset-orange text-gray-800 font-semibold"
+                                className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-lemon-lime ${
+                                    selectedDataSet && selectedDataSet._id === item._id && "bg-lemon-lime font-semibold"
                                 }`}
                                 onClick={() => selectDataSet(item)}
                             >
