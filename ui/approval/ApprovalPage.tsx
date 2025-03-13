@@ -1,5 +1,5 @@
 import DataValueList from "./DataValueList";
-import TopBar from "./topbar/TopBar";
+import TopBar from "./TopBar";
 
 export default function ApprovalPage () {
     return (

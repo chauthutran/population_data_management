@@ -1,7 +1,7 @@
 import { useSetSelection } from "@/hooks/useSetSelection";
-import DataSetSelect from "./DataSetSelect";
-import OrgUnitTree from "./OrgUnitTree";
-import PeriodSelect from "./PeriodSelect";
+import DataSetSelect from "./selection/DataSetSelect";
+import PeriodSelect from "./selection/PeriodSelect";
+import OrgUnitTree from "./selection/OrgUnitTree";
 
 export default function TopBar () {
     const { cleanAll } = useSetSelection();
@@ -15,7 +15,7 @@ export default function TopBar () {
             <div className="flex-1"><OrgUnitTree /></div>
 
             <button
-                className="w-auto bg-pale-lemon border border-gray-200 text-black font-semibold rounded-lg py-3 px-6 transition-all duration-300 transform hover:bg-lemon-lime hover:scale-105"
+                className="w-auto bg-color-4 border border-gray-200 text-white font-semibold rounded-lg py-3 px-6 transition-all duration-300 transform hover:bg-deep-green hover:scale-105"
                 onClick={cleanAll}
             >
                 Clear Data

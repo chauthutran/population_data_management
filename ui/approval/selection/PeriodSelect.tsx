@@ -36,7 +36,6 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
             className="relative bg-rich-teal border border-gray-200 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
             tabIndex={0}
         >
-    
             {/* Header Section */}
             <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedDataSet === null}/>
         

@@ -1,14 +1,14 @@
 import useAsyncData from "@/hooks/useAsyncData";
-import ApproveButton from "./ApproveButton";
+import ApproveButton from "./approvalButtons/ApproveButton";
 import { IApprovalData } from "@/types/definations";
 import { useEffect } from "react";
 import { useSelection } from "@/hooks/useSelection";
-import AcceptButton from "./AcceptButton";
+import AcceptButton from "./approvalButtons/AcceptButton";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { post } from "@/utils/apiClient";
 import { setApprovalData } from "@/store/selectionSlice";
-import UnapproveButton from "./UnapproveButton";
-import UnacceptButton from "./UnacceptButton";
+import UnapproveButton from "./approvalButtons/UnapproveButton";
+import UnacceptButton from "./approvalButtons/UnacceptButton";
 
 export default function ApprovalButtonBar () {
     

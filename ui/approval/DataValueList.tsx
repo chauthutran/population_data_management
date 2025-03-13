@@ -1,6 +1,6 @@
 import { IDataValue } from "@/types/definations";
 import { useEffect } from "react";
-import ApprovalButtonBar from "./approvalButtons/ApprovalButtonBar";
+import ApprovalButtonBar from "./BottomBar";
 import { useSelection } from "@/hooks/useSelection";
 import { post } from "@/utils/apiClient";
 import useAsyncData from "@/hooks/useAsyncData";

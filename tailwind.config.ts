@@ -14,7 +14,12 @@ export default {
         "deep-green": "#336633",
         "lemon-lime": "#CFFF52",
         "grayish-yellow": "#d7d8d3",
-        
+        "color-1": "#8dca02",
+        "color-2": "#b0fd02",
+        "color-3": "#476501",
+        "color-4": "#6a9801",
+        "color-5": "#233300",
+
         // "deep-olive": "#4A6726",
         // "muted-teal": "#4F9D86",
         // "warm-gray": "#5F697A",
