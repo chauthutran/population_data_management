@@ -14,7 +14,7 @@ export default function ApprovalButtonBar () {
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData } = useSelection();
     const { selectApprovalData } = useSetSelection();
     
-    const { data, loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { data, error, refetch, loading } = useAsyncData<IApprovalData>();
     
     const fetchData = async (): Promise<IApprovalData> => {
         const payload = {
@@ -23,11 +23,13 @@ export default function ApprovalButtonBar () {
             orgUnit: selectedOrgUnit?._id,
         }
         
-        const result = await post<IApprovalData, any>("/api/approvalData", payload);
-        selectApprovalData(result);
-        
-        return result;
+        return await post<IApprovalData, any>("/api/approvalData", payload);
     }
+    
+    const handleFetchData = async () => {
+        const result = await fetchData();
+        selectApprovalData(result); // Update Redux here
+    };
     
     useEffect(() => {
         if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
@@ -39,7 +41,7 @@ export default function ApprovalButtonBar () {
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);
     
     if (loading) return (<>Loading ...</>);
-    console.log(approvalData);
+    
     return (
         <div className="flex space-x-4 my-4">
             {(!approvalData || !approvalData.approvedBy) && <ApproveButton />}

@@ -8,10 +8,10 @@ import { useEffect } from "react";
 export default function ApproveButton( ) {
     
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const { loading, error, refetch } = useAsyncData<IApprovalData>();
+    const { loading, error, refetch } = useAsyncData<IApprovalData | null>();
     const { selectApprovalData } = useSetSelection();
     
-    const approveData = async (): Promise<IApprovalData> => {
+    const approveData = async (): Promise<IApprovalData | null> => {
         const payload = {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
@@ -25,10 +25,11 @@ export default function ApproveButton( ) {
         return result;
     }
     
+    
     return (
         <button 
             onClick={() => refetch(approveData)}
-            className="bg-teal-700 text-white hover:bg-teal-600 border-2 border-gray-200 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
+            className="bg-teal-700 text-white hover:bg-teal-600 border-2 border-gray-200 disabled:bg-gray-400 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
             disabled={loading}
         >
             Approve

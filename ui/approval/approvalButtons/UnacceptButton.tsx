@@ -10,14 +10,10 @@ export default function UnacceptButton () {
     const { selectApprovalData } = useSetSelection();
     // Need to have "approvalData" to re-render data after "selectApprovalData"
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
-    const isRequestInProgress = useRef(false);
+    const { loading, error, refetch } = useAsyncData<IApprovalData>();
+    
     
     const unacceptData = async () => {
-        if (isRequestInProgress.current) return; // Prevent multiple requests at once
-        
-        // Set the ref value to indicate the request is in progress
-        isRequestInProgress.current = true;
-          
         const payload = {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
@@ -29,16 +25,13 @@ export default function UnacceptButton () {
             selectApprovalData(result);
         } catch (error) {
             alert("Error occurred while unaccepting:" + error);
-        } finally {
-            // Reset the ref value once the request completes
-            isRequestInProgress.current = false;
-        }
+        } 
     }
-console.log("===unacceptData");
+    
     return (
         <button 
             onClick={() => unacceptData()}
-            disabled={isRequestInProgress.current} // Disable the button if the request is in progress
+            disabled={loading} // Disable the button if the request is in progress
             className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
         >
             Un-Accept
