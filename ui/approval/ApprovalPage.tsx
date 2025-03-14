@@ -8,7 +8,7 @@ export default function ApprovalPage () {
     
     
     return (
-        <div className="bg-white shadow rounded">
+        <div className="bg-white shadow rounded pb-1">
             <TopBar />
             
             <div className="flex flex-row space-x-6 mx-4">
