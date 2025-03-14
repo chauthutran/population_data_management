@@ -1,7 +1,7 @@
 import { IDataSet } from "@/types/definations";
 import { useEffect, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "./useClickOutside";
+import useClickOutside from "../../../hooks/useClickOutside";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { useSelection } from "@/hooks/useSelection";
 import { get } from "@/utils/apiClient";

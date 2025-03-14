@@ -1,6 +1,4 @@
-import Footer from "../layout/Footer";
 import LoginForm from "./LoginForm";
-import LoginHeader from "./LoginHeader";
 
 export default function LoginPage () {
     

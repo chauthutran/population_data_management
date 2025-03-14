@@ -33,38 +33,26 @@ export default function DataValueList () {
     if (error) return <div className="text-red-500">An error occurred while fetching data. Please try again.</div>;
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">{selectedDataSet!.name} - {selectedPeriod!.name}</h1>
-        
-            {/* Table for larger screens (md and above) */}
-            <div className="hidden md:block">
-                <table className="w-full border-collapse border border-gray-200">
-                    <thead className="bg-grayish-yellow text-black">
-                        <tr>
-                            <th className="p-2 border text-left">Data Element</th>
-                            <th className="p-2 border">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data!.map((item: IDataValue) => (
-                            <tr key={item._id} className="odd:bg-white even:bg-gray-200">
-                                <td className="border p-2">{item.dataElement.name}</td>
-                                <td className="border p-2">{item.value}</td>
-                            </tr>
-                        ))}
-                   </tbody>
-                </table>
-            </div>
-        
-            {/* List format for small screens (below md) */}
-            <ul className="md:hidden divide-y divide-gray-200">
-            {data!.map((item: IDataValue) => (
-                <li key={item._id} className="px-3 py-4 odd:bg-light-gray-blue-odd even:bg-light-gray-blue-event">
-                    <span className="font-semibold">{item.dataElement.name}:</span> {item.value}
-                </li>
-            ))}
-            </ul>
-      </div>
+        <div className="flex-1 p-6 border border-gray-300 rounded-lg shadow-lg bg-white">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{selectedDataSet!.name} - {selectedPeriod!.name}</h2>
+            {data.length == 0
+                ? <span className="italic">No data values</span>
+                : <div className="gap-4">
+                    <table className="w-full border-collapse">
+                        <tbody className="divide-y divide-gray-200 space-y-10 bg-gray-50">
+                            {data!.map((item: IDataValue) => (
+                                <tr key={item._id}
+                                    className="transition-transform transform hover:scale-105 hover:shadow-md hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <td className="text-lg font-semibold text-gray-700 p-4">{item.dataElement.name}:</td> 
+                                    <td className="text-sm text-gray-500 p-4">{item.value}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
       
     )
 }

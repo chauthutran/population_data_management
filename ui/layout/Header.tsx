@@ -10,10 +10,12 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar: (
     
     return (
         <>
-            {curPage === PAGE_LOGIN &&  <header className="bg-lemon-green text-4xl text-black font-bold p-7 flex items-center justify-center space-x-8">
-                <AppIcon size={60} />
-                <div>Population Data Management</div>
-            </header>}
+            {curPage === PAGE_LOGIN && (
+    <header className="bg-lemon-green text-4xl text-black font-bold p-7 flex items-center justify-center space-x-8">
+        <AppIcon size={65} />
+        <div className="truncate">Population Data Management</div>
+    </header>
+)}
             
             {curPage !== PAGE_LOGIN && <header className="bg-lemon-green text-black shadow-lg flex pl-3 py-3 items-center">
                 <button 

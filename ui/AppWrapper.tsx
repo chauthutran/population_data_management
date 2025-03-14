@@ -16,7 +16,7 @@ export default function AppWrapper() {
     const [openSlideBar, setOpenSlideBar] = useState(false);
     
     return (
-        <div className="bg-white text-rich-navy">
+        <div className="bg-white text-black min-h-screen flex flex-col">
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
 
             <div className="flex flex-grow">

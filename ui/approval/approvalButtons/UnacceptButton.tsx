@@ -8,8 +8,7 @@ import { useRef } from "react";
 export default function UnacceptButton () {
     
     const { selectApprovalData } = useSetSelection();
-    // Need to have "approvalData" to re-render data after "selectApprovalData"
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
     
     

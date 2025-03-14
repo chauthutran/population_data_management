@@ -7,16 +7,20 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useState } from "react";
 import Image from "next/image";
 import AppIcon from "./AppIcon";
+import useClickOutside from "@/hooks/useClickOutside";
 
 
 export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const { setCurrentPage } = useCurrentPage();
-    
+    const dropdownRef = useClickOutside(() => onClose()); // Close dropdown when clicked outside
+        
+        
     return (
         <aside
             className={`fixed left-0 top-0 h-screen z-50 w-64 bg-deep-green shadow-lg p-5 flex flex-col text-white transition-transform duration-300 ${
                 isOpen ? "translate-x-0" : "-translate-x-full"
             }`}
+            ref={dropdownRef}
         >
             {/* Sidebar Header */}
             <div className="flex justify-between items-center mb-6">
@@ -37,7 +41,7 @@ export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose
                     <li
                         key={item.page}
                         className="p-3 rounded-lg hover:bg-muted-teal transition cursor-pointer"
-                        onClick={() => setCurrentPage(item.page, item.label)}
+                        onClick={() => {setCurrentPage(item.page, item.label); onClose();}}
                     >
                         {item.label}
                     </li>
