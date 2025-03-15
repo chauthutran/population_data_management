@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 export default function CustomMultiSelect<T>({
 	title,
 	displayProp,
+	valueProp,
 	fetchData,
 	onChange,
 }: {
 	title: string;
 	displayProp: string;
+	valueProp: string;
 	fetchData: () => Promise<T[]>;
 	onChange: (value: T[]) => void;
 }) {
@@ -23,9 +25,9 @@ export default function CustomMultiSelect<T>({
 	}, []);
 
 	const toggleSelect = (item: T) => {
-		const exists = selected.some((v) => (v as any)._id === (item as any)._id);
+		const exists = selected.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
 		const newValues = exists
-		? selected.filter((v) => (v as any)._id !== (item as any)._id)
+		? selected.filter((v) => (v as any)[valueProp] !== (item as any)[valueProp])
 		: [...selected, item];
 
 		setSelected(newValues);
@@ -35,7 +37,7 @@ export default function CustomMultiSelect<T>({
   	if (loading) return <>Loading ...</>;
 
 	return (
-		<div className="relative w-full">
+		<div className="relative w-full" ref={dropdownRef}>
 			{/* Selected Options */}
 			<div
 				className="border border-gray-300 rounded-lg p-2 cursor-pointer bg-white flex justify-between items-center"
@@ -73,7 +75,7 @@ export default function CustomMultiSelect<T>({
 			{showed && (
 				<div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
 				{data!.map((item, index) => {
-					const exists = selected.some((v) => (v as any)._id === (item as any)._id);
+					const exists = selected.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
 
 					return (
 					<div
