@@ -1,75 +1,87 @@
 import connectToDatabase from "@/libs/db/mongodb";
 import DataValue from "@/libs/db/schemas/DataValueSchema";
+import OrgUnit from "@/libs/db/schemas/OrgUnitSchema";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
-        const { periods: periodCodes, dataElement: dataElementId, orgUnitLevel, orgUnit: orgUnitId } = await request.json(); // Get request body
-        
-        if (!periodCodes && !dataElementId && !orgUnitLevel && !orgUnitId) {
+        const { periods: periodCodes, dataElements: dataElementIds, orgUnitLevel, orgUnit: orgUnitId } = await request.json(); // Get request body
+
+        if (!periodCodes && !dataElementIds && !orgUnitLevel && !orgUnitId) {
             return NextResponse.json({message: "Missing required fields"}, {status: 500});
         }
         
+        const dataElementIdObjs = dataElementIds.map((deId: string) => new mongoose.Types.ObjectId(deId));
+  
         await connectToDatabase();
 
-        const dataValues = await DataValue.aggregate([
+        const dataValues = await OrgUnit.aggregate([
+            // Step 1: Find the org unit and its descendants at the given level
             {
-                $lookup: {
-                    from: "orgunits", // Join with the OrgUnit collection
-                    localField: "orgUnit",
-                    foreignField: "_id",
-                    as: "orgUnitData"
-                }
+                $match: { _id: new mongoose.Types.ObjectId(orgUnitId) }
             },
-            { $unwind: "$orgUnitData" },
-
-            // **Find OrgUnits that belong to the specified orgUnitId**
             {
                 $graphLookup: {
                     from: "orgunits",
-                    startWith: "$orgUnitData._id",
+                    startWith: "$_id",
                     connectFromField: "_id",
                     connectToField: "parent",
-                    as: "orgUnitHierarchy"
+                    as: "descendants"
                 }
             },
-
-            // **Filter by orgUnit level and hierarchy**
             {
-                $match: {
-                    "orgUnitData.level": orgUnitLevel,
-                    "orgUnitHierarchy._id": new mongoose.Types.ObjectId(orgUnitId),
-                    dataElement: new mongoose.Types.ObjectId(dataElementId),
+                $unwind: "$descendants"
+            },
+            {
+                $match: { "descendants.level": orgUnitLevel }
+            },
+            {
+                $replaceRoot: { newRoot: "$descendants" }
+            },
+    
+            // Step 2: Join with DataValue collection
+            {
+                $lookup: {
+                    from: "datavalues", // Match with DataValue collection
+                    localField: "_id", // orgUnit._id from previous step
+                    foreignField: "orgUnit", // orgUnit field in DataValue
+                    as: "dataValues"
                 }
             },
-
-            // **Lookup Period Data**
+            {
+                $unwind: "$dataValues"
+            },
+    
+            // Step 3: Filter by dataElements and periods
             {
                 $lookup: {
                     from: "periods",
-                    localField: "period",
+                    localField: "dataValues.period",
                     foreignField: "_id",
-                    as: "periodData"
+                    as: "periodDetails"
                 }
             },
-            { $unwind: "$periodData" },
-
-            // 🔹 **Filter by period code list**
+            {
+                $unwind: "$periodDetails"
+            },
             {
                 $match: {
-                    "periodData.code": { $in: periodCodes } // Match period codes
+                    "periodDetails.code": { $in: periodCodes }, // Filter by period codes
+                    "dataValues.dataElement": { $in: dataElementIdObjs } // Filter by data elements
                 }
             },
-
-            // **Select Fields to Return**
+    
+            // Step 4: Return only necessary fields
             {
                 $project: {
-                    _id: 1,
-                    value: 1,
-                    "orgUnitData.name": 1,
-                    "orgUnitData.level": 1,
-                    "periodData.code": 1
+                    _id: "$dataValues._id",
+                    orgUnit: "$_id",
+                    orgUnitName: "$name",
+                    dataElement: "$dataValues.dataElement",
+                    period: "$dataValues.period",
+                    periodCode: "$periodDetails.code",
+                    value: "$dataValues.value"
                 }
             }
         ]);

@@ -1,14 +1,8 @@
-import { FcEnteringHeavenAlive } from "react-icons/fc";
-import { FaDatabase } from "react-icons/fa";
 import { useCurrentPage } from "@/hooks/usePage";
 import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY } from "@/constants";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { useState } from "react";
-import Image from "next/image";
 import AppIcon from "./AppIcon";
 import useClickOutside from "@/hooks/useClickOutside";
-
 
 export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const { setCurrentPage } = useCurrentPage();

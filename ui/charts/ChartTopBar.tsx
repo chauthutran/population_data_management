@@ -13,7 +13,7 @@ export default function ChartTopBar () {
     
     const [selectedOrgUnitLevel, setOrgUnitLevel] = useState<JSONObject | null>(null);
     const [selectedPeriodType, setPeriodType] = useState<IPeriodType | null>(null);
-    const [selectedDataElement, setDataElement] = useState<IDataElement | null>(null);
+    const [selectedDataElements, setDataElements] = useState<IDataElement[] | null>(null);
     const [chartType, setChartType] = useState<JSONObject | null>(null);
     
     
@@ -25,8 +25,8 @@ export default function ChartTopBar () {
         setPeriodType(periodType);
     }
     
-    const handleDataElementOnChange = (dataElement: IDataElement) => {
-        setDataElement(dataElement);
+    const handleDataElementOnChange = (dataElements: IDataElement[]) => {
+        setDataElements(dataElements);
     }
     
     const handleChartTypeOnChange = (chartType: JSONObject) => {
@@ -37,16 +37,20 @@ export default function ChartTopBar () {
         <aside className="w-72 bg-white p-4 shadow-lg flex flex-col space-y-3">
             <h2 className="text-lg font-semibold">Filters</h2>
             
+            <div className="font-semibold">OrgUnit</div>
+            <OrgUnitTree />
+            
+            <OrgUnitLevelSelect onChange={handleOrgUnitLevelOnChange} />
+            
+            
+            <div className="font-semibold pt-3">Data Elements and Periods</div>
             <DataSetSelect />
             
             <DataElementSelect onChange={handleDataElementOnChange} />
             
             {/* <Period /> */}
             
-            <OrgUnitTree />
-            
-            <OrgUnitLevelSelect onChange={handleOrgUnitLevelOnChange} />
-            
+            <div className="font-semibold pt-3">Chart Type</div>
             <ChartTypeSelect onChange={handleChartTypeOnChange} />
             
             <button 

@@ -52,7 +52,7 @@ export default function PopulationDistributionGrowthChart(
 	const fetchData = async (): Promise<IDataValue[]> => {
 		 const payload = {
 			periods: periods.map((item) => item.code),
-			dataElement: dataElement._id,
+			dataElements: [dataElement._id],
 			orgUnit: orgUnit._id,
 			orgUnitLevel: orgUnitLevel
 		}
@@ -61,7 +61,6 @@ export default function PopulationDistributionGrowthChart(
 	}
     
 	useEffect(() => {
-		console.log("==== fasdf");
 		refetch(fetchData);
 	}, []);
 	

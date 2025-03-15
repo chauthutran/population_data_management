@@ -48,7 +48,8 @@ export default function OrgUnitTree() {
             ref={dropdownRef}
         >
             
-            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedPeriod === null} />
+            {/* <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedPeriod === null} /> */}
+            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={false} />
             
             {showed && <>
                 <div className="absolute flex flex-col w-full z-50 top-10 left-0 right-0 border border-gray-200 h-96 shadow-lg bg-muted-teal text-black rounded-md bg-white overflow-hidden">
