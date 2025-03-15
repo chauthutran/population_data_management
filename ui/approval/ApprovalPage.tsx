@@ -1,7 +1,7 @@
 import { useSelection } from "@/hooks/useSelection";
-import ApprovalButtonBar from "./BottomBar";
+import ApprovalButtonBar from "./ApprovalButtonBar";
 import DataValueList from "./DataValueList";
-import TopBar from "./TopBar";
+import TopBar from "./ApprovalTopBar";
 import ApprovalSuggestion from "./ApprovalSuggestion";
 
 export default function ApprovalPage () {
@@ -13,17 +13,16 @@ export default function ApprovalPage () {
             
             <div className="flex flex-row space-x-6 mx-4">
                 
-                <div className="flex-1">
+                <div className="flex-1 border border-gray-200 rounded-lg shadow-lg bg-gray-50 p-6">
                     <DataValueList />
+                    <ApprovalButtonBar />
                 </div>
-                <div className="mr-auto">
+                
+                {/* <div className="mr-auto min-w-80"> */}
                     <ApprovalSuggestion />
-                </div>
+                {/* </div> */}
             </div>
             
-            <div className="mx-4">
-                <ApprovalButtonBar />
-            </div>
             
         </div>
     )

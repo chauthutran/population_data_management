@@ -1,6 +1,6 @@
 import { IDataValue } from "@/types/definations";
 import { useEffect } from "react";
-import ApprovalButtonBar from "./BottomBar";
+import ApprovalButtonBar from "./ApprovalButtonBar";
 import { useSelection } from "@/hooks/useSelection";
 import { post } from "@/utils/apiClient";
 import useAsyncData from "@/hooks/useAsyncData";
@@ -33,13 +33,14 @@ export default function DataValueList () {
     if (error) return <div className="text-red-500">An error occurred while fetching data. Please try again.</div>;
 
     return (
-        <div className="flex-1 p-6 border border-gray-300 rounded-lg shadow-lg bg-white">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">{selectedDataSet!.name} - {selectedPeriod!.name}</h2>
+        <div className="flex-1">
+            <div className="text-2xl font-semibold text-gray-800 mb-4">{selectedDataSet.name} - {selectedPeriod.name} - {selectedOrgUnit.name}</div>
+            
             {data.length === 0
                 ? <span className="italic">No data values</span>
-                : <div className="max-h-72 overflow-y-auto overflow-x-hidden"> {/* Prevent horizontal scroll */}
-                    <table className="w-full table-auto mx-5">
-                        <tbody className="divide-y divide-gray-200 bg-gray-50">
+                : <div className="overflow-y-auto overflow-x-hidden"> {/* Prevent horizontal scroll */}
+                    <table className="w-full table-auto mx-3">
+                        <tbody className="divide-y divide-gray-200">
                             {data!.map((item: IDataValue) => (
                                 <tr key={item._id}
                                     className="transition-transform transform hover:scale-105 hover:shadow-md hover:bg-gray-100 cursor-pointer"

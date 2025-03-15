@@ -2,7 +2,7 @@ import { IPeriod, ISerializePeriod } from "@/types/definations";
 import { generatePeriodsByType, getCurrentYear, serializePeriod } from "@/utils/periodUtils";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "../../../hooks/useClickOutside";
+import useClickOutside from "../../hooks/useClickOutside";
 import { useSelection } from "@/hooks/useSelection";
 import { useSetSelection } from "@/hooks/useSetSelection";
 

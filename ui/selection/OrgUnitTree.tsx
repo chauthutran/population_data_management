@@ -1,7 +1,7 @@
 import { IOrgUnit } from "@/types/definations"
 import { useEffect, useState } from "react"
 import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "../../../hooks/useClickOutside";
+import useClickOutside from "../../hooks/useClickOutside";
 import { useSelection } from "@/hooks/useSelection";
 import { useSetSelection } from "@/hooks/useSetSelection";
 import { get } from "@/utils/apiClient";

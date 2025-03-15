@@ -9,6 +9,7 @@ import LoginPage from "./login/LoginPage";
 import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
 import { useState } from "react";
+import ChartPage from "./charts/ChartPage";
 
 export default function AppWrapper() {
     
@@ -19,17 +20,15 @@ export default function AppWrapper() {
         <div className="bg-white text-black min-h-screen flex flex-col">
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
 
-            <div className="flex flex-grow">
-                {curPage !== PAGE_LOGIN && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
+            {curPage !== PAGE_LOGIN && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
                 
-                <main className="w-full">
-                    {curPage === PAGE_LOGIN && <LoginPage />}
-                    {curPage === PAGE_DASHBOARD && <DashboardPage />}
-                    {curPage === PAGE_DATA_ENTRY && <DashboardPage />}
-                    {curPage === PAGE_APPROVALS && <ApprovalPage />}
-                    {curPage === PAGE_CHARTS && <ApprovalPage />}
-                </main>
-            </div>
+            <main className="flex-1 overflow-y-auto">
+                {curPage === PAGE_LOGIN && <LoginPage />}
+                {curPage === PAGE_DASHBOARD && <DashboardPage />}
+                {curPage === PAGE_DATA_ENTRY && <DashboardPage />}
+                {curPage === PAGE_APPROVALS && <ApprovalPage />}
+                {curPage === PAGE_CHARTS && <ChartPage />}
+            </main>
 
             <Footer />
         </div>

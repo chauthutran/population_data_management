@@ -26,11 +26,6 @@ export default function ApprovalButtonBar () {
         return await post<IApprovalData, any>("/api/approvalData", payload);
     }
     
-    const handleFetchData = async () => {
-        const result = await fetchData();
-        selectApprovalData(result); // Update Redux here
-    };
-    
     useEffect(() => {
         if (selectedDataSet && selectedPeriod && selectedOrgUnit) {
             refetch(fetchData);

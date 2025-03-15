@@ -1,9 +1,9 @@
 import { useSetSelection } from "@/hooks/useSetSelection";
-import DataSetSelect from "./selection/DataSetSelect";
-import PeriodSelect from "./selection/PeriodSelect";
-import OrgUnitTree from "./selection/OrgUnitTree";
+import DataSetSelect from "../selection/DataSetSelect";
+import PeriodSelect from "../selection/PeriodSelect";
+import OrgUnitTree from "../selection/OrgUnitTree";
 
-export default function TopBar () {
+export default function ApprovalTopBar () {
     const { cleanAll } = useSetSelection();
     
     return (
