@@ -1,0 +1,49 @@
+import { IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface ChartState {
+    periods: ISerializePeriod[] | null,
+    dataElements: IDataElement[] | null,
+    orgUnit: IOrgUnit | null,
+    orgUnitLevel: JSONObject | null,
+}
+
+const initialState: ChartState = {
+    periods: null,
+    dataElements: null,
+    orgUnit: null,
+    orgUnitLevel: null,
+}
+
+const chartSlice = createSlice({
+    name: "chart",
+    initialState,
+    
+    reducers: {
+        setPeriods: (state, action: PayloadAction<ISerializePeriod[]>) => {
+            state.periods = action.payload;
+        },
+        setDataElements: (state, action: PayloadAction<IDataElement[]>) => {
+            state.dataElements = action.payload;
+        },
+        setOrgUnit: (state, action: PayloadAction<IOrgUnit>) => {
+            state.orgUnit = action.payload;
+        },
+        setOrgUnitLevel: (state, action: PayloadAction<JSONObject>) => {
+            state.orgUnitLevel = action.payload;
+        },
+        clearSelection: (state) => {
+            if (state.periods || state.dataElements || state.orgUnit || state.orgUnitLevel) {
+                state.periods = null;
+                state.dataElements = null;
+                state.orgUnit = null;
+                state.orgUnitLevel = null;
+            }
+        }
+    }
+});
+
+export const { setPeriods, setDataElements, setOrgUnit, setOrgUnitLevel, clearSelection } = chartSlice.actions;
+
+const chartReducer = chartSlice.reducer;
+export default chartReducer;

@@ -11,8 +11,6 @@ export default function PeriodMultiSelect({ periodType, onChange }: { periodType
     const { selectedDataSet } = useSelection();
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
 
-    if( !selectedDataSet ) return (<>Loading ...</>);
-    
     const handleOnPrev = () => {
         if (periodType === "Yearly") setSelectedYear((prev) => prev - 10);
         else if (periodType === "Monthly") setSelectedYear((prev) => prev - 1);
@@ -23,6 +21,8 @@ export default function PeriodMultiSelect({ periodType, onChange }: { periodType
         else if (periodType === "Monthly") setSelectedYear((prev) => prev + 1);
     }
     
+    if( !selectedDataSet ) return (<>Loading ...</>);
+    console.log(generatePeriodsByType(periodType, selectedyear));
     return (
         <>
     

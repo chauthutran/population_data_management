@@ -20,49 +20,52 @@ const data = [
   ];
   
 export default function PopulationDistributionGrowthChart(
-// 	{
-// 	periods,
-// 	dataElement,
-// 	orgUnit,
-// 	orgUnitLevel
-// }: {
-// 	periods: ISerializePeriod[],
-// 	dataElement: IDataElement,
-// 	orgUnit: IOrgUnit,
-// 	orgUnitLevel: number
-// }
+	{
+	periods,
+	dataElements,
+	orgUnit,
+	orgUnitLevel
+}: {
+	periods: ISerializePeriod[],
+	dataElements: IDataElement[],
+	orgUnit: IOrgUnit,
+	orgUnitLevel: JSONObject
+}
 ) {
 	
 	const {data, loading, error, refetch} = useAsyncData<IDataValue[]>();
 	
-	const periods = [{
-		"code": "202501"
-	}];
+	// const periods = [{
+	// 	"code": "202501"
+	// }];
 	
-	const dataElement =	{
-			_id: "67cae581f09193badd6f8c93"
-		}
+	// const dataElement =	{
+	// 		_id: "67cae581f09193badd6f8c93"
+	// 	}
 	
-	const orgUnit = {
-		_id: "65f123000000000000000004" // Province A
-	}
+	// const orgUnit = {
+	// 	_id: "65f123000000000000000004" // Province A
+	// }
 	
-	const orgUnitLevel = 4;
+	// const orgUnitLevel = 4;
 	  
 	const fetchData = async (): Promise<IDataValue[]> => {
 		 const payload = {
 			periods: periods.map((item) => item.code),
-			dataElements: [dataElement._id],
+			dataElements: dataElements.map((item) => item._id),
 			orgUnit: orgUnit._id,
-			orgUnitLevel: orgUnitLevel
+			orgUnitLevel: orgUnitLevel._id
 		}
 		
 		return await post<IDataValue[], any>("/api/charts", payload);
 	}
-    
+    console.log("PopulationDistributionGrowthChart");
 	useEffect(() => {
 		refetch(fetchData);
-	}, []);
+	}, [periods,
+		dataElements,
+		orgUnit,
+		orgUnitLevel]);
 	
 	const transformData = (): JSONObject[] => {
 		const chartData = [];

@@ -17,7 +17,8 @@ export default function AppWrapper() {
     const [openSlideBar, setOpenSlideBar] = useState(false);
     
     return (
-        <div className="bg-white text-black min-h-screen flex flex-col">
+        // <div className="bg-white text-black h-screen flex flex-col">
+        <div className="flex flex-col h-screen">
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
 
             {curPage !== PAGE_LOGIN && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}

@@ -1,7 +1,7 @@
 import { IPeriod, ISerializePeriod } from "@/types/definations";
 
 export const generatePeriodsByType = (periodType: string, year: number): ISerializePeriod[] => {
-    return (periodType === "Yearly") ? generateMonthsInYear(year) : generateYears(year);
+    return (periodType === "Yearly") ? generateYears(year) : generateMonthsInYear(year);
 }
 
 export const getCurrentYear = () => {
@@ -9,8 +9,8 @@ export const getCurrentYear = () => {
 }
 
 /**
- * 
- * @param code 
+ *
+ * @param code
  *          For monthly period, code should be "YYYYMM", such as 202501 for "Jan 2025".
  *          For yearly period, code should be "YYYY", such as 2025 for "2025".
  */

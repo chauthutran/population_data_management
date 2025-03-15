@@ -10,9 +10,6 @@ export default function Home() {
   return (
     <Provider store={store}>
       <AppWrapper />
-      {/* <HomePage /> */}
-      
-      {/* <AppWrapper />  */}
     </Provider>
   );
 }

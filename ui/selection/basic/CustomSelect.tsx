@@ -15,7 +15,7 @@ export default function CustomSelect<T>({
     onChange: (value: T) => void; // <-- New prop to notify parent
 }) {
     const { data, error, refetch, loading } = useAsyncData<T[]>();
-    const [selected, setSelected] = useState<T[] | null>(null);
+    const [selected, setSelected] = useState<T | null>(null);
     const [showed, setShowed] = useState<boolean>(false);
     const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
     
@@ -25,7 +25,9 @@ export default function CustomSelect<T>({
 
     const handleSelect = (item: T) => {
         setSelected(item as any);
+        
         if (onChange) onChange(item); // Notify parent component
+        
         setShowed(false); // Close dropdown after selection
     };
     
