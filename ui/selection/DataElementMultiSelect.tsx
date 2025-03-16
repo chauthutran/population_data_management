@@ -1,19 +1,31 @@
 import { IDataElement } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
 import CustomMultiSelect from "./basic/CustomMultiSelect";
+import { useEffect } from "react";
 
-export default function DataElementMultiSelect({ onChange }: { onChange: (value: IDataElement[] ) => void}) {
+export default function DataElementMultiSelect(
+{
+    options,
+    selected,
+    onChange
     
-    const { selectedDataSet } = useSelection();
+}: {
+    options: IDataElement[],
+    selected: IDataElement[] |null;
+    onChange: (value: IDataElement[] ) => void
+}) {
 
-    if( !selectedDataSet ) return (<>Loading ...</>);
+    useEffect(() => {
+        
+    }, [selected]);
     
     return (
         <CustomMultiSelect 
             title="Select Data Element"
             displayProp="name"
             valueProp="_id"
-            fetchData={async() => selectedDataSet?.dataElements}
+            selected={selected}
+            fetchData={async() => options}
             onChange={onChange}
         />
 

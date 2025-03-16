@@ -22,19 +22,19 @@ const chartSlice = createSlice({
     initialState,
     
     reducers: {
-        setPeriods: (state, action: PayloadAction<ISerializePeriod[]>) => {
+        setPeriods: (state, action: PayloadAction<ISerializePeriod[] | null>) => {
             state.periods = action.payload;
         },
-        setDataElements: (state, action: PayloadAction<IDataElement[]>) => {
+        setDataElements: (state, action: PayloadAction<IDataElement[] | null>) => {
             state.dataElements = action.payload;
         },
-        setOrgUnit: (state, action: PayloadAction<IOrgUnit>) => {
+        setOrgUnit: (state, action: PayloadAction<IOrgUnit | null>) => {
             state.orgUnit = action.payload;
         },
-        setOrgUnitLevel: (state, action: PayloadAction<JSONObject>) => {
+        setOrgUnitLevel: (state, action: PayloadAction<JSONObject | null>) => {
             state.orgUnitLevel = action.payload;
         },
-        setChartType: (state, action: PayloadAction<JSONObject>) => {
+        setChartType: (state, action: PayloadAction<JSONObject | null>) => {
             state.chartType = action.payload;
         },
         clearSelection: (state) => {
@@ -48,7 +48,7 @@ const chartSlice = createSlice({
     }
 });
 
-export const { setPeriods, setDataElements, setOrgUnit, setOrgUnitLevel, clearSelection } = chartSlice.actions;
+export const { setPeriods, setDataElements, setOrgUnit, setOrgUnitLevel, setChartType, clearSelection } = chartSlice.actions;
 
 const chartReducer = chartSlice.reducer;
 export default chartReducer;

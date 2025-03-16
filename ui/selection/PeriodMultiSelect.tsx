@@ -2,15 +2,27 @@ import { IDataElement, IPeriod, ISerializePeriod } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
 import CustomMultiSelect from "./basic/CustomMultiSelect";
 import { generatePeriodsByType, getCurrentYear } from "@/utils/periodUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const curYear = getCurrentYear();
 
-export default function PeriodMultiSelect({ periodType, onChange }: { periodType: string, onChange: (periods: ISerializePeriod[] ) => void}) {
+export default function PeriodMultiSelect(
+{
+    periodType,
+    selected,
+    onChange
+}: {
+    periodType: string;
+    selected: ISerializePeriod[] | null;
+    onChange: (periods: ISerializePeriod[] ) => void
+}) {
     
-    const { selectedDataSet } = useSelection();
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
 
+    useEffect(() => {
+        
+    }, [selected]);
+    
     const handleOnPrev = () => {
         if (periodType === "Yearly") setSelectedYear((prev) => prev - 10);
         else if (periodType === "Monthly") setSelectedYear((prev) => prev - 1);
@@ -21,16 +33,14 @@ export default function PeriodMultiSelect({ periodType, onChange }: { periodType
         else if (periodType === "Monthly") setSelectedYear((prev) => prev + 1);
     }
     
-    if( !selectedDataSet ) return (<>Loading ...</>);
-    console.log(generatePeriodsByType(periodType, selectedyear));
     return (
         <>
-    
             <CustomMultiSelect<ISerializePeriod>
                 key={selectedyear}
                 title="Select Period"
                 displayProp="name"
                 valueProp="code"
+                selected={selected}
                 fetchData={async() => generatePeriodsByType(periodType, selectedyear)}
                 onChange={onChange}
             />

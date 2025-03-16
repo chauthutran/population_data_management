@@ -1,4 +1,4 @@
-import { clearSelection, setDataElements, setOrgUnit, setOrgUnitLevel, setPeriods } from "@/store/chartSlide";
+import { clearSelection, setDataElements, setOrgUnit, setOrgUnitLevel, setPeriods, setChartType } from "@/store/chartSlide";
 import { AppDispatch, RootState } from "@/store/store";
 import { IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
 import { useCallback, useMemo } from "react";
@@ -14,24 +14,24 @@ export const useChart = () => {
     const selectedChartType = useSelector((state: RootState) => state.chart.chartType, shallowEqual);
 
     // Menoize the callback for performance
-    const selectPeriods = useCallback((periods: ISerializePeriod[]) => {
+    const selectPeriods = useCallback((periods: ISerializePeriod[] | null) => {
         dispatch(setPeriods(periods));
     }, [dispatch]);
         
-    const selectDataElements = useCallback((dataElements: IDataElement[]) => {
+    const selectDataElements = useCallback((dataElements: IDataElement[] | null) => {
         dispatch(setDataElements(dataElements));
     }, [dispatch]);
         
-    const selectOrgUnit = useCallback((orgUnit: IOrgUnit) => {
+    const selectOrgUnit = useCallback((orgUnit: IOrgUnit | null) => {
         dispatch(setOrgUnit(orgUnit));
     }, [dispatch]);
         
-    const selectOrgUnitLevel = useCallback((orgUnitLevel: JSONObject) => {
+    const selectOrgUnitLevel = useCallback((orgUnitLevel: JSONObject | null) => {
         dispatch(setOrgUnitLevel(orgUnitLevel));
     }, [dispatch]);
         
-    const selectChartType = useCallback((chartType: JSONObject) => {
-        dispatch(setOrgUnitLevel(chartType));
+    const selectChartType = useCallback((chartType: JSONObject | null) => {
+        dispatch(setChartType(chartType));
     }, [dispatch]);
         
     const cleanAll = useCallback(() => {

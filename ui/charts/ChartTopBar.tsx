@@ -1,8 +1,7 @@
 import DataSetSelect from "../selection/DataSetSelect";
 import OrgUnitLevelSelect from "../selection/OrgUnitLevelSelect";
 import ChartTypeSelect from "../selection/ChartTypeSelect";
-import { IDataElement, IDataSet, IOrgUnit, IPeriodType, ISerializePeriod, JSONObject } from "@/types/definations";
-import { useSelection } from "@/hooks/useSelection";
+import { IDataSet} from "@/types/definations";
 import { useState } from "react";
 import OrgUnitTree from "../selection/OrgUnitTree";
 import DataElementMultiSelect from "../selection/DataElementMultiSelect";
@@ -31,21 +30,28 @@ export default function ChartTopBar () {
             <AccordionPanel title="OrgUnit" isOpen={activePanel === "orgUnit"} onClick={() => handleAccordionPanelOnClick("orgUnit")}>
                 <div className="flex-grow-0">
                     <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
-                    <OrgUnitLevelSelect onChange={selectOrgUnitLevel} />
+                    <OrgUnitLevelSelect onChange={selectOrgUnitLevel} selected={selectedOrgUnitLevel} />
                 </div>
             </AccordionPanel>
     
             <AccordionPanel title="Data Element and Periods" isOpen={activePanel === "dataSet"} onClick={() => handleAccordionPanelOnClick("dataSet")}>
-                <DataSetSelect onItemSelect={setSelectedDataSet}  />
-                <DataElementMultiSelect onChange={selectDataElements} />
-                {selectedDataSet && <PeriodMultiSelect
-                    periodType={selectedDataSet!.periodType.name}
-                    onChange={selectPeriods}
-                />}
+                <DataSetSelect onItemSelect={setSelectedDataSet} selected={selectedDataSet} />
+                
+                {selectedDataSet && <>
+                    <DataElementMultiSelect
+                        selected={selectedDataElements}
+                        options={selectedDataSet.dataElements}
+                        onChange={selectDataElements} />
+                    <PeriodMultiSelect
+                        selected={selectedPeriods}
+                        periodType={selectedDataSet!.periodType.name}
+                        onChange={selectPeriods}
+                    />
+                </>}
             </AccordionPanel>
     
             <AccordionPanel title="Chart Type" isOpen={activePanel === "chartType"} onClick={() => handleAccordionPanelOnClick("chartType")}>
-                <ChartTypeSelect onChange={selectChartType} />
+                <ChartTypeSelect onItemSelect={selectChartType} selected={selectedChartType} />
             </AccordionPanel>
         </div>
     

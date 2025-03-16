@@ -8,12 +8,13 @@ const ORG_UNIT_LEVELS: JSONObject[] = [
     { _id: 4, name: "District" }
 ]
 
-export default function OrgUnitLevelSelect ({onChange}: {onChange: (value: JSONObject) => void}) {
-    
+export default function OrgUnitLevelSelect ({selected, onChange}: {selected: JSONObject | null; onChange: (value: JSONObject) => void}) {
+
     return (
         <CustomSelect<JSONObject>
             title="Select OrgUnit level"
             displayProp="name"
+            selected={selected}
             fetchData={async() => ORG_UNIT_LEVELS}
             onChange={onChange}
         />

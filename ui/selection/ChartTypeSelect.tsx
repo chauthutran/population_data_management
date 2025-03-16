@@ -7,14 +7,15 @@ const CHART_TYPE_LIST: JSONObject[] = [
     { _id: "Pie", name: "Pie" },
 ]
 
-export default function ChartTypeSelect ({onChange}: {onChange: (value: JSONObject) => void}) {
+export default function ChartTypeSelect ({selected, onItemSelect}: {selected: JSONObject | null; onItemSelect: (value: JSONObject) => void}) {
     
     return (
         <CustomSelect<JSONObject>
             title="Select Chart Type"
             displayProp="name"
+            selected={selected}
             fetchData={async() => CHART_TYPE_LIST}
-            onChange={onChange}
+            onChange={onItemSelect}
         />
     )
 }
