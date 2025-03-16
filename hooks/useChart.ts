@@ -1,0 +1,42 @@
+import { clearSelection, setDataElements, setOrgUnit, setOrgUnitLevel, setPeriods } from "@/store/chartSlide";
+import { AppDispatch, RootState } from "@/store/store";
+import { IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
+import { useCallback, useMemo } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+
+export const useChart = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    
+    const selectedPeriods = useSelector((state: RootState) => state.chart.periods, shallowEqual);
+    const selectedDataElements = useSelector((state: RootState) => state.chart.dataElements, shallowEqual);
+    const selectedOrgUnit = useSelector((state: RootState) => state.chart.orgUnit, shallowEqual);
+    const selectedOrgUnitLevel = useSelector((state: RootState) => state.chart.orgUnitLevel, shallowEqual);
+    const selectedChartType = useSelector((state: RootState) => state.chart.chartType, shallowEqual);
+
+    // Menoize the callback for performance
+    const selectPeriods = useCallback((periods: ISerializePeriod[]) => {
+        dispatch(setPeriods(periods));
+    }, [dispatch]);
+        
+    const selectDataElements = useCallback((dataElements: IDataElement[]) => {
+        dispatch(setDataElements(dataElements));
+    }, [dispatch]);
+        
+    const selectOrgUnit = useCallback((orgUnit: IOrgUnit) => {
+        dispatch(setOrgUnit(orgUnit));
+    }, [dispatch]);
+        
+    const selectOrgUnitLevel = useCallback((orgUnitLevel: JSONObject) => {
+        dispatch(setOrgUnitLevel(orgUnitLevel));
+    }, [dispatch]);
+        
+    const selectChartType = useCallback((chartType: JSONObject) => {
+        dispatch(setOrgUnitLevel(chartType));
+    }, [dispatch]);
+        
+    const cleanAll = useCallback(() => {
+        dispatch(clearSelection());
+    }, [dispatch]);
+    
+    return { selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartType, selectPeriods, selectDataElements, selectOrgUnit, selectOrgUnitLevel, selectChartType, cleanAll };
+}

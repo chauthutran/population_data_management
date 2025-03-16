@@ -1,14 +1,12 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import { useSelection } from "@/hooks/useSelection";
-import { useSetSelection } from "@/hooks/useSetSelection";
 import { IApprovalData } from "@/types/definations";
 import { deleteData } from "@/utils/apiClient";
 import { useRef } from "react";
 
 export default function UnacceptButton () {
     
-    const { selectApprovalData } = useSetSelection();
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, selectApprovalData } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
     
     

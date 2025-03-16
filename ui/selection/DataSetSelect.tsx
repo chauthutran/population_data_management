@@ -2,13 +2,9 @@ import { IDataSet } from "@/types/definations";
 import { useEffect, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useSetSelection } from "@/hooks/useSetSelection";
-import { useSelection } from "@/hooks/useSelection";
 import { get } from "@/utils/apiClient";
 
-export default function DataSetSelect() {
-    const { selectedDataSet } = useSelection();
-    const { selectDataSet} = useSetSelection();
+export default function DataSetSelect({selected, onItemSelect}: {selected?: IDataSet | null; onItemSelect: (item: IDataSet) => void}) {
     
     const[dataSets, setDataSets] = useState<IDataSet[] | null>(null);
     const [showed, setShowed] = useState<boolean>(false);
@@ -24,11 +20,11 @@ export default function DataSetSelect() {
     }
     
     const handleOnClickItem = (item: IDataSet) => {
-        selectDataSet(item);
+        onItemSelect(item);
         setShowed(false);
     }
     
-    const title = (selectedDataSet) ? selectedDataSet.name : "Select Data Set";
+    const title = (selected) ? selected.name : "Select Data Set";
 
     return (
         <div 
@@ -50,7 +46,7 @@ export default function DataSetSelect() {
                             <li 
                                 key={item._id} 
                                 className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-lemon-lime ${
-                                    selectedDataSet && selectedDataSet._id === item._id && "bg-lemon-lime font-semibold"
+                                    selected && selected._id === item._id && "bg-lemon-lime font-semibold"
                                 }`}
                                 onClick={() => handleOnClickItem(item)}
                             >

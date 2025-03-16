@@ -1,59 +1,22 @@
 import DataSetSelect from "../selection/DataSetSelect";
 import OrgUnitLevelSelect from "../selection/OrgUnitLevelSelect";
 import ChartTypeSelect from "../selection/ChartTypeSelect";
-import { IDataElement, IOrgUnit, IPeriodType, ISerializePeriod, JSONObject } from "@/types/definations";
+import { IDataElement, IDataSet, IOrgUnit, IPeriodType, ISerializePeriod, JSONObject } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
 import { useState } from "react";
 import OrgUnitTree from "../selection/OrgUnitTree";
 import DataElementMultiSelect from "../selection/DataElementMultiSelect";
 import PeriodMultiSelect from "../selection/PeriodMultiSelect";
 import AccordionPanel from "../layout/AccordionPanel";
+import { useChart } from "@/hooks/useChart";
 
-export default function ChartTopBar ({
-    periods,
-	dataElements,
-	orgUnit,
-	orgUnitLevel,
-    handleOrgUnitLevelOnChange,
-    handlePeriodOnChange,
-    handleDataElementOnChange,
-    handleChartTypeOnChange,
-}: { 
-    periods: ISerializePeriod[];
-    dataElements: IDataElement[];
-    orgUnit: IOrgUnit;
-    orgUnitLevel: JSONObject;
-    handleOrgUnitLevelOnChange: (orgUnitLevel: JSONObject) => void;
-    handlePeriodOnChange: (periods: ISerializePeriod[]) => void;
-    handleDataElementOnChange: (dataElements: IDataElement[]) => void;
-    handleChartTypeOnChange: (chartType: JSONObject) => void;
-}) {
+export default function ChartTopBar () {
+    
+    const { selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartType, selectPeriods, selectDataElements, selectOrgUnit, selectOrgUnitLevel, selectChartType, cleanAll } = useChart();
     
     const [activePanel, setActivePanel] = useState<string>("");
+    const [selectedDataSet, setSelectedDataSet] = useState<IDataSet | null>(null);
 
-    const { selectedDataSet, selectedOrgUnit } = useSelection();
-    
-    // const [selectedOrgUnitLevel, setOrgUnitLevel] = useState<JSONObject | null>(null);
-    // const [selectedPeriods, setPeriods] = useState<ISerializePeriod[] | null>(null);
-    // const [selectedDataElements, setDataElements] = useState<IDataElement[] | null>(null);
-    // const [chartType, setChartType] = useState<JSONObject | null>(null);
-    
-    // const handleOrgUnitLevelOnChange = (orgUnitLevel: JSONObject) => {
-    //     setOrgUnitLevel(orgUnitLevel);
-    // }
-    
-    // const handlePeriodOnChange = (periods: ISerializePeriod[]) => {
-    //     setPeriods(periods);
-    // }
-    
-    // const handleDataElementOnChange = (dataElements: IDataElement[]) => {
-    //     setDataElements(dataElements);
-    // }
-    
-    // const handleChartTypeOnChange = (chartType: JSONObject) => {
-    //     setChartType(chartType);
-    // }
-    
     const handleAccordionPanelOnClick = (name: string) => {
         if( activePanel === name ) setActivePanel("");
         else setActivePanel(name);
@@ -67,22 +30,22 @@ export default function ChartTopBar ({
         <div className="w-full flex flex-col flex-grow overflow-auto">
             <AccordionPanel title="OrgUnit" isOpen={activePanel === "orgUnit"} onClick={() => handleAccordionPanelOnClick("orgUnit")}>
                 <div className="flex-grow-0">
-                    <OrgUnitTree />
-                    <OrgUnitLevelSelect onChange={handleOrgUnitLevelOnChange} />
+                    <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
+                    <OrgUnitLevelSelect onChange={selectOrgUnitLevel} />
                 </div>
             </AccordionPanel>
     
             <AccordionPanel title="Data Element and Periods" isOpen={activePanel === "dataSet"} onClick={() => handleAccordionPanelOnClick("dataSet")}>
-                <DataSetSelect />
-                <DataElementMultiSelect onChange={handleDataElementOnChange} />
+                <DataSetSelect onItemSelect={setSelectedDataSet}  />
+                <DataElementMultiSelect onChange={selectDataElements} />
                 {selectedDataSet && <PeriodMultiSelect
                     periodType={selectedDataSet!.periodType.name}
-                    onChange={handlePeriodOnChange}
+                    onChange={selectPeriods}
                 />}
             </AccordionPanel>
     
             <AccordionPanel title="Chart Type" isOpen={activePanel === "chartType"} onClick={() => handleAccordionPanelOnClick("chartType")}>
-                <ChartTypeSelect onChange={handleChartTypeOnChange} />
+                <ChartTypeSelect onChange={selectChartType} />
             </AccordionPanel>
         </div>
     

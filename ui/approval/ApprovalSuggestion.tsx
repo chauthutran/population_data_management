@@ -1,5 +1,4 @@
 import { useSelection } from "@/hooks/useSelection";
-import { useSetSelection } from "@/hooks/useSetSelection";
 import Link from "next/link";
 
 const orgUnits = [
@@ -10,8 +9,7 @@ const orgUnits = [
 ];
 
 export default function ApprovalSuggestion() {
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
-    const { selectOrgUnit } = useSetSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, selectOrgUnit } = useSelection();
     
     if( selectedDataSet == null || selectedPeriod == null || selectedOrgUnit == null ) return (<></>);
     

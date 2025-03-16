@@ -6,6 +6,7 @@ interface ChartState {
     dataElements: IDataElement[] | null,
     orgUnit: IOrgUnit | null,
     orgUnitLevel: JSONObject | null,
+    chartType: JSONObject | null,
 }
 
 const initialState: ChartState = {
@@ -13,6 +14,7 @@ const initialState: ChartState = {
     dataElements: null,
     orgUnit: null,
     orgUnitLevel: null,
+    chartType: null,
 }
 
 const chartSlice = createSlice({
@@ -31,6 +33,9 @@ const chartSlice = createSlice({
         },
         setOrgUnitLevel: (state, action: PayloadAction<JSONObject>) => {
             state.orgUnitLevel = action.payload;
+        },
+        setChartType: (state, action: PayloadAction<JSONObject>) => {
+            state.chartType = action.payload;
         },
         clearSelection: (state) => {
             if (state.periods || state.dataElements || state.orgUnit || state.orgUnitLevel) {

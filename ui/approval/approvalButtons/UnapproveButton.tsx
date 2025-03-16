@@ -1,14 +1,12 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import { useSelection } from "@/hooks/useSelection";
-import { useSetSelection } from "@/hooks/useSetSelection";
 import { IApprovalData } from "@/types/definations";
 import { deleteData } from "@/utils/apiClient";
 
 export default function UnapproveButton( ) {
     
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit } = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, selectApprovalData } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
-    const { selectApprovalData } = useSetSelection();
     
     const approveData = async (): Promise<IApprovalData> => {
         const payload = {

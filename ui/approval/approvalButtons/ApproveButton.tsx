@@ -1,15 +1,13 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import { useSelection } from "@/hooks/useSelection";
-import { useSetSelection } from "@/hooks/useSetSelection";
 import { IApprovalData } from "@/types/definations";
 import { post } from "@/utils/apiClient";
 import { useEffect } from "react";
 
 export default function ApproveButton( ) {
     
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData} = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData, selectApprovalData } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData | null>();
-    const { selectApprovalData } = useSetSelection();
     
     const approveData = async (): Promise<IApprovalData | null> => {
         const payload = {

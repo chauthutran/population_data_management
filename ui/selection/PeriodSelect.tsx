@@ -4,15 +4,13 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useSelection } from "@/hooks/useSelection";
-import { useSetSelection } from "@/hooks/useSetSelection";
 
 
 const curYear = getCurrentYear();
 
 export default function PeriodSelect( {periodType}: {periodType: string} ) {
     
-    const { selectedPeriod, selectedDataSet } = useSelection();
-    const { selectPeriod } = useSetSelection();
+    const { selectedPeriod, selectedDataSet, selectPeriod } = useSelection();
 
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
     const [showed, setShowed] = useState<boolean>(false);
