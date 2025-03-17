@@ -22,7 +22,7 @@ export default function DataValueList () {
             orgUnit: selectedOrgUnit?._id,
         }
                 
-        return await post<IDataValue[], any>("/api/dataValues/", payload);
+        return await post<IDataValue[], any>("/api/dataValues/retrieve", payload);
     }
     
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);

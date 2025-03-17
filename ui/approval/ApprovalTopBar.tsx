@@ -4,7 +4,7 @@ import OrgUnitTree from "../layout/selection/OrgUnitTree";
 import { useSelection } from "@/hooks/useSelection";
 
 export default function ApprovalTopBar () {
-    const { selectedDataSet, selectedOrgUnit, cleanAll, selectDataSet, selectOrgUnit, selectPeriod } = useSelection();
+    const { selectedDataSet, selectedOrgUnit, selectedPeriod, cleanAll, selectDataSet, selectOrgUnit, selectPeriod } = useSelection();
     
     return (
         <nav className="flex gap-4 items-center mb-6 px-4 py-2 bg-gray-100 border-t-2 text-black border-gray-300">
@@ -13,15 +13,16 @@ export default function ApprovalTopBar () {
             </div>
 
             <div className="flex-1">
-                {selectedDataSet && <PeriodSelect
-                            periodType={selectedDataSet.periodType.name}
-                            onChange={selectPeriod}
-                        />
-                }
+                <PeriodSelect
+                    disabled={!selectedDataSet}
+                    periodType={selectedDataSet?.periodType.name || ""}
+                    onChange={selectPeriod}
+                    selected={selectedPeriod}
+                />
             </div>
 
             <div className="flex-1">
-                <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
+                <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} disabled={!selectedPeriod} />
             </div>
 
             <button

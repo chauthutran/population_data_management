@@ -3,6 +3,7 @@ import { generatePeriodsByType, getCurrentYear } from "@/utils/periodUtils";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
 import useClickOutside from "../../../hooks/useClickOutside";
+import DisableField from "../basic/DisableField";
 
 
 const curYear = getCurrentYear();
@@ -11,10 +12,12 @@ export default function PeriodSelect(
 {
     periodType,
     selected,
+    disabled,
     onChange
 }: {
     periodType: string,
     selected?: ISerializePeriod | null;
+    disabled: boolean;
     onChange: (periods: ISerializePeriod ) => void
 }) {
 
@@ -51,7 +54,7 @@ export default function PeriodSelect(
             ref={dropdownRef}
         >
             {/* Header Section */}
-            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={false}/>
+            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={disabled} />
         
             {showed && (
                 <div
@@ -103,7 +106,6 @@ export default function PeriodSelect(
                     </div>
                 </div>
             )}
-    </div>
-    
+        </div>
     )
 }

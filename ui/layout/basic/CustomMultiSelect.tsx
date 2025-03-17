@@ -1,6 +1,6 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import useClickOutside from "@/hooks/useClickOutside";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function CustomMultiSelect<T>({
     title,
@@ -9,6 +9,7 @@ export default function CustomMultiSelect<T>({
     fetchData,
     onChange,
     selected,
+    children,
 }: {
     title: string;
     displayProp: string;
@@ -16,6 +17,7 @@ export default function CustomMultiSelect<T>({
     fetchData: () => Promise<T[]>;
     onChange: (value: T[]) => void;
     selected?: T[] | null;
+    children?: ReactNode
 }) {
     const { data, error, refetch, loading } = useAsyncData<T[]>();
     const [selectedItems, setSelectedItems] = useState<T[]>(selected ?? []); // Default to empty array if null or undefined
@@ -39,13 +41,13 @@ export default function CustomMultiSelect<T>({
     if (loading) return <>Loading ...</>;
 
     return (
-        <div className="relative w-full" ref={dropdownRef}>
+        <div className="relative w-full max-h-40 " ref={dropdownRef}>
             {/* Selected Options */}
             <div
                 className="border border-gray-300 rounded-lg p-2 cursor-pointer bg-white flex justify-between items-center"
                 onClick={() => setShowed(!showed)}
             >
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-3">
                     {selectedItems.length > 0 ? (
                         selectedItems.map((item, index) => (
                             <span
@@ -72,28 +74,32 @@ export default function CustomMultiSelect<T>({
                 {/* Arrow Icon */}
                 {showed ? <span>🞃</span> : <span>🞁</span>}
             </div>
+            
 
             {/* Dropdown Menu */}
-            {showed && (
-                <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-                    {data!.map((item, index) => {
-                        const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
+            {showed && <>
+                {children}
+                <div className="absolute z-10 max-h-full w-full bg-white rounded-lg shadow-lg">
+                     <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-b-lg">
+                        {data!.map((item, index) => {
+                            const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
 
-                        return (
-                            <div
-                                key={index}
-                                className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center ${
-                                    exists ? "bg-gray-200" : ""
-                                }`}
-                                onClick={() => toggleSelect(item)}
-                            >
-                                <input type="checkbox" checked={exists} className="mr-2" readOnly />
-                                {(item as any)[displayProp]}
-                            </div>
-                        );
-                    })}
+                            return (
+                                <div
+                                    key={index}
+                                    className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center ${
+                                        exists ? "bg-gray-200" : "bg-white"
+                                    }`}
+                                    onClick={() => toggleSelect(item)}
+                                >
+                                    <input type="checkbox" checked={exists} className="mr-2" readOnly />
+                                    {(item as any)[displayProp]}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            )}
+            </>}
         </div>
     );
 }

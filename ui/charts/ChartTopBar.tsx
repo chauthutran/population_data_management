@@ -8,6 +8,7 @@ import DataElementMultiSelect from "../layout/selection/DataElementMultiSelect";
 import PeriodMultiSelect from "../layout/selection/PeriodMultiSelect";
 import AccordionPanel from "../layout/AccordionPanel";
 import { useChart } from "@/hooks/useChart";
+import DisableField from "../layout/basic/DisableField";
 
 export default function ChartTopBar () {
     
@@ -36,26 +37,27 @@ export default function ChartTopBar () {
         {/* Make this div grow to fill remaining space */}
         <div className="w-full flex flex-col flex-grow overflow-auto">
             <AccordionPanel title="OrgUnit" isOpen={activePanel === "orgUnit"} onClick={() => handleAccordionPanelOnClick("orgUnit")}>
-                <div className="flex-grow-0">
+                <div className="flex-grow-0 space-y-4">
                     <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
                     <OrgUnitLevelSelect onChange={selectOrgUnitLevel} selected={selectedOrgUnitLevel} />
                 </div>
             </AccordionPanel>
     
             <AccordionPanel title="Data Element and Periods" isOpen={activePanel === "dataSet"} onClick={() => handleAccordionPanelOnClick("dataSet")}>
-                <DataSetSelect onItemSelect={handleDataSetOnChange} selected={selectedDataSet} />
-                
-                {selectedDataSet && <>
+                <div className="flex-grow-0 space-y-4">
+                    <DataSetSelect onItemSelect={handleDataSetOnChange} selected={selectedDataSet} />
                     <DataElementMultiSelect
+                        disabled={!selectedDataSet}
                         selected={selectedDataElements}
-                        options={selectedDataSet.dataElements}
+                        options={selectedDataSet?.dataElements || []}
                         onChange={selectDataElements} />
                     <PeriodMultiSelect
+                        disabled={!selectedDataSet}
                         selected={selectedPeriods}
-                        periodType={selectedDataSet!.periodType.name}
+                        periodType={selectedDataSet?.periodType.name || ""}
                         onChange={selectPeriods}
                     />
-                </>}
+                </div>
             </AccordionPanel>
     
             <AccordionPanel title="Chart Type" isOpen={activePanel === "chartType"} onClick={() => handleAccordionPanelOnClick("chartType")}>

@@ -2,16 +2,20 @@ import { IDataElement } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
 import CustomMultiSelect from "../basic/CustomMultiSelect";
 import { useEffect } from "react";
+import DisableField from "../basic/DisableField";
+
+const TITLE = "Select Data Element";
 
 export default function DataElementMultiSelect(
 {
     options,
     selected,
-    onChange
-    
-}: {
+    disabled,
+    onChange,
+    }: {
     options: IDataElement[],
     selected: IDataElement[] |null;
+    disabled: boolean;
     onChange: (value: IDataElement[] ) => void
 }) {
 
@@ -20,14 +24,17 @@ export default function DataElementMultiSelect(
     }, [selected]);
     
     return (
-        <CustomMultiSelect 
-            title="Select Data Element"
-            displayProp="name"
-            valueProp="_id"
-            selected={selected}
-            fetchData={async() => options}
-            onChange={onChange}
-        />
-
+        <>
+            {disabled 
+                ? <DisableField title={TITLE} />
+                : <CustomMultiSelect 
+                title={TITLE}
+                displayProp="name"
+                valueProp="_id"
+                selected={selected}
+                fetchData={async() => options}
+                onChange={onChange}
+            />}
+        </>
     )
 }

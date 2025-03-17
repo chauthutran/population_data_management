@@ -3,17 +3,21 @@ import { useSelection } from "@/hooks/useSelection";
 import CustomMultiSelect from "../basic/CustomMultiSelect";
 import { generatePeriodsByType, getCurrentYear } from "@/utils/periodUtils";
 import { useEffect, useState } from "react";
+import DisableField from "../basic/DisableField";
 
 const curYear = getCurrentYear();
+const TITLE = "Select Period";
 
 export default function PeriodMultiSelect(
 {
     periodType,
     selected,
+    disabled,
     onChange
 }: {
     periodType: string;
     selected: ISerializePeriod[] | null;
+    disabled: boolean;
     onChange: (periods: ISerializePeriod[] ) => void
 }) {
     
@@ -33,43 +37,49 @@ export default function PeriodMultiSelect(
         else if (periodType === "Monthly") setSelectedYear((prev) => prev + 1);
     }
     
+    const createNavigationButtons = () => {
+        return ( <div className="flex justify-between items-center bg-gray-300">
+                    <button
+                        onClick={handleOnPrev}
+                        disabled={selectedyear <= 1000}
+                        className="text-xl text-gray-600 disabled:text-gray-200 py-0.5 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
+                    >
+                        &#128896;
+                    </button>
+
+                    <button
+                        onClick={() => setSelectedYear(curYear)}
+                        className="text-2xl text-gray-600 py-0.5 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
+                    >
+                        &#9679;
+                    </button>
+
+                    <button
+                        onClick={handleOnNext}
+                        disabled={selectedyear === curYear}
+                        className="text-xl text-gray-600 disabled:text-gray-200 py-0.5 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
+                    >
+                        &#128898;
+                    </button>
+                </div>
+        );
+    }
+    
     return (
         <>
-            <CustomMultiSelect<ISerializePeriod>
-                key={selectedyear}
-                title="Select Period"
-                displayProp="name"
-                valueProp="code"
-                selected={selected}
-                fetchData={async() => generatePeriodsByType(periodType, selectedyear)}
-                onChange={onChange}
-            />
-            
-            {/* Navigation Buttons */}
-            <div className="flex justify-between items-center bg-gray-300">
-                <button
-                    onClick={handleOnPrev}
-                    disabled={selectedyear <= 1000 }
-                    className="text-xl text-gray-600 disabled:text-gray-200 py-1 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
+            {disabled 
+                ? <DisableField title={TITLE} />
+                : <CustomMultiSelect<ISerializePeriod>
+                    key={selectedyear}
+                    title={TITLE}
+                    displayProp="name"
+                    valueProp="code"
+                    selected={selected}
+                    fetchData={async() => generatePeriodsByType(periodType, selectedyear)}
+                    onChange={onChange}
                 >
-                    &#128896;
-                </button>
-                
-                <button 
-                    onClick={() => setSelectedYear(curYear)}
-                    className="text-2xl text-gray-600 py-1 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
-                >
-                    &#9679;
-                </button>
-                
-                <button
-                    onClick={handleOnNext}
-                    disabled={selectedyear === curYear}
-                    className="text-xl text-gray-600 disabled:text-gray-200 py-1 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
-                >
-                    &#128898;
-                </button>
-            </div>
+                    {createNavigationButtons()}
+                </CustomMultiSelect>}
         </>
     )
 }
