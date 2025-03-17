@@ -1,4 +1,4 @@
-import { PAGE_LOGIN } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
 import { MdMenu } from "react-icons/md";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import AppIcon from "./AppIcon";
 
 export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar: () => void}) {
     
-    const { curPage, title } = useCurrentPage();
+    const { setCurrentPage, curPage, title } = useCurrentPage();
     
     return (
         <>
@@ -32,9 +32,21 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar: (
                 
                 <nav className="bg-black black-bg ml-auto">
                     <ul className="flex space-x-6 py-5 mx-20">
-                        <li><a href="#" className="text-lemon-lime hover:text-white">Home</a></li>
-                        <li><a href="#" className="text-lemon-lime hover:text-white">About</a></li>
-                        <li><a href="#" className="text-lemon-lime hover:text-white">Contact</a></li>
+                        <li
+                            onClick={() => setCurrentPage(PAGE_DASHBOARD, "Dashboard")}
+                            className="text-lemon-lime hover:text-white cursor-pointer"
+                            style={{ textTransform: "uppercase"}}
+                        >Dashboard</li>
+                        <li
+                            onClick={() => setCurrentPage(PAGE_APPROVALS, "Approvals")}
+                            style={{ textTransform: "uppercase"}}
+                            className="text-lemon-lime hover:text-white cursor-pointer"
+                        >Approvals</li>
+                        <li
+                            onClick={() => setCurrentPage(PAGE_CHARTS, "Charts")}
+                            style={{ textTransform: "uppercase"}}
+                            className="text-lemon-lime hover:text-white cursor-pointer"
+                        >Charts</li>
                     </ul>
                 </nav>
             </header>}

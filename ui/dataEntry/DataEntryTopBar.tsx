@@ -6,7 +6,6 @@ import { useState } from "react";
 
 export default function DataEntryTopBar () {
     const { selectedDataSet, selectedOrgUnit, selectedPeriod, cleanAll, selectPeriod, selectDataSet, selectOrgUnit } = useDataEntry();
-    const [showEntryForm, setShowEntryForm] = useState<boolean>(false);
     
     return (
         <nav className="flex gap-4 items-center mb-6 px-4 py-2 bg-gray-100 border-t-2 text-black border-gray-300">
@@ -15,15 +14,16 @@ export default function DataEntryTopBar () {
             </div>
 
             <div className="flex-1">
-                {selectedDataSet && <PeriodSelect
-                    periodType={selectedDataSet.periodType.name}
+               <PeriodSelect
+                    periodType={selectedDataSet?.periodType.name || ""}
                     selected={selectedPeriod}
+                    disabled={false}
                     onChange={selectPeriod}
-                />}
+                />
             </div>
 
             <div className="flex-1">
-                <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
+                <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} disabled={false} />
             </div>
 
             <button

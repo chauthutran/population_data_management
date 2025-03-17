@@ -9,8 +9,13 @@ import PeriodMultiSelect from "../layout/selection/PeriodMultiSelect";
 import AccordionPanel from "../layout/AccordionPanel";
 import { useChart } from "@/hooks/useChart";
 import DisableField from "../layout/basic/DisableField";
+import OrgUnitPanel from "./filterPanel/OrgUnitPanel";
 
-export default function ChartTopBar () {
+export default function ChartTopBar ({
+    onClick,
+}: {
+    onClick: () => void;
+}) {
     
     const { selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartType, selectPeriods, selectDataElements, selectOrgUnit, selectOrgUnitLevel, selectChartType, cleanAll } = useChart();
     
@@ -36,12 +41,15 @@ export default function ChartTopBar () {
     
         {/* Make this div grow to fill remaining space */}
         <div className="w-full flex flex-col flex-grow overflow-auto">
-            <AccordionPanel title="OrgUnit" isOpen={activePanel === "orgUnit"} onClick={() => handleAccordionPanelOnClick("orgUnit")}>
+            {/* <AccordionPanel title="OrgUnit" isOpen={activePanel === "orgUnit"} onClick={() => handleAccordionPanelOnClick("orgUnit")}>
                 <div className="flex-grow-0 space-y-4">
-                    <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} />
+                    <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} disabled={false}/>
                     <OrgUnitLevelSelect onChange={selectOrgUnitLevel} selected={selectedOrgUnitLevel} />
                 </div>
-            </AccordionPanel>
+            </AccordionPanel> */}
+            <OrgUnitPanel
+                activePanel={activePanel}
+                handlePanelOnClick={handleAccordionPanelOnClick} />
     
             <AccordionPanel title="Data Element and Periods" isOpen={activePanel === "dataSet"} onClick={() => handleAccordionPanelOnClick("dataSet")}>
                 <div className="flex-grow-0 space-y-4">
@@ -68,6 +76,8 @@ export default function ChartTopBar () {
         {/* Button should not be affected by height changes */}
         <button
             className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
+            onClick={onClick}
+            disabled={!selectedOrgUnit || !selectedOrgUnitLevel || !selectedDataElements || !selectedPeriods}
         >
             Generate Chart
         </button>
