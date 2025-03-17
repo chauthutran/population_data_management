@@ -1,21 +1,31 @@
 import { IPeriod, ISerializePeriod } from "@/types/definations";
-import { generatePeriodsByType, getCurrentYear, serializePeriod } from "@/utils/periodUtils";
+import { generatePeriodsByType, getCurrentYear } from "@/utils/periodUtils";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "../../hooks/useClickOutside";
-import { useSelection } from "@/hooks/useSelection";
+import useClickOutside from "../../../hooks/useClickOutside";
 
 
 const curYear = getCurrentYear();
 
-export default function PeriodSelect( {periodType}: {periodType: string} ) {
-    
-    const { selectedPeriod, selectedDataSet, selectPeriod } = useSelection();
+export default function PeriodSelect(
+{
+    periodType,
+    selected,
+    onChange
+}: {
+    periodType: string,
+    selected?: ISerializePeriod | null;
+    onChange: (periods: ISerializePeriod ) => void
+}) {
 
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
     const [showed, setShowed] = useState<boolean>(false);
     const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
 
+    useEffect(() => {
+        
+    }, [selected, periodType]);
+    
     const handleOnPrev = () => {
         if (periodType === "Yearly") setSelectedYear((prev) => prev - 10);
         else if (periodType === "Monthly") setSelectedYear((prev) => prev - 1);
@@ -27,25 +37,25 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
     }
     
     const handleOnClickItem = (item: ISerializePeriod) => {
-        selectPeriod(item);
+        onChange(item);
         setShowed(false);
     }
     
     const periods = generatePeriodsByType(periodType, selectedyear);
-    const title = (selectedPeriod) ? selectedPeriod.name : "Select Period";
+    const title = (selected) ? selected.name : "Select Period";
     
     return (
-        <div 
+        <div
             className="relative bg-rich-teal border border-gray-200 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
             tabIndex={0}
             ref={dropdownRef}
         >
             {/* Header Section */}
-            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={selectedDataSet === null}/>
+            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={false}/>
         
             {showed && (
-                <div 
-                    className="absolute w-full z-50 top-10 left-0 right-0 bg-rich-teal shadow-lg rounded-md border border-gray-200"
+                <div
+                    className="absolute bg-white w-full z-50 top-10 left-0 right-0 bg-rich-teal shadow-lg rounded-md border border-gray-200"
                 >
                     {/* Navigation Buttons */}
                     <div className="flex justify-between items-center bg-gray-300">
@@ -81,7 +91,7 @@ export default function PeriodSelect( {periodType}: {periodType: string} ) {
                                 <li 
                                     key={item.name} 
                                     className={`cursor-pointer py-4 px-4 hover:bg-lemon-lime transition-all duration-150 ${
-                                        selectedPeriod && selectedPeriod.code === item.code 
+                                        selected && selected?.code === item.code
                                             && "bg-lemon-green"
                                     }`}
                                     onClick={() => handleOnClickItem(item)}

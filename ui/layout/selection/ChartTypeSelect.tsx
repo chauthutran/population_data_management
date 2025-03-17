@@ -1,4 +1,4 @@
-import CustomSelect from "./basic/CustomSelect";
+import CustomSelect from "../basic/CustomSelect";
 import { JSONObject } from "@/types/definations";
 
 const CHART_TYPE_LIST: JSONObject[] = [

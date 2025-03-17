@@ -1,11 +1,11 @@
-import DataSetSelect from "../selection/DataSetSelect";
-import OrgUnitLevelSelect from "../selection/OrgUnitLevelSelect";
-import ChartTypeSelect from "../selection/ChartTypeSelect";
+import DataSetSelect from "../layout/selection/DataSetSelect";
+import OrgUnitLevelSelect from "../layout/selection/OrgUnitLevelSelect";
+import ChartTypeSelect from "../layout/selection/ChartTypeSelect";
 import { IDataSet} from "@/types/definations";
 import { useState } from "react";
-import OrgUnitTree from "../selection/OrgUnitTree";
-import DataElementMultiSelect from "../selection/DataElementMultiSelect";
-import PeriodMultiSelect from "../selection/PeriodMultiSelect";
+import OrgUnitTree from "../layout/selection/OrgUnitTree";
+import DataElementMultiSelect from "../layout/selection/DataElementMultiSelect";
+import PeriodMultiSelect from "../layout/selection/PeriodMultiSelect";
 import AccordionPanel from "../layout/AccordionPanel";
 import { useChart } from "@/hooks/useChart";
 
@@ -19,6 +19,14 @@ export default function ChartTopBar () {
     const handleAccordionPanelOnClick = (name: string) => {
         if( activePanel === name ) setActivePanel("");
         else setActivePanel(name);
+    }
+    
+    const handleDataSetOnChange = (item: IDataSet) => {
+        if (selectedDataSet?.periodType !== item.periodType) {
+            selectPeriods(null);
+        }
+        setSelectedDataSet(null);
+        setSelectedDataSet(item);
     }
     
     return (
@@ -35,7 +43,7 @@ export default function ChartTopBar () {
             </AccordionPanel>
     
             <AccordionPanel title="Data Element and Periods" isOpen={activePanel === "dataSet"} onClick={() => handleAccordionPanelOnClick("dataSet")}>
-                <DataSetSelect onItemSelect={setSelectedDataSet} selected={selectedDataSet} />
+                <DataSetSelect onItemSelect={handleDataSetOnChange} selected={selectedDataSet} />
                 
                 {selectedDataSet && <>
                     <DataElementMultiSelect

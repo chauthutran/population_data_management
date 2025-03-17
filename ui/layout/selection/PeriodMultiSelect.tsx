@@ -1,6 +1,6 @@
 import { IDataElement, IPeriod, ISerializePeriod } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
-import CustomMultiSelect from "./basic/CustomMultiSelect";
+import CustomMultiSelect from "../basic/CustomMultiSelect";
 import { generatePeriodsByType, getCurrentYear } from "@/utils/periodUtils";
 import { useEffect, useState } from "react";
 

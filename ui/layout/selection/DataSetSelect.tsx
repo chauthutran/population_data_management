@@ -1,6 +1,6 @@
 import { IDataSet } from "@/types/definations";
 import { get } from "@/utils/apiClient";
-import CustomSelect from "./basic/CustomSelect";
+import CustomSelect from "../basic/CustomSelect";
 
 export default function DataSetSelect({selected, onItemSelect}: {selected?: IDataSet | null; onItemSelect: (item: IDataSet) => void}) {
     

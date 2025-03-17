@@ -1,6 +1,6 @@
 import { IDataElement } from "@/types/definations";
 import { useSelection } from "@/hooks/useSelection";
-import CustomMultiSelect from "./basic/CustomMultiSelect";
+import CustomMultiSelect from "../basic/CustomMultiSelect";
 import { useEffect } from "react";
 
 export default function DataElementMultiSelect(

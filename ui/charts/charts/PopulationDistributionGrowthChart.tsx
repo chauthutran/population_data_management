@@ -1,24 +1,10 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import { IDataElement, IDataValue, IOrgUnit, IPeriodType, ISerializePeriod, JSONObject } from "@/types/definations";
 import { post } from "@/utils/apiClient";
+import { getRandomColor } from "@/utils/colorUtils";
 import { useEffect } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-  
 export default function PopulationDistributionGrowthChart(
 	{
 	periods,
@@ -33,23 +19,9 @@ export default function PopulationDistributionGrowthChart(
 }
 ) {
 	
-	const {data, loading, error, refetch} = useAsyncData<IDataValue[]>();
+	const {data, loading, error, refetch} = useAsyncData<JSONObject[]>();
 	
-	// const periods = [{
-	// 	"code": "202501"
-	// }];
-	
-	// const dataElement =	{
-	// 		_id: "67cae581f09193badd6f8c93"
-	// 	}
-	
-	// const orgUnit = {
-	// 	_id: "65f123000000000000000004" // Province A
-	// }
-	
-	// const orgUnitLevel = 4;
-	  
-	const fetchData = async (): Promise<IDataValue[]> => {
+	const fetchData = async (): Promise<JSONObject[]> => {
 		 const payload = {
 			periods: periods.map((item) => item.code),
 			dataElements: dataElements.map((item) => item._id),
@@ -57,9 +29,9 @@ export default function PopulationDistributionGrowthChart(
 			orgUnitLevel: orgUnitLevel._id
 		}
 		
-		return await post<IDataValue[], any>("/api/charts", payload);
+		return await post<JSONObject[], any>("/api/charts", payload);
 	}
-    console.log("PopulationDistributionGrowthChart");
+	
 	useEffect(() => {
 		refetch(fetchData);
 	}, [periods,
@@ -68,47 +40,31 @@ export default function PopulationDistributionGrowthChart(
 		orgUnitLevel]);
 	
 	const transformData = (): JSONObject[] => {
-		const chartData = [];
+		const transformedData = data!.reduce((acc, item) => {
+			const periodName = item.period.name;
+			if (!acc[periodName]) {
+				acc[periodName] = { period: periodName };
+			}
+			acc[periodName][item.dataElement.name] = item.value;
+			return acc;
+		}, {}) as JSONObject;
 		
-		for( var i=0; i<data!.length; i++ ) {
-			const item = data![i];
-			chartData.push({name: item.period.name, value: item.value})
-		}
-		
-		return chartData;
-		// const data = [
-		// 	{
-		// 	name: "Page A",
-		// 	uv: 4000,
-		// 	pv: 2400,
-		// 	amt: 2400,
-		// 	},
-		// 	{
-		// 	name: "Page G",
-		// 	uv: 3490,
-		// 	pv: 4300,
-		// 	amt: 2100,
-		// 	},
-		// ];
-		
+		console.log(JSON.stringify(Object.values(transformedData)) );
+		return Object.values(transformedData);
 	}
 	if( loading || !data) return (<>Loading ...</>);
-	
+console.log(JSON.stringify(dataElements));	
     return (
         <ResponsiveContainer width={"100%"} height={300}>
 			<LineChart data={transformData()} margin={{ top: 20 }} accessibilityLayer>
 				<CartesianGrid strokeDasharray="3 3" />
-				<XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
+				<XAxis dataKey="period" padding={{ left: 30, right: 30 }} />
 				<YAxis />
 				<Tooltip />
 				<Legend />
-				<Line
-					type="monotone"
-					dataKey="pv"
-					stroke="#8884d8"
-					activeDot={{ r: 8 }}
-				></Line>
-				<Line type="monotone" dataKey="uv" stroke="#82ca9d"></Line>
+				{dataElements.map((item) => {
+					return <Line type="monotone" dataKey={item.name} stroke={getRandomColor()} strokeWidth={3}></Line>
+				})}				
 			</LineChart>
         </ResponsiveContainer>
       );

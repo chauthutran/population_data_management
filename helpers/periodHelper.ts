@@ -5,12 +5,12 @@ import { IPeriod } from "@/types/definations";
 import { generatePeriodByCode } from "@/utils/periodUtils";
 
 export const getOrCreatePeriod = async (code: string): Promise<IPeriod> => {
-    let periodDbObj = Period.findOne({code});
-    
+    let periodDbObj = await Period.findOne({code});
     if (!periodDbObj) {
-        const payload = generatePeriodByCode(code);
-        periodDbObj = await Period.create(payload);
+        const periodObj = generatePeriodByCode(code);
+        periodDbObj = await Period.create(periodObj);
     }
     
+console.log("DB: ", periodDbObj._id);
     return periodDbObj;
 }

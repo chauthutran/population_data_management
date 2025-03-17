@@ -71,16 +71,34 @@ export async function POST(request: NextRequest) {
                     "dataValues.dataElement": { $in: dataElementIdObjs } // Filter by data elements
                 }
             },
-    
-            // Step 4: Return only necessary fields
+            // Step 4: Lookup dataElements to get additional info
+            {
+                "$lookup": {
+                    "from": "dataelements",
+                    "localField": "dataValues.dataElement",
+                    "foreignField": "_id",
+                    "as": "dataElementDetails"
+                }
+            },
+            {
+                "$unwind": "$dataElementDetails"
+            },
+            // Step 5: Return only necessary fields
             {
                 $project: {
                     _id: "$dataValues._id",
                     orgUnit: "$_id",
                     orgUnitName: "$name",
-                    dataElement: "$dataValues.dataElement",
-                    period: "$dataValues.period",
-                    periodCode: "$periodDetails.code",
+                    dataElement: {
+                        "_id": "$dataElementDetails._id",
+                        "name": "$dataElementDetails.name",
+                        "description": "$dataElementDetails.description"
+                    },
+                    period: {
+                        "_id": "$dataValues.period",
+                        "code": "$periodDetails.code",
+                        "name": "$periodDetails.name"
+                    },
                     value: "$dataValues.value"
                 }
             }

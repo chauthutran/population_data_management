@@ -1,6 +1,5 @@
 import { IDataValue } from "@/types/definations";
 import { useEffect } from "react";
-import ApprovalButtonBar from "./ApprovalButtonBar";
 import { useSelection } from "@/hooks/useSelection";
 import { post } from "@/utils/apiClient";
 import useAsyncData from "@/hooks/useAsyncData";
@@ -23,7 +22,7 @@ export default function DataValueList () {
             orgUnit: selectedOrgUnit?._id,
         }
                 
-        return await post<IDataValue[], any>("/api/dataValues?action=loadData", payload);
+        return await post<IDataValue[], any>("/api/dataValues/", payload);
     }
     
     if (selectedDataSet === null || selectedPeriod === null || selectedOrgUnit === null) return (<></>);

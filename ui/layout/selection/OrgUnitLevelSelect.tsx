@@ -1,4 +1,4 @@
-import CustomSelect from "./basic/CustomSelect";
+import CustomSelect from "../basic/CustomSelect";
 import { IOrgUnit, JSONObject } from "@/types/definations";
 
 const ORG_UNIT_LEVELS: JSONObject[] = [

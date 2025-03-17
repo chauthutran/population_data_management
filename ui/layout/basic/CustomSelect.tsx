@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAsyncData from "@/hooks/useAsyncData";
 import useClickOutside from "@/hooks/useClickOutside";
-import SelectionHeader from "../SelectionHeader";
+import SelectionHeader from "../selection/SelectionHeader";
 
 export default function CustomSelect<T>({
     title,

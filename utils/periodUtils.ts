@@ -80,7 +80,7 @@ const generateMonthsInYear = (year: number): ISerializePeriod[] => {
         periods.push(period);
     }
     
-    return periods;
+    return periods.reverse();
 }
 
 const generateYears = (endYear: number): ISerializePeriod[] => {
@@ -92,5 +92,5 @@ const generateYears = (endYear: number): ISerializePeriod[] => {
         periods.push(period);
     }
     
-    return periods;
+    return periods.reverse();
 }

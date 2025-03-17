@@ -1,7 +1,7 @@
 import { IOrgUnit } from "@/types/definations";
 import { useEffect, useState } from "react";
 import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "../../hooks/useClickOutside";
+import useClickOutside from "../../../hooks/useClickOutside";
 import { get } from "@/utils/apiClient";
 
 export default function OrgUnitTree({ selected, onItemClick }: { selected?: IOrgUnit | null, onItemClick: (orgUnit: IOrgUnit) => void }) {
