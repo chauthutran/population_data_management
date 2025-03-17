@@ -17,7 +17,7 @@ export default function PopulationDistributionGrowthChart(
 		
 	}, [data])
 	
-	if(!data) return (<>Loading ...</>);
+	if(!data) return (<></>);
 	
     return (
         <ResponsiveContainer width={"100%"} height={300}>
