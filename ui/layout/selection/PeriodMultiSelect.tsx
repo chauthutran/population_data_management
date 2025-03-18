@@ -22,10 +22,16 @@ export default function PeriodMultiSelect(
 }) {
     
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
+    // const [periods, setPeriods] = useState<ISerializePeriod[]>([]);
+    
+    // useEffect(() => {
+    //     console.log("=== periodType : ", periodType);
+    //     setPeriods();
+    // }, [periodType, selectedyear]);
 
     useEffect(() => {
         
-    }, [selected]);
+    }, [selected, periodType]);
     
     const handleOnPrev = () => {
         if (periodType === "Yearly") setSelectedYear((prev) => prev - 10);
@@ -64,18 +70,18 @@ export default function PeriodMultiSelect(
                 </div>
         );
     }
-    
+//  console.log("=== periods: ", periods);   
     return (
         <>
             {disabled 
                 ? <DisableField title={TITLE} />
                 : <CustomMultiSelect<ISerializePeriod>
-                    key={selectedyear}
+                    key={`${periodType}-${selectedyear}`}
                     title={TITLE}
                     displayProp="name"
                     valueProp="code"
+                    options={generatePeriodsByType(periodType, selectedyear)}
                     selected={selected}
-                    fetchData={async() => generatePeriodsByType(periodType, selectedyear)}
                     onChange={onChange}
                 >
                     {createNavigationButtons()}

@@ -25,16 +25,16 @@ export default function DataElementMultiSelect(
     
     return (
         <>
-            {disabled 
+            {disabled
                 ? <DisableField title={TITLE} />
-                : <CustomMultiSelect 
-                title={TITLE}
-                displayProp="name"
-                valueProp="_id"
-                selected={selected}
-                fetchData={async() => options}
-                onChange={onChange}
-            />}
+                : <CustomMultiSelect
+                    title={TITLE}
+                    displayProp="name"
+                    valueProp="_id"
+                    selected={selected}
+                    options={options}
+                    onChange={onChange}
+                />}
         </>
     )
 }

@@ -67,7 +67,7 @@ export default function DataEntryForm() {
                         <span className="text-lg">{el.name}</span>
                         <input
                             type="number"
-                            className="border p-2 w-24 rounded"
+                            className="border border-gray-300 p-2 w-24 rounded"
                             value={dataValueMap[el._id] || ""}
                             onChange={(e) => handleOnChange(el._id, e.target.value)}
                         />

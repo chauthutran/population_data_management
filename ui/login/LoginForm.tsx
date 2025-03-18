@@ -35,7 +35,7 @@ export default function LoginForm () {
         
         return await post<IUser, any>("/api/auth/login", payload);
     }
-    
+    console.log(loading);
     return (
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
             <h2 className="text-3xl font-bold text--text-color mb-4">Welcome</h2>

@@ -62,6 +62,9 @@ export const deserializePeriod = (period: ISerializePeriod): IPeriod => {
     }
 }
 
+export const sortPeriods = (periods: ISerializePeriod[]) => {
+    return [...periods].sort((a, b) => a.code.localeCompare(b.code));
+}
 
 // ==================================================================================
 // Supportive methods

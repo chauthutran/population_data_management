@@ -6,7 +6,7 @@ export default function CustomMultiSelect<T>({
     title,
     displayProp,
     valueProp,
-    fetchData,
+    options,
     onChange,
     selected,
     children,
@@ -14,19 +14,23 @@ export default function CustomMultiSelect<T>({
     title: string;
     displayProp: string;
     valueProp: string;
-    fetchData: () => Promise<T[]>;
+    options:  T[];
     onChange: (value: T[]) => void;
     selected?: T[] | null;
     children?: ReactNode
 }) {
-    const { data, error, refetch, loading } = useAsyncData<T[]>();
     const [selectedItems, setSelectedItems] = useState<T[]>(selected ?? []); // Default to empty array if null or undefined
     const [showed, setShowed] = useState<boolean>(false);
     const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
-
+    
     useEffect(() => {
-        refetch(fetchData);
-    }, []);
+        
+    }, [selected, options]);
+    
+    
+    useEffect(() => {
+        setSelectedItems(selected ?? []);
+    }, [selected])
 
     const toggleSelect = (item: T) => {
         const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
@@ -38,8 +42,8 @@ export default function CustomMultiSelect<T>({
         onChange(newValues);
     };
 
-    if (loading) return <>Loading ...</>;
-
+    if (options === null) return <>Loading ...</>;
+    
     return (
         <div className="relative w-full max-h-40 " ref={dropdownRef}>
             {/* Selected Options */}
@@ -81,7 +85,7 @@ export default function CustomMultiSelect<T>({
                 {children}
                 <div className="absolute z-10 max-h-full w-full bg-white rounded-lg shadow-lg">
                      <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-b-lg">
-                        {data!.map((item, index) => {
+                        {options!.map((item, index) => {
                             const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
 
                             return (
