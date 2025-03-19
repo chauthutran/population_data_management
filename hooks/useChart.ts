@@ -1,7 +1,7 @@
-import { clearSelection, setDataElements, setOrgUnit, setOrgUnitLevel, setPeriods, setChartType } from "@/store/chartSlide";
+import { clearSelection, setDataElements, setOrgUnit, setOrgUnitLevel, setPeriods, setChartType, setChartX, setChartY } from "@/store/chartSlide";
 import { AppDispatch, RootState } from "@/store/store";
-import { IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
-import { useCallback, useMemo } from "react";
+import { IChartAxist, IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
+import { useCallback } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 export const useChart = () => {
@@ -11,6 +11,8 @@ export const useChart = () => {
     const selectedDataElements = useSelector((state: RootState) => state.chart.dataElements, shallowEqual);
     const selectedOrgUnit = useSelector((state: RootState) => state.chart.orgUnit, shallowEqual);
     const selectedOrgUnitLevel = useSelector((state: RootState) => state.chart.orgUnitLevel, shallowEqual);
+    const selectedChartX = useSelector((state: RootState) => state.chart.chartX, shallowEqual);
+    const selectedChartY = useSelector((state: RootState) => state.chart.chartY, shallowEqual);
     const selectedChartType = useSelector((state: RootState) => state.chart.chartType, shallowEqual);
 
     // Menoize the callback for performance
@@ -30,6 +32,14 @@ export const useChart = () => {
         dispatch(setOrgUnitLevel(orgUnitLevel));
     }, [dispatch]);
         
+    const selectChartX = useCallback((chartX: IChartAxist[]) => {
+        dispatch(setChartX(chartX));
+    }, [dispatch]);
+        
+    const selectChartY = useCallback((chartY: IChartAxist[]) => {
+        dispatch(setChartY(chartY));
+    }, [dispatch]);
+        
     const selectChartType = useCallback((chartType: JSONObject | null) => {
         dispatch(setChartType(chartType));
     }, [dispatch]);
@@ -38,5 +48,8 @@ export const useChart = () => {
         dispatch(clearSelection());
     }, [dispatch]);
     
-    return { selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartType, selectPeriods, selectDataElements, selectOrgUnit, selectOrgUnitLevel, selectChartType, cleanAll };
+    return {
+        selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartX, selectedChartY, selectedChartType,
+        selectPeriods, selectDataElements, selectOrgUnit, selectOrgUnitLevel, selectChartX, selectChartY, selectChartType, cleanAll
+    };
 }

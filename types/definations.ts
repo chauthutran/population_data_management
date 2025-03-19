@@ -66,3 +66,8 @@ export type IDataValue = {
     orgUnit: IOrgUnit,
     value: string,
 }
+
+export type IChartAxist = {
+    _id: string,
+    name: string,
+}

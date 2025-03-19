@@ -8,10 +8,11 @@ import ChartTypeSelector from "./filterPanel/ChartTypeOption";
 import { useState } from "react";
 import { JSONObject } from "@/types/definations";
 import PopulationChangeChart from "./charts/PopulationChangeChart";
+import ChartAxisPanel from "./filterPanel/ChartAxisPanel";
 
 export default function ChartPage () {
 	
-	const { selectedOrgUnit, selectedOrgUnitLevel, selectedDataElements, selectedPeriods, selectedChartType } = useChart();
+	const { selectedOrgUnit, selectedOrgUnitLevel, selectedDataElements, selectedPeriods, selectedChartX, selectedChartType } = useChart();
     const [chartData, setChartData] = useState<JSONObject | null>(null);
 	
 	const fetchData = async (): Promise<Record<string, string>[]> => {
@@ -24,24 +25,26 @@ export default function ChartPage () {
 	}
 	
 	const handleOnClick = async () => {
-		console.log("== handleOnClick");
-		// if( selectedPeriods && selectedDataElements && selectedOrgUnit && selectedOrgUnitLevel) {
-			const newData = await fetchData();
-            setChartData({
-				data: newData,
-				dataElements: selectedDataElements,
-				periods: selectedPeriods
-			}); // Update state only on button click
-		// }
+		const newData = await fetchData();
+		setChartData({
+			data: newData,
+			dataElements: selectedDataElements,
+			periods: selectedPeriods
+		});
+	}
+	
+	const transformData = () => {
+		
 	}
 	
     return (
 		<div className="flex bg-gray-100 pb-1 w-full h-full ">
 			{/* Sidebar Filters */}
-			<div className="w-1/4">
+			<div className="w-1/3">
 				<ChartTopBar onClick={handleOnClick} />
 			</div>
 
+			
 			{/* Chart Display */}
 			<div className="flex-1 p-6">
 				<h2 className="text-xl font-semibold mb-4">

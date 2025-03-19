@@ -22,13 +22,7 @@ export default function PeriodMultiSelect(
 }) {
     
     const [selectedyear, setSelectedYear] = useState<number>(curYear);
-    // const [periods, setPeriods] = useState<ISerializePeriod[]>([]);
-    
-    // useEffect(() => {
-    //     console.log("=== periodType : ", periodType);
-    //     setPeriods();
-    // }, [periodType, selectedyear]);
-
+   
     useEffect(() => {
         
     }, [selected, periodType]);

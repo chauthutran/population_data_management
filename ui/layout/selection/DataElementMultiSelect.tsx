@@ -12,7 +12,7 @@ export default function DataElementMultiSelect(
     selected,
     disabled,
     onChange,
-    }: {
+}: {
     options: IDataElement[],
     selected: IDataElement[] |null;
     disabled: boolean;
