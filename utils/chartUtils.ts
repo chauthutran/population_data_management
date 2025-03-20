@@ -170,28 +170,27 @@ const transformData_OuX_DeY = (data: JSONObject[], orgUnits: JSONObject[], dataE
 */
 const transformData_OuX_DeAndPeY = (data: JSONObject[], orgUnits: JSONObject[], dataElements: IDataElement[], periods: ISerializePeriod[]): IChartData => {
     const result: JSONObject[] = [];
-    const axisY: string[] = [];
+    
+    const axisYList = mergeArray("dataElement", dataElements, "period", periods);
     
     for( var i=0; i<orgUnits.length; i++ ) {
         const orgUnitData = orgUnits[i];
         const item: JSONObject = { axisX: orgUnitData.name };
         
         const dataValuesByOU = getDataValuesByOrgUnit(data, orgUnitData);
-        const axisYList = mergeArray("dataElement", dataElements, "period", periods);
         for( var j=0; j<axisYList.length; j++ ) {
             const axisYItem = axisYList[j];
             const dataValuesByDE = getDataValuesByDE_Period(dataValuesByOU, axisYItem["period"], axisYItem["dataElement"]);
             const total = sumValues(dataValuesByDE);
             
             const axisYName = `${axisYItem["period"].name}-${axisYItem["dataElement"].name}`;
-            axisY.push(axisYName)
             item[axisYName] = total;
         }
             
         result.push(item);
     }
     
-    return { chartData: result, axisY };
+    return { chartData: result, axisY: axisYList.map((item) => `${item["period"].name}-${item["dataElement"].name}`) };
 }
 
 // -------------- Periods in Axis X
@@ -271,28 +270,27 @@ const transformData_PeX_DeY = (data: JSONObject[], periods: ISerializePeriod[], 
 */
 const transformData_PeX_OuAndDeY = (data: JSONObject[], orgUnits: JSONObject[], dataElements: IDataElement[], periods: ISerializePeriod[]): IChartData => {
     const result: JSONObject[] = [];
-    const axisY: string[] = [];
+    const axisYList = mergeArray("orgUnit", orgUnits, "dataElement", dataElements);
     
     for( var i=0; i<periods.length; i++ ) {
         const period = periods[i];
         const item: JSONObject = { axisX: period.name };
         
         const dataValuesByPeriod = getDataValuesByPeriod(data, period);
-        const axisYList = mergeArray("orgUnit", orgUnits, "period", periods);
+        console.log("=== axisYList : ", axisYList)
         for( var j=0; j<axisYList.length; j++ ) {
             const axisYItem = axisYList[j];
-            const dataValuesByOU_PE = getDataValuesByOU_DE(dataValuesByPeriod, axisYItem["orgUnit"], axisYItem["period"]);
+            const dataValuesByOU_PE = getDataValuesByOU_DE(dataValuesByPeriod, axisYItem["orgUnit"], axisYItem["dataElement"]);
             const total = sumValues(dataValuesByOU_PE);
             
-            const axisYName = `${axisYItem["orgUnit"].name}-${axisYItem["period"]}`;
-            axisY.push(axisYName)
+            const axisYName = `${axisYItem["orgUnit"].name}-${axisYItem["dataElement"].name}`;
             item[axisYName] = total;
         }
             
         result.push(item);
     }
     
-    return { chartData: result, axisY };
+    return { chartData: result, axisY: axisYList.map((item) => `${item["orgUnit"].name}-${item["dataElement"].name}`) };
 }
 
 
@@ -374,28 +372,26 @@ const transformData_DeX_PeY = (data: JSONObject[], dataElements: IDataElement[],
 */
 const transformData_DeX_OuAndPeY = (data: JSONObject[], orgUnits: JSONObject[], dataElements: IDataElement[], periods: ISerializePeriod[]) : IChartData=> {
     const result: JSONObject[] = [];
-    const axisY: string[] = [];
+    const axisYList = mergeArray("orgUnit", orgUnits, "period", periods);
     
     for( var i=0; i<dataElements.length; i++ ) {
         const dataElement = dataElements[i];
         const item: JSONObject = { axisX: dataElement.name };
         
         const dataValuesByPeriod = getDataValuesByDataElement(data, dataElement);
-        const axisYList = mergeArray("orgUnit", orgUnits, "period", periods);
         for( var j=0; j<axisYList.length; j++ ) {
             const axisYItem = axisYList[j];
             const dataValuesByOU_PE = getDataValuesByOU_Period(dataValuesByPeriod, axisYItem["orgUnit"], axisYItem["period"]);
             const total = sumValues(dataValuesByOU_PE);
             
             const axisYName = `${axisYItem["orgUnit"].name}-${axisYItem["period"]}`;
-            axisY.push(axisYName)
             item[axisYName] = total;
         }
             
         result.push(item);
     }
     
-    return { chartData: result, axisY };
+    return { chartData: result, axisY: axisYList.map((item) => `${item["orgUnit"].name}-${item["period"].name}`)  };
 }
 
 // OrgUnits and DatElements in Axis X

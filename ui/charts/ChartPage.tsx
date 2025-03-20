@@ -31,12 +31,12 @@ export default function ChartPage () {
 		);
 		
 		const transformedData = transformData(data, selectedChartX, selectedChartY, orgUnits, selectedDataElements!, selectedPeriods! );
-console.log("==== transformedData : ", transformedData)
+
 		setChartData(transformedData);
 	}
 	
     return (
-		<div className="flex bg-gray-100 pb-1 w-full h-full ">
+		<div className="flex pb-1 w-full h-full ">
 			{/* Sidebar Filters */}
 			<div className="w-1/3">
 				<ChartTopBar onClick={handleOnClick} />

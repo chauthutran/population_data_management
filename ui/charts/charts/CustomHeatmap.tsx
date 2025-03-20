@@ -22,8 +22,8 @@ export default function CustomHeatmap({data}: {data: IChartData}) {
 	const maxValue = Math.max(...allValues);
 	
     return (
-        <div className="overflow-x-auto">
-			<table className="min-w-full table-auto border-collapse">
+        <div className="overflow-x-auto bg-gray-100 p-3 rounded-md shadow-md">
+			<table className="min-w-full w-full table-auto">
 				<thead>
 				<tr>
 					<th className="border px-4 py-2 text-left">#</th>
@@ -34,7 +34,10 @@ export default function CustomHeatmap({data}: {data: IChartData}) {
 				</thead>
 				<tbody>
 					{data.chartData.map((item) => (
-						<tr key={item.axisX}>
+						<tr 
+							key={item.axisX}
+							className="transition-transform transform hover:scale-105 hover:shadow-md hover:bg-gray-100 cursor-pointer"
+						>
 							<td className="border px-4 py-2 text-left">{item.axisX}</td>
 							{data.axisY.map((axisY: string) => (
 								<td

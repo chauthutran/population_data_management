@@ -13,6 +13,7 @@ export default function CustomLineChart ({data}: {data: IChartData}) {
 		// You can perform any side effects here
 	}, [data]);
 	
+	
 	return (
 		<ResponsiveContainer width="100%" height={400}>
 			<LineChart data={data.chartData} margin={{ top: 20, right: 20, bottom: 20 }}>
@@ -20,14 +21,19 @@ export default function CustomLineChart ({data}: {data: IChartData}) {
 				<XAxis
 					dataKey="axisX"
 					padding={{ left: 30, right: 30 }}
-					angle={-10} // Rotate labels
+					angle={-25} // Rotate labels
 					textAnchor="end"
 					interval={0} // Show all labels
 					tick={{ fontSize: 12 }}
 				/>
 				<YAxis />
 				<Tooltip />
-				<Legend />
+				<Legend 
+					layout="horizontal" 
+					align="center" 
+					verticalAlign="bottom" 
+					wrapperStyle={{ bottom: -5, position: "relative" }} 
+				/>
 				{data.axisY.map((item: string) => (
 					<Line
 						key={item}
