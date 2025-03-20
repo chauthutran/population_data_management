@@ -1,12 +1,13 @@
 import ChartTopBar from "./filterPanel/ChartFilterPanel";
 import { useChart } from "@/hooks/useChart";
 import { retrieveAndTransformData, transformData } from "@/utils/chartUtils";
-import PeriodPopulationGrowthChart from "./charts/CustomLineChart";
 import ChartTypeSelector from "./filterPanel/ChartTypeOption";
 import { useState } from "react";
 import { IChartData, JSONObject } from "@/types/definations";
 import CustomBarChart from "./charts/CustomBarChart";
 import CustomPieChart from "./charts/CustomPieChart";
+import CustomLineChart from "./charts/CustomLineChart";
+import CustomHeatmap from "./charts/CustomHeatmap";
 
 export default function ChartPage () {
 	
@@ -47,7 +48,7 @@ console.log("==== transformedData : ", transformedData)
 					<ChartTypeSelector />
 				</h2>
 					{selectedChartType?._id === "Line" &&
-						<PeriodPopulationGrowthChart
+						<CustomLineChart
 							data={chartData || {}}
 						/>}
 					{selectedChartType?._id === "Bar" &&
@@ -58,10 +59,10 @@ console.log("==== transformedData : ", transformedData)
 						<CustomPieChart
 							data={chartData || {}}
 						/>}
-					{/* {selectedChartType?._id === "Heatmap" &&
+					{selectedChartType?._id === "Heatmap" &&
 						<CustomHeatmap
 							data={chartData || {}}
-						/>} */}
+						/>}
 			</div>
 		</div>
     )

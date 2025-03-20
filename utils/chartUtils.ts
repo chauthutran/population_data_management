@@ -218,13 +218,13 @@ const transformData_PeX_OuY = (data: JSONObject[], orgUnits: JSONObject[], perio
             const dataValuesByOU = getDataValuesByOrgUnit(dataValuesByPeriod, orgUnitData);
             const total = dataValuesByOU.reduce((sum, dataValue) => sum + (dataValue.value || 0), 0);
             
-            item[period.name] = total;
+            item[orgUnitData.name] = total;
         }
             
         result.push(item);
     }
     
-    return { chartData: result, axisY: periods.map((item) => item.name) };
+    return { chartData: result, axisY: orgUnits.map((item) => item.name) };
 }
 
 /**

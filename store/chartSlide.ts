@@ -17,8 +17,8 @@ const initialState: ChartState = {
     dataElements: null,
     orgUnit: null,
     orgUnitLevel: null,
-    chartX: [CHART_AXIST_ORGUNITS],
-    chartY: [CHART_AXIST_PERIODS],
+    chartX: [CHART_AXIST_PERIODS],
+    chartY: [CHART_AXIST_ORGUNITS],
     chartType: null,
 }
 

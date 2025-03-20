@@ -1,11 +1,13 @@
-import { IDataElement, ISerializePeriod, JSONObject } from "@/types/definations";
+import { IChartData, IDataElement, ISerializePeriod, JSONObject } from "@/types/definations";
 import { getColorFromString } from "@/utils/colorUtils";
 import { sortPeriods } from "@/utils/periodUtils";
 import { useEffect } from "react";
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export default function CustomBarChart({data}: {data: JSONObject}) {
+export default function CustomBarChart({data}: {data: IChartData}) {
     
+	if (!data || !data.chartData || !data.axisY) return <></>; // Ensure chartData and axisY exist
+	
     useEffect(() => {
         
     }, [data])
@@ -17,7 +19,14 @@ export default function CustomBarChart({data}: {data: JSONObject}) {
         <ResponsiveContainer width={"100%"} height={300}>
             <BarChart data={data.chartData} margin={{ top: 20 }} accessibilityLayer>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="orgunit" padding={{ left: 30, right: 30 }} />
+                <XAxis 
+                    dataKey="axisX" 
+                    padding={{ left: 30, right: 30 }} 
+                    angle={-10} // Rotate labels
+                    textAnchor="end" 
+                    interval={0} // Show all labels
+                    tick={{ fontSize: 12 }}
+                />
                 <YAxis />
                 <Tooltip />
                 <Legend />
