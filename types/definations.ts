@@ -71,3 +71,8 @@ export type IChartAxist = {
     _id: string,
     name: string,
 }
+
+export type IChartData = {
+    chartData: JSONObject[],
+    axisY: string[]
+}

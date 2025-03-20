@@ -1,21 +1,19 @@
 import ChartTopBar from "./filterPanel/ChartFilterPanel";
 import { useChart } from "@/hooks/useChart";
-import useAsyncData from "@/hooks/useAsyncData";
-import { retrieveAndTransformData } from "@/utils/chartUtils";
-import PeriodPopulationGrowthChart from "./charts/PeriodPopulationGrowthChart";
-import OrgUnitPopulationComparisonChart from "./charts/OrgUnitPopulationComparisonChart";
+import { retrieveAndTransformData, transformData } from "@/utils/chartUtils";
+import PeriodPopulationGrowthChart from "./charts/CustomLineChart";
 import ChartTypeSelector from "./filterPanel/ChartTypeOption";
 import { useState } from "react";
-import { JSONObject } from "@/types/definations";
-import PopulationChangeChart from "./charts/PopulationChangeChart";
-import ChartAxisPanel from "./filterPanel/ChartAxisPanel";
+import { IChartData, JSONObject } from "@/types/definations";
+import CustomBarChart from "./charts/CustomBarChart";
+import CustomPieChart from "./charts/CustomPieChart";
 
 export default function ChartPage () {
 	
-	const { selectedOrgUnit, selectedOrgUnitLevel, selectedDataElements, selectedPeriods, selectedChartX, selectedChartType } = useChart();
-    const [chartData, setChartData] = useState<JSONObject | null>(null);
+	const { selectedOrgUnit, selectedOrgUnitLevel, selectedDataElements, selectedPeriods, selectedChartX, selectedChartY, selectedChartType } = useChart();
+    const [chartData, setChartData] = useState<IChartData>({ chartData:[], axisY: []});
 	
-	const fetchData = async (): Promise<Record<string, string>[]> => {
+	const fetchData = async (): Promise<JSONObject[]> => {
 		return await retrieveAndTransformData(
 			selectedPeriods!,
 			selectedDataElements!,
@@ -25,16 +23,15 @@ export default function ChartPage () {
 	}
 	
 	const handleOnClick = async () => {
-		const newData = await fetchData();
-		setChartData({
-			data: newData,
-			dataElements: selectedDataElements,
-			periods: selectedPeriods
-		});
-	}
-	
-	const transformData = () => {
+		const data = await fetchData();
 		
+		const orgUnits: JSONObject[] =  Array.from(
+			new Map(data.map(item => [item.orgUnit, { _id: item.orgUnit, name: item.orgUnitName }])).values()
+		);
+		
+		const transformedData = transformData(data, selectedChartX, selectedChartY, orgUnits, selectedDataElements!, selectedPeriods! );
+console.log("==== transformedData : ", transformedData)
+		setChartData(transformedData);
 	}
 	
     return (
@@ -44,7 +41,6 @@ export default function ChartPage () {
 				<ChartTopBar onClick={handleOnClick} />
 			</div>
 
-			
 			{/* Chart Display */}
 			<div className="flex-1 p-6">
 				<h2 className="text-xl font-semibold mb-4">
@@ -52,19 +48,20 @@ export default function ChartPage () {
 				</h2>
 					{selectedChartType?._id === "Line" &&
 						<PeriodPopulationGrowthChart
-							data={chartData?.data || []}
-							dataElements={chartData?.dataElements || []}
+							data={chartData || {}}
 						/>}
 					{selectedChartType?._id === "Bar" &&
-						<OrgUnitPopulationComparisonChart
-							data={chartData?.data || []}
-							periods={chartData?.periods || []}
+						<CustomBarChart
+							data={chartData || {}}
 						/>}
-					{selectedChartType?._id === "Heatmap" &&
-						<PopulationChangeChart
-							data={chartData?.data || []}
-							periods={chartData?.periods || []}
+					{selectedChartType?._id === "Pie" &&
+						<CustomPieChart
+							data={chartData || {}}
 						/>}
+					{/* {selectedChartType?._id === "Heatmap" &&
+						<CustomHeatmap
+							data={chartData || {}}
+						/>} */}
 			</div>
 		</div>
     )
