@@ -69,7 +69,7 @@ export default function OrgUnitTree(
     };
     
     const title = selectedOrgUnit ? selectedOrgUnit.name : "Select OrgUnit";
-console.log("=== disabled: " + disabled);
+    
     return (
         <div
             className="relative bg-white border rounded-md border-gray-200 focus:ring-2 focus:ring-lemon-lime"

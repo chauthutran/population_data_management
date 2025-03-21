@@ -22,7 +22,7 @@ export default function CustomHeatmap({data}: {data: IChartData}) {
 	const maxValue = Math.max(...allValues);
 	
     return (
-        <div className="overflow-x-auto bg-gray-100 p-3 rounded-md shadow-md">
+        <div className="overflow-x-auto bg-gray-100 p-3 rounded-md shadow-md h-full">
 			<table className="min-w-full w-full table-auto">
 				<thead>
 				<tr>

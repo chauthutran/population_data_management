@@ -25,17 +25,16 @@ export default function CustomPieChart ({data}: {data: IChartData}) {
     return (
         <div className="flex flex-col bg-gray-100 shadow-md rounded-lg">
             {/* Scrollable container */}
-            <div className="grid grid-cols-2 justify-center space-x-8 flex-grow-0 overflow-y-auto h-[500px]">
+            <div className="grid grid-cols-2 justify-center space-x-8 flex-grow-0 overflow-y-auto">
                 {axisXList.map((axisXName) => {
                     const list = getDataListByAxisX(axisXName);
-                    console.log(`Data for ${axisXName}:`, list);
 
                     if (list.length === 0) return null; // Skip empty lists
 
                     return (
                         <div key={axisXName} className="flex flex-col items-center">
                             {/* Title */}
-                            <h3 className="text-lg font-semibold mb-2">{axisXName}</h3>
+                            <h3 className="text-lg font-semibold">{axisXName}</h3>
 
                             {/* Pie Chart */}
                             <ResponsiveContainer width={"100%"} height={400}>

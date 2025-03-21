@@ -24,7 +24,7 @@ export default function ChartTopBar ({
     
     return (
         <aside className="w-full h-full bg-white py-4 shadow-lg flex flex-col">
-            <h2 className="text-lg font-semibold">Filters</h2>
+            <h2 className="text-2xl font-semibold p-2">Filters</h2>
         
             {/* Make this div grow to fill remaining space */}
             <div className="w-full flex flex-col flex-grow overflow-auto">
@@ -42,9 +42,9 @@ export default function ChartTopBar ({
             </div>
         
             {/* Button should not be affected by height changes */}
-            <div className="flex flex-grow-0">
+            <div className="flex space-x-4 p-3">
                 <button
-                    className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
+                    className="w-auto flex-1 bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
                     onClick={onClick}
                     disabled={ !selectedOrgUnit || !selectedOrgUnitLevel 
                         || !selectedDataElements || !selectedPeriods 
@@ -54,7 +54,7 @@ export default function ChartTopBar ({
                     Generate Chart
                 </button>
                 <button
-                    className="w-auto border-color-4 border text-black rounded-lg py-3 px-6 transition-all duration-300 transform hover:scale-105"
+                    className="w-auto flex-1 border-color-4 border text-black rounded-lg py-3 px-6 transition-all duration-300 transform hover:scale-105"
                     onClick={cleanAll}
                     disabled={false}
                 >

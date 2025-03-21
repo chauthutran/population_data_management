@@ -30,7 +30,7 @@ export default function ChartPage () {
 			new Map(data.map(item => [item.orgUnit, { _id: item.orgUnit, name: item.orgUnitName }])).values()
 		);
 		
-		const transformedData = transformData(data, selectedChartX, selectedChartY, orgUnits, selectedDataElements!, selectedPeriods! );
+		const transformedData = transformData(data, selectedChartX!, selectedChartY!, orgUnits, selectedDataElements!, selectedPeriods! );
 
 		setChartData(transformedData);
 	}
@@ -43,27 +43,25 @@ export default function ChartPage () {
 			</div>
 
 			{/* Chart Display */}
-			<div className="flex-1 p-6 h-full">
-				<h2 className="text-xl font-semibold mb-4">
+			{/* <div className="flex-1 p-6 h-full"> */}
+			<div className="flex-1 p-3 flex flex-col">
+				<h2 className="text-xl font-semibold">
 					<ChartTypeSelector />
 				</h2>
-				<div className="flex-1">
+				
+				<div className="flex-1 abc overflow-y-auto h-full shadow-md rounded-md">
 					{selectedChartType?._id === "Line" &&
-						<CustomLineChart
-							data={chartData || {}}
-						/>}
+					<CustomLineChart data={chartData || {}} />
+					}
 					{selectedChartType?._id === "Bar" &&
-						<CustomBarChart
-							data={chartData || {}}
-						/>}
+					<CustomBarChart data={chartData || {}} />
+					}
 					{selectedChartType?._id === "Pie" &&
-						<CustomPieChart
-							data={chartData || {}}
-						/>}
+					<CustomPieChart data={chartData || {}} />
+					}
 					{selectedChartType?._id === "Heatmap" &&
-						<CustomHeatmap
-							data={chartData || {}}
-						/>}
+					<CustomHeatmap data={chartData || {}} />
+					}
 				</div>
 			</div>
 		</div>

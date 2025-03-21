@@ -15,8 +15,8 @@ export default function CustomLineChart ({data}: {data: IChartData}) {
 	
 	
 	return (
-		<ResponsiveContainer width="100%" height={400}>
-			<LineChart data={data.chartData} margin={{ top: 20, right: 20, bottom: 20 }}>
+		<ResponsiveContainer width="100%" height={"100%"}>
+			<LineChart data={data.chartData} margin={{ top: 20, right: 20 }}>
 				<CartesianGrid strokeDasharray="3 3" />
 				<XAxis
 					dataKey="axisX"
@@ -32,7 +32,7 @@ export default function CustomLineChart ({data}: {data: IChartData}) {
 					layout="horizontal" 
 					align="center" 
 					verticalAlign="bottom" 
-					wrapperStyle={{ bottom: -5, position: "relative" }} 
+					// wrapperStyle={{ bottom: 10, position: "relative" }} 
 				/>
 				{data.axisY.map((item: string) => (
 					<Line

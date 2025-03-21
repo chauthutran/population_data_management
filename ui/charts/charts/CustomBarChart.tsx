@@ -16,7 +16,7 @@ export default function CustomBarChart({data}: {data: IChartData}) {
     if(!data) return (<></>);
     
     return (
-        <ResponsiveContainer width={"100%"} height={300}>
+        <ResponsiveContainer width={"100%"} height={"100%"}>
             <BarChart data={data.chartData} margin={{ top: 20 }} accessibilityLayer>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
@@ -33,7 +33,7 @@ export default function CustomBarChart({data}: {data: IChartData}) {
 					layout="horizontal" 
 					align="center" 
 					verticalAlign="bottom" 
-					wrapperStyle={{ bottom: -5, position: "relative" }} 
+					// wrapperStyle={{ bottom: -5, position: "relative" }} 
 				/>
                 {data.axisY.map((item: string) => {
                     return <Bar type="monotone" dataKey={item} fill={getColorFromString(item)} strokeWidth={3}></Bar>
