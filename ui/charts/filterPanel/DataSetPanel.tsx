@@ -1,3 +1,4 @@
+import { initDataElements, initDataSet, initPeriods } from "@/constants/initData";
 import { useChart } from "@/hooks/useChart";
 import { IDataSet } from "@/types/definations";
 import AccordionPanel from "@/ui/layout/AccordionPanel";
@@ -6,7 +7,8 @@ import DataSetSelect from "@/ui/layout/selection/DataSetSelect";
 import OrgUnitLevelSelect from "@/ui/layout/selection/OrgUnitLevelSelect";
 import OrgUnitTree from "@/ui/layout/selection/OrgUnitTree";
 import PeriodMultiSelect from "@/ui/layout/selection/PeriodMultiSelect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 export default function DataSetPanel (
 {
@@ -18,7 +20,14 @@ export default function DataSetPanel (
 }) {
     
     const { selectedDataElements, selectedPeriods, selectPeriods, selectDataElements } = useChart();
-    const [selectedDataSet, setSelectedDataSet] = useState<IDataSet | null>(null);
+    const [selectedDataSet, setSelectedDataSet] = useState<IDataSet | null>(initDataSet);
+    
+    useEffect(() => {
+        // if( selectedDataElements === null ) {
+        //     selectDataElements(initDataElements);
+        //     selectPeriods( initPeriods );
+        // }
+    }, [])
     
     const handleDataSetOnChange = (item: IDataSet) => {
         selectPeriods(null);

@@ -1,12 +1,6 @@
+import { ORG_UNIT_LEVELS } from "@/constants";
 import CustomSelect from "../basic/CustomSelect";
-import { IOrgUnit, JSONObject } from "@/types/definations";
-
-const ORG_UNIT_LEVELS: JSONObject[] = [
-    { _id: 1, name: "Country" },
-    { _id: 2, name: "Region" },
-    { _id: 3, name: "Province" },
-    { _id: 4, name: "District" }
-]
+import { JSONObject } from "@/types/definations";
 
 export default function OrgUnitLevelSelect ({selected, onChange}: {selected: JSONObject | null; onChange: (value: JSONObject) => void}) {
 

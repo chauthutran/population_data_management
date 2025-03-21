@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useChart } from "@/hooks/useChart";
 import OrgUnitPanel from "./OrgUnitPanel";
 import DataSetPanel from "./DataSetPanel";
@@ -13,6 +13,10 @@ export default function ChartTopBar ({
     const { selectedPeriods, selectedDataElements, selectedOrgUnit, selectedOrgUnitLevel, selectedChartX, selectedChartY, cleanAll } = useChart();
     const [activePanel, setActivePanel] = useState<string>("");
 
+    useEffect(() => {
+        onClick();
+    }, [])
+    
     const handleAccordionPanelOnClick = (name: string) => {
         if( activePanel === name ) setActivePanel("");
         else setActivePanel(name);
@@ -42,7 +46,10 @@ export default function ChartTopBar ({
                 <button
                     className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
                     onClick={onClick}
-                    disabled={!selectedOrgUnit || !selectedOrgUnitLevel || !selectedDataElements || !selectedPeriods || selectedChartX.length == 0 || selectedChartY.length == 0}
+                    disabled={ !selectedOrgUnit || !selectedOrgUnitLevel 
+                        || !selectedDataElements || !selectedPeriods 
+                        || !selectedChartX || selectedChartX.length == 0 
+                        || !selectedChartY || selectedChartY.length == 0 }
                 >
                     Generate Chart
                 </button>

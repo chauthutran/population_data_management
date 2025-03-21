@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDataSet, IOrgUnit, ISerializePeriod } from '../types/definations';
+import { initDataSet, initPeriod, orgUnitDistrictA1 } from '@/constants/initData';
 
 interface DataEntryState {
     dataSet: IDataSet | null;
@@ -8,9 +9,9 @@ interface DataEntryState {
 }
 
 const initialState: DataEntryState = {
-    dataSet: null,
-    period: null,
-    orgUnit: null,
+    dataSet: initDataSet,
+    period: initPeriod,
+    orgUnit: orgUnitDistrictA1,
 }
 
 const dataEntrySlice = createSlice({

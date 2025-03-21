@@ -2,10 +2,7 @@ import { PAGE_LOGIN } from "@/constants";
 import { JSONObject } from "@/types/definations";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: JSONObject = {
-    name: PAGE_LOGIN,
-    title: "Login",
-}
+const initialState: JSONObject = PAGE_LOGIN;
 
 const currentPageSlide = createSlice({
     name: "page",

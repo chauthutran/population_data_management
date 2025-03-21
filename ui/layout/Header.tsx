@@ -1,8 +1,9 @@
-import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_LOGIN } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS_AND_REPORTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
 import { MdMenu } from "react-icons/md";
 import Image from "next/image";
 import AppIcon from "./AppIcon";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar: () => void}) {
     
@@ -32,21 +33,29 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar: (
                 
                 <nav className="bg-black black-bg ml-auto">
                     <ul className="flex space-x-6 py-5 mx-20">
-                        <li
-                            onClick={() => setCurrentPage(PAGE_DASHBOARD, "Dashboard")}
+                        {curPage !== PAGE_DASHBOARD.name && <li
+                            onClick={() => setCurrentPage(PAGE_DASHBOARD)}
                             className="text-lemon-lime hover:text-white cursor-pointer"
                             style={{ textTransform: "uppercase"}}
-                        >Dashboard</li>
-                        <li
-                            onClick={() => setCurrentPage(PAGE_APPROVALS, "Approvals")}
+                        >{PAGE_DASHBOARD.title}</li>}
+                        
+                        {curPage !== PAGE_DATA_ENTRY.name && <li
+                            onClick={() => setCurrentPage(PAGE_DATA_ENTRY)}
                             style={{ textTransform: "uppercase"}}
                             className="text-lemon-lime hover:text-white cursor-pointer"
-                        >Approvals</li>
-                        <li
-                            onClick={() => setCurrentPage(PAGE_CHARTS, "Charts")}
+                        >{PAGE_DATA_ENTRY.title}</li>}
+                        
+                        {curPage !== PAGE_APPROVALS.name && <li
+                            onClick={() => setCurrentPage(PAGE_APPROVALS)}
                             style={{ textTransform: "uppercase"}}
                             className="text-lemon-lime hover:text-white cursor-pointer"
-                        >Charts</li>
+                        >{PAGE_APPROVALS.title}</li>}
+                        
+                        {curPage !== PAGE_CHARTS_AND_REPORTS.name && <li
+                            onClick={() => setCurrentPage(PAGE_CHARTS_AND_REPORTS)}
+                            style={{ textTransform: "uppercase"}}
+                            className="text-lemon-lime hover:text-white cursor-pointer"
+                        >{PAGE_CHARTS_AND_REPORTS.title}</li>}
                     </ul>
                 </nav>
             </header>}

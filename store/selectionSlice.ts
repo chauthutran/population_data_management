@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IApprovalData, IDataSet, IOrgUnit, IPeriod, ISerializePeriod } from './../types/definations';
+import { initDataSet, initPeriod, orgUnitDistrictA1 } from '@/constants/initData';
 
 interface SelectionState {
     dataSet: IDataSet | null;
@@ -9,9 +10,9 @@ interface SelectionState {
 }
 
 const initialState: SelectionState = {
-    dataSet: null,
-    period: null,
-    orgUnit: null,
+    dataSet: initDataSet,
+    period: initPeriod,
+    orgUnit: orgUnitDistrictA1,
     approvalData: null,
 }
 

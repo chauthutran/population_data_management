@@ -1,9 +1,4 @@
-import Footer from "../layout/Footer";
-import Header from "../layout/Header";
-import SlideBar from "../layout/SlideBar";
-import PendingApprovalData from "./PendingApprovalData";
-
-export default function DashboardPage () {
+export default function OverviewCards () {
     
     return (
         <div className="grid grid-cols-3 gap-6 p-6">
@@ -19,7 +14,6 @@ export default function DashboardPage () {
                 <h3 className="text-lg font-bold">Insights</h3>
                 <p className="text-2xl">5 Reports</p>
             </div>
-      </div>
-      
+    </div>
     )
 }

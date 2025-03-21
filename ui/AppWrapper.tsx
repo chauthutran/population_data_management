@@ -6,7 +6,7 @@ import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import SlideBar from "./layout/SlideBar";
 import LoginPage from "./login/LoginPage";
-import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS_AND_REPORTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
 import { useState } from "react";
 import ChartPage from "./charts/ChartPage";
@@ -22,14 +22,14 @@ export default function AppWrapper() {
         <div className="flex flex-col h-screen">
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
 
-            {curPage !== PAGE_LOGIN && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
+            {curPage !== PAGE_LOGIN.name && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
                 
             <main className="flex-1 overflow-y-auto">
-                {curPage === PAGE_LOGIN && <LoginPage />}
-                {curPage === PAGE_DASHBOARD && <DashboardPage />}
-                {curPage === PAGE_DATA_ENTRY && <DataEntryPage />}
-                {curPage === PAGE_APPROVALS && <ApprovalPage />}
-                {curPage === PAGE_CHARTS && <ChartPage />}
+                {curPage === PAGE_LOGIN.name && <LoginPage />}
+                {curPage === PAGE_DASHBOARD.name && <DashboardPage />}
+                {curPage === PAGE_DATA_ENTRY.name && <DataEntryPage />}
+                {curPage === PAGE_APPROVALS.name && <ApprovalPage />}
+                {curPage === PAGE_CHARTS_AND_REPORTS.name && <ChartPage />}
             </main>
 
             <Footer />

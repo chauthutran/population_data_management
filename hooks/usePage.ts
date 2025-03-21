@@ -10,9 +10,9 @@ export const useCurrentPage = () => {
     const curPage  = useSelector((state: RootState) => state.currentPage.name);
     const title  = useSelector((state: RootState) => state.currentPage.title);
     
-     // Menoize the callback for performance
-    const setCurrentPage = useCallback((name: string, title: string) => {
-        dispatch(setPage({name, title}));
+    // Menoize the callback for performance
+    const setCurrentPage = useCallback(({ name, title }: { name: string; title: string }) => { 
+        dispatch(setPage({ name, title }));
     }, [dispatch]);
     
     return { curPage, title, setCurrentPage }

@@ -5,23 +5,23 @@ type AsyncFunction<T> = () => Promise<T>;
 export default function useAsyncData<T>() {
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const isRequestInProgress = useRef(false); // Track request state using useRef
 
     const refetch = useCallback(async (asyncFunction: AsyncFunction<T>) => {
-        if (isRequestInProgress.current) return; // Prevent refetch if a request is already in progress
-
-        isRequestInProgress.current = true; // Set to true when request starts
-
+        if (loading) return; // Prevent multiple calls
+        
+        setLoading(true);
+        
         try {
             const result = await asyncFunction();
             setData(result);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
-            isRequestInProgress.current = false; // Reset once request is complete
+            setLoading(false); // Reset once request is complete
         }
-    }, []);
+    }, [loading]);
 
-    return { data, error, refetch, loading: isRequestInProgress.current };
+    return { data, error, refetch, loading };
 }

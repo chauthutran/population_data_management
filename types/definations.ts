@@ -3,6 +3,7 @@ export type JSONObject = { [key: string]: any };
 export type IOrgUnit = {
     _id: string;
     name: string;
+    code: string;
     parent: string | null;
     level: number;
 }
@@ -16,6 +17,7 @@ export type IDataElement = {
     _id: string;
     name: string;
     shortName: string;
+    description: string;
 }
 
 // Used for Database Layer (IPeriod type)

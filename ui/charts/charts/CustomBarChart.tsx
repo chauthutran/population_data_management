@@ -29,7 +29,12 @@ export default function CustomBarChart({data}: {data: IChartData}) {
                 />
                 <YAxis />
                 <Tooltip />
-                <Legend />
+                <Legend 
+					layout="horizontal" 
+					align="center" 
+					verticalAlign="bottom" 
+					wrapperStyle={{ bottom: -5, position: "relative" }} 
+				/>
                 {data.axisY.map((item: string) => {
                     return <Bar type="monotone" dataKey={item} fill={getColorFromString(item)} strokeWidth={3}></Bar>
                 })}

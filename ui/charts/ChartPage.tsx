@@ -43,10 +43,11 @@ export default function ChartPage () {
 			</div>
 
 			{/* Chart Display */}
-			<div className="flex-1 p-6">
+			<div className="flex-1 p-6 h-full">
 				<h2 className="text-xl font-semibold mb-4">
 					<ChartTypeSelector />
 				</h2>
+				<div className="flex-1">
 					{selectedChartType?._id === "Line" &&
 						<CustomLineChart
 							data={chartData || {}}
@@ -63,6 +64,7 @@ export default function ChartPage () {
 						<CustomHeatmap
 							data={chartData || {}}
 						/>}
+				</div>
 			</div>
 		</div>
     )

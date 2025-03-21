@@ -8,7 +8,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 export default function LoginForm () {
-    const { curUser, setUser } = useAuth();
+    const { setUser } = useAuth();
     const { setCurrentPage } = useCurrentPage();
     const { data, error, loading, refetch } = useAsyncData<IUser | null>();
     
@@ -18,7 +18,7 @@ export default function LoginForm () {
     useEffect(() => {
         if(data) {
             setUser(data);
-            setCurrentPage(PAGE_DASHBOARD, "Dashboard");
+            setCurrentPage(PAGE_DASHBOARD);
         }
     }, [data]);
     
@@ -35,7 +35,7 @@ export default function LoginForm () {
         
         return await post<IUser, any>("/api/auth/login", payload);
     }
-    console.log(loading);
+    
     return (
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
             <h2 className="text-3xl font-bold text--text-color mb-4">Welcome</h2>
@@ -60,6 +60,8 @@ export default function LoginForm () {
                     <span>Login</span>  
                     <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>
                 </button>
+                
+                {error && <p className="text-red-500">{error}</p>}
             </form>
     
             <p className="text-gray-600 mt-4">Don't have an account? <a href="#" className="text-primary-bg font-semibold">Sign up</a></p>

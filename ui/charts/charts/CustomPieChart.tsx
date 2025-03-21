@@ -23,8 +23,9 @@ export default function CustomPieChart ({data}: {data: IChartData}) {
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="grid grid-cols-2 justify-center space-x-8 flex-grow-0">
+        <div className="flex flex-col bg-gray-100 shadow-md rounded-lg">
+            {/* Scrollable container */}
+            <div className="grid grid-cols-2 justify-center space-x-8 flex-grow-0 overflow-y-auto h-[500px]">
                 {axisXList.map((axisXName) => {
                     const list = getDataListByAxisX(axisXName);
                     console.log(`Data for ${axisXName}:`, list);
@@ -37,13 +38,13 @@ export default function CustomPieChart ({data}: {data: IChartData}) {
                             <h3 className="text-lg font-semibold mb-2">{axisXName}</h3>
 
                             {/* Pie Chart */}
-                            <ResponsiveContainer width={200} height={200}>
+                            <ResponsiveContainer width={"100%"} height={400}>
                                 <PieChart>
                                     <Pie
                                         data={list}
                                         cx="50%"
                                         cy="50%"
-                                        labelLine={false}
+                                        labelLine={true}
                                         label
                                         outerRadius={80}
                                         dataKey="value"
@@ -60,14 +61,6 @@ export default function CustomPieChart ({data}: {data: IChartData}) {
                     );
                 })}
             </div>
-            
-            {/* <div>
-                {axisXList.map((axisXName, index) => 
-                    <div className="flex flex-row">
-                        <span style={{backgroundColor: getColorFromString(axisXName)}}></span>
-                    </div>
-                }
-            </div> */}
         </div>
     );
 }
