@@ -2,41 +2,34 @@ import Image from "next/image";
 import AppIcon from "../layout/AppIcon";
 import Header from "../layout/Header";
 import LoginForm from "./LoginForm";
+import BackgroundChart from "./BackgroundChart";
 
 export default function LoginPage () {
     
     return (
-        <div className="flex h-full">
-            <div className="flex flex-col">
-                <Header />
-                <LoginForm />
+        <>
+    <div className="flex">
+        {/* Left Side - Login Form */}
+        <div className="flex flex-1 bg-white shadow-lg">
+            <div className="w-full max-w-md p-8 rounded-lg">
                 
-            </div>
-            
-            <div>
-                <Image src="building-town-svgrepo-com.svg" alt="Population Icon"  width={500} height={800} />
+            <p className="text-color-1 text-xs mb-4 uppercase font-semibold" style={{letterSpacing: "1px"}}>We're glad to have you here.</p>
+                {/* <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
+                    Welcome Back
+                </h2>
+                <p className="text-gray-500 text-center mb-6">
+                    Log in to manage your data efficiently.
+                </p> */}
+                <LoginForm />
             </div>
         </div>
-        //  <div className="bg-secondary-bg flex flex-col h-full">
-            // <div className="flex-grow flex items-center justify-center">
-                // <LoginForm />
-            // </div>
-        // </div>
-        
-        // <div className="flex flex-col h-screen w-full">
-        //     <div className="flex flex-row">
-        //         <header className="flex flex-col">
-        //             <AppIcon size={90} />
-        //             <div className="truncate mx-3 text-2xl text-black font-semibold border-b-2 border-b-gray-300">Population Data Management</div>
-        //         </header>
-                
-                
-        //         <div className="bg-gray-300">
-        //             <LoginForm />
-        //         </div>
-        //     </div>
-            
-        //     {/* <hr className="border-t border-gray-300 my-4" /> */}
-        // </div>
+
+        {/* Right Side - Background Chart */}
+        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-blue-500 to-green-500">
+            <BackgroundChart />
+        </div>
+    </div>
+</>
+
     )
 }

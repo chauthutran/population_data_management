@@ -19,15 +19,14 @@ export default function AppWrapper() {
     const [openSlideBar, setOpenSlideBar] = useState(false);
     
     return (
-        // <LoginPage />
-        
         <div className="flex flex-col h-screen">
             
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
+                
 
             {curPage !== PAGE_INTRO.name && <SlideBar isOpen={openSlideBar} onClose={() => setOpenSlideBar(false)} />}
                 
-            <main className="flex-1 overflow-y-auto">
+            <main className="flex-1 overflow-y-auto flex">
                 {curPage === PAGE_INTRO.name && <HomePage />}
                 {curPage === PAGE_LOGIN.name && <LoginPage />}
                 {curPage === PAGE_DASHBOARD.name && <DashboardPage />}

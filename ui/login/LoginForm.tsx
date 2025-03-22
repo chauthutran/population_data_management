@@ -41,8 +41,7 @@ export default function LoginForm () {
     return (
         // <div className="shadow-lg rounded-lg p-8 max-w-md w-full text-center">
         <div className="p-8 max-w-md w-ful">
-            {/* <p className="text-color-1 text-xs mb-4 uppercase font-semibold" style={{letterSpacing: "1px"}}>We're glad to have you here.</p>  */}
-            {/* <h2 className="text-3xl font-semibold text-color-3 mb-4">Welcome</h2> */}
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Welcome</h2>
             {/* <p className="text-color-1 mb-6">Manage and visualize population data with ease.</p> */}
             
             <form onSubmit={handleSubmit} className="space-y-3 text-gray-400">
@@ -68,10 +67,10 @@ export default function LoginForm () {
     
                 <div className="flex flex-row space-x-12 items-center">
                     <button
-                        className="flex-1 flex justify-center space-x-3 w-full bg-blue-500 text-white font-bold px-4 py-3 rounded-md hover:bg-blue-600 transition"
+                        className="flex-1 flex justify-center space-x-3 w-full bg-blue-400 text-black font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition"
                     >
-                        <span>Login</span>  
-                        <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>
+                        <span className="pl-2">Login</span>  
+                        <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin" /></span>
                     </button>
                     
                     <div className="flex justify-end">

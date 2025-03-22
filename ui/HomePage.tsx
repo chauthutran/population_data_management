@@ -1,22 +1,28 @@
+import { PAGE_LOGIN } from "@/constants";
+import { useCurrentPage } from "@/hooks/usePage";
 import Image from "next/image";
-import { CgShapeRhombus } from "react-icons/cg";
 import { FcApproval, FcComboChart, FcDataSheet } from "react-icons/fc";
-import { PiDiamondThin } from "react-icons/pi";
-import { TbTargetArrow } from "react-icons/tb";
 
 export default function HomePage() {
+    
+    const { setCurrentPage } = useCurrentPage();
     
     return (
         <>
             <div className="flex flex-row items-start w-full h-full space-x-10 my-10">
                 <div className="flex-1 flex-col space-y-5 m-3">
                     <div className="text-left">
-                        The Population Data Management App is a powerful and user-friendly platform designed to help organizations collect, manage, and visualize population-related data efficiently. 
+                        The Population Data Management Application is a powerful and user-friendly platform designed to help organizations collect, manage, and visualize population-related data efficiently.
                         <br />
-                        Whether you're tracking demographics, conducting surveys, or analyzing trends, this app provides a seamless workflow from data entry to advanced analytics.
+                        Whether you're tracking demographics, conducting surveys, or analyzing trends, this application provides a seamless workflow from data entry to advanced analytics.
                     </div>
                     <div>
-                        <button className="shadow-lg shadow-gray-400 px-3 py-2 bg-blue-400 font-semibold rounded-lg">Login</button>
+                        <button 
+                            className="shadow-lg shadow-gray-400 px-3 py-2 bg-blue-400 font-semibold rounded-lg"
+                            onClick={() => setCurrentPage(PAGE_LOGIN)}
+                        >
+                            Login
+                        </button>
                     </div>
                 </div>
                 <div className="flex items-center justify-center">
