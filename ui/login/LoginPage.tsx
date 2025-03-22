@@ -7,7 +7,7 @@ import BackgroundChart from "./BackgroundChart";
 export default function LoginPage () {
     
     return (
-        <div className="flex">
+        <div className="flex flex-1">
             {/* Left Side - Login Form */}
             <div className="flex flex-1 bg-white shadow-lg">
                 <div className="w-full max-w-md p-8 rounded-lg">
