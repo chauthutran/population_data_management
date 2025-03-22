@@ -5,7 +5,9 @@ import { useCurrentPage } from "@/hooks/usePage";
 import { IUser } from "@/types/definations";
 import { post } from "@/utils/apiClient";
 import { FormEvent, useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
+import { CiLock } from "react-icons/ci";
+import { FaRegUser, FaSpinner } from "react-icons/fa";
+import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 
 export default function LoginForm () {
     const { setUser } = useAuth();
@@ -37,30 +39,47 @@ export default function LoginForm () {
     }
     
     return (
-        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
-            <h2 className="text-3xl font-bold text--text-color mb-4">Welcome</h2>
-            <p className="text-gray-600 mb-6">Manage and visualize population data with ease.</p>
+        // <div className="shadow-lg rounded-lg p-8 max-w-md w-full text-center">
+        <div className="p-8 max-w-md w-ful">
+            {/* <p className="text-color-1 text-xs mb-4 uppercase font-semibold" style={{letterSpacing: "1px"}}>We're glad to have you here.</p>  */}
+            {/* <h2 className="text-3xl font-semibold text-color-3 mb-4">Welcome</h2> */}
+            {/* <p className="text-color-1 mb-6">Manage and visualize population data with ease.</p> */}
             
-            <form onSubmit={handleSubmit}>
-                <input type="email"
-                    value={email}
-                    placeholder="Email"
-                    className="w-full p-3 border rounded-md mb-4"
-                    required
-                    onChange={(e) => setEmail(e.target.value)}/>
+            <form onSubmit={handleSubmit} className="space-y-3 text-gray-400">
+                <div className="relative flex items-center w-full max-w-md">
+                    <FaRegUser className="absolute left-3" size={16} />
+                    <input type="email"
+                        value={email}
+                        placeholder="Email"
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full focus:text-gray-800"
+                        required
+                        onChange={(e) => setEmail(e.target.value)}/>
+                </div>
+
+                <div className="relative flex items-center w-full max-w-md">
+                    <MdLockOutline className="absolute left-3" size={20} />
+                    <input type="password"
+                        value={password}
+                        placeholder="Password"
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full focus:text-gray-800"
+                        required
+                        onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+    
+                <div className="flex flex-row space-x-12 items-center">
+                    <button
+                        className="flex-1 flex justify-center space-x-3 w-full bg-blue-500 text-white font-bold px-4 py-3 rounded-md hover:bg-blue-600 transition"
+                    >
+                        <span>Login</span>  
+                        <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>
+                    </button>
                     
-                <input type="password"
-                    value={password}
-                    placeholder="Password"
-                    className="w-full p-3 border rounded-md mb-4"
-                    required
-                    onChange={(e) => setPassword(e.target.value)}/>
-                    
-                <button className="bg-black text-white px-4 py-3 rounded-lg w-full flex space-x-3 justify-center">
-                    <span>Login</span>  
-                    <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>
-                </button>
-                
+                    <div className="flex justify-end">
+                        <div className="cursor-pointer hover:underline">
+                            Forget Password?
+                        </div>
+                    </div>
+                </div>
                 {error && <p className="text-red-500">{error}</p>}
             </form>
     

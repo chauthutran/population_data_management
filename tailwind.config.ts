@@ -8,17 +8,24 @@ export default {
   theme: {
     extend: {
       colors: {
+        "background": "#f1f3f4",
+        "color-1": "#287ff9",
+        "color-2": "#ffd823",
+        "color-3": "#111111",
+        "color-4": "#7eb4c4",
+        
+        
         "lemon-green": "#adf802",
         "yellow-green-shade": "#d2e100 ",
         "light-green-shade": "#8bd100",
         "deep-green": "#336633",
         "lemon-lime": "#CFFF52",
         "grayish-yellow": "#d7d8d3",
-        "color-1": "#8dca02",
-        "color-2": "#b0fd02",
-        "color-3": "#476501",
-        "color-4": "#6a9801",
-        "color-5": "#233300",
+        // "color-1": "#8dca02",
+        // "color-2": "#b0fd02",
+        // "color-3": "#476501",
+        // "color-4": "#6a9801",
+        // "color-5": "#233300",
         "bright-lime-green": "#80F802",
         "soft-lavender": "#D6A2E8",
         "muted-teal": "#66B2B2",

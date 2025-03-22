@@ -1,5 +1,5 @@
 import { useCurrentPage } from "@/hooks/usePage";
-import { PAGE_APPROVALS, PAGE_CHARTS_AND_REPORTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN, PAGE_SETTINGS } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import AppIcon from "./AppIcon";
 import useClickOutside from "@/hooks/useClickOutside";
@@ -40,8 +40,7 @@ export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose
                     PAGE_DASHBOARD,
                     PAGE_DATA_ENTRY,
                     PAGE_APPROVALS,
-                    PAGE_CHARTS_AND_REPORTS,
-                    PAGE_SETTINGS
+                    PAGE_CHARTS,
                 ].map((item) => (
                     <li
                         key={item.name}

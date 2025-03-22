@@ -34,10 +34,7 @@
     text-wrap: balance;
   }
 }
-.background-img {
-  background: linear-gradient(to bottom, #E4EDED, #E4EDED);
-  clip-path: polygon(0% 0%, 100% 0%, 100% 92%, 0% 100%);
-}
+
 .truncate-text {
   width: 100px; /* Set a fixed width */
   white-space: nowrap; /* Prevent text from wrapping */
@@ -49,7 +46,12 @@
   clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
 }
 
+.background-img {
+  clip-path: polygon(0 0, 80% 0%, 100% 100%, 30% 100%);
+}
+
 button {
   text-transform: uppercase;
   /* font-family: 'Times New Roman', Times, serif; */
 }
+

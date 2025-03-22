@@ -1,11 +1,11 @@
 import { IChartAxist, JSONObject } from "@/types/definations";
 
+export const PAGE_INTRO = {name: "PAGE_INTRO", title: "Intro Page", icon: "🏠"};
 export const PAGE_LOGIN = {name: "PAGE_LOGIN", title: "Login", icon: "🏠"};
 export const PAGE_DASHBOARD = {name: "PAGE_DASHBOARD", title: "Dashboard", icon: "🏠"};
 export const PAGE_DATA_ENTRY = {name: "PAGE_DATA_ENTRY", title: "Data Entry", icon: "📝"};
 export const PAGE_APPROVALS = {name: "PAGE_APPROVALS", title: "Approvals", icon: "✅"};
-export const PAGE_CHARTS_AND_REPORTS = {name: "PAGE_CHARTS_AND_REPORTS", title: "Charts & Reports", icon: "📊"};
-export const PAGE_SETTINGS = {name: "PAGE_SETTINGS", title: "Settings", icon: "⚙️"};
+export const PAGE_CHARTS = {name: "PAGE_CHARTS", title: "Charts", icon: "📊"};
 
 
 export const CHART_AXIST_ORGUNITS: IChartAxist = {_id: "orgUnit", name: "OrgUnit"};
