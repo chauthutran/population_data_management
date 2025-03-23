@@ -28,22 +28,22 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar?: 
                     <ul className="flex space-x-6 py-5 mx-20">
                     <li
                             onClick={() => setCurrentPage(PAGE_DASHBOARD)}
-                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                            className={` ${curPage === PAGE_DASHBOARD.name && "border-b font-semibold"} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
                         >{PAGE_DASHBOARD.title}</li>
                         
                         <li
                             onClick={() => setCurrentPage(PAGE_DATA_ENTRY)}
-                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                            className={` ${curPage === PAGE_DATA_ENTRY.name && "border-b font-semibold"} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
                         >{PAGE_DATA_ENTRY.title}</li>
                         
                         <li
                             onClick={() => setCurrentPage(PAGE_APPROVALS)}
-                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                            className={` ${curPage === PAGE_APPROVALS.name && "border-b font-semibold"} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
                         >{PAGE_APPROVALS.title}</li>
                         
                         <li
                             onClick={() => setCurrentPage(PAGE_CHARTS)}
-                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                            className={` ${curPage === PAGE_CHARTS.name && "border-b font-semibold"} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
                         >{PAGE_CHARTS.title}</li>
                     </ul>
                 </nav>}
