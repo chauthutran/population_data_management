@@ -64,7 +64,7 @@ export default function PeriodMultiSelect(
                 </div>
         );
     }
-//  console.log("=== periods: ", periods);   
+    
     return (
         <>
             {disabled 

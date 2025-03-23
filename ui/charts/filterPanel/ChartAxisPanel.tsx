@@ -19,11 +19,11 @@ export default function ChartAxisPanel({
     const handleSelectX = (e: React.ChangeEvent<HTMLInputElement>, item: IChartAxist) => {
         const checked = e.target.checked;
         if( checked ) {
-            const updatedList = [...selectedChartX, item];
+            const updatedList = [...selectedChartX!, item];
             selectChartX(updatedList);
         }
         else {
-            const updatedList = selectedChartX.filter((c) => c._id != item._id);
+            const updatedList = selectedChartX!.filter((c) => c._id != item._id);
             selectChartX(updatedList);
         }
     };
@@ -32,11 +32,11 @@ export default function ChartAxisPanel({
     const handleSelectY = (e: React.ChangeEvent<HTMLInputElement>, item: IChartAxist) => {
         const checked = e.target.checked;
         if( checked ) {
-            const updatedList = [...selectedChartY, item];
+            const updatedList = [...selectedChartY!, item];
             selectChartY(updatedList);
         }
         else {
-            const updatedList = selectedChartY.filter((c) => c._id != item._id);
+            const updatedList = selectedChartY!.filter((c) => c._id != item._id);
             selectChartY(updatedList);
         }
     };
@@ -46,15 +46,15 @@ export default function ChartAxisPanel({
             title="Chart Axis"
             isOpen={activePanel === "chartAxis"}
             onClick={() => handlePanelOnClick("chartAxis")}
-            className={`${activePanel == "chartAxis" && "bg-lemon-lime"}`}
+            className={`${activePanel == "chartAxis" && "text-blue-600"}`}
         >
             <div className="grid grid-cols-2 gap-2">
                 {/* X-Axis Selector */}
                 <div className="p-2 border rounded-lg shadow-sm bg-gray-50">
                     <h3 className="text-sm font-medium text-gray-600 mb-1">X-Axis</h3>
                     <MutipleSelector 
-                        selected={selectedChartX}
-                        disableList={selectedChartY}
+                        selected={selectedChartX!}
+                        disableList={selectedChartY!}
                         onChange={handleSelectX} />
                 </div>
     
@@ -62,8 +62,8 @@ export default function ChartAxisPanel({
                 <div className="p-2 border rounded-lg shadow-sm bg-gray-50">
                     <h3 className="text-sm font-medium text-gray-600 mb-1">Y-Axis</h3>
                     <MutipleSelector 
-                        selected={selectedChartY}
-                        disableList={selectedChartX}
+                        selected={selectedChartY!}
+                        disableList={selectedChartX!}
                         onChange={handleSelectY} />
                 </div>
             </div>

@@ -36,7 +36,7 @@ export default function ChartPage () {
 	}
 	
     return (
-		<div className="flex pb-1 w-full h-full ">
+		<div className="flex pb-1 w-full h-full border-2">
 			{/* Sidebar Filters */}
 			<div className="w-1/3">
 				<ChartTopBar onClick={handleOnClick} />
@@ -51,16 +51,16 @@ export default function ChartPage () {
 				
 				<div className="flex-1 abc overflow-y-auto h-full shadow-md rounded-md">
 					{selectedChartType?._id === "Line" &&
-					<CustomLineChart data={chartData || {}} />
+					<CustomLineChart data={chartData} />
 					}
 					{selectedChartType?._id === "Bar" &&
-					<CustomBarChart data={chartData || {}} />
+					<CustomBarChart data={chartData} />
 					}
 					{selectedChartType?._id === "Pie" &&
-					<CustomPieChart data={chartData || {}} />
+					<CustomPieChart data={chartData} />
 					}
 					{selectedChartType?._id === "Heatmap" &&
-					<CustomHeatmap data={chartData || {}} />
+					<CustomHeatmap data={chartData} />
 					}
 				</div>
 			</div>

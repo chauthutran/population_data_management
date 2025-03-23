@@ -10,60 +10,47 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar?: 
     const { setCurrentPage, curPage, title } = useCurrentPage();
     
     return (
-        
-        
-        <>
-            {(curPage === PAGE_INTRO.name ) 
-                ? <header className="text-xl text-gray-700 font-bold flex flex-col">
-                    <div className="flex items-center space-x-3 pl-3">
-                        <AppIcon size={50} />
-                        <div className="truncate">Population Data Management</div>
-                    </div>
-                    <hr className="w-32 border-0 h-1 bg-gradient-to-r from-blue-500 to-white" />
-                </header>
+        <header className="text-xl text-gray-700 flex flex-col">
+            <div className="flex flex-row items-center pl-3">
+                <button 
+                    className="text-white cursor-pointer rounded-full bg-white w-12 h-12 flex items-center justify-center"
+                    onClick={handleOpenSlideBar}>
+                    <AppIcon size={50} />
+                </button>
+                <div className="truncate ml-3">Population Data Management</div>
+                {/* <div className="flex items-center space-x-3 pl-3 font-bold">
+                    <div className="truncate">Population Data Management</div>
+                    <div>-</div>
+                    <div>{title}</div>
+                </div> */}
+                
+                {(curPage !== PAGE_INTRO.name && curPage !== PAGE_LOGIN.name) && <nav className="ml-auto text-sm">
+                    <ul className="flex space-x-6 py-5 mx-20">
+                    <li
+                            onClick={() => setCurrentPage(PAGE_DASHBOARD)}
+                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                        >{PAGE_DASHBOARD.title}</li>
                         
-                : <header className="text-xl text-gray-700 flex flex-col">
-                    <div className="flex flex-row items-center">
-                        <button 
-                            className="text-white cursor-pointer rounded-full bg-white w-12 h-12 flex items-center justify-center"
-                            onClick={handleOpenSlideBar}>
-                            <AppIcon size={50} />
-                        </button>
-                        <div className="flex items-center space-x-3 pl-3 font-bold">
-                            <div className="truncate">Population Data Management</div>
-                            <div>-</div>
-                            <div>{title}</div>
-                        </div>
+                        <li
+                            onClick={() => setCurrentPage(PAGE_DATA_ENTRY)}
+                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                        >{PAGE_DATA_ENTRY.title}</li>
                         
-                        <nav className="ml-auto text-sm">
-                            <ul className="flex space-x-6 py-5 mx-20">
-                            <li
-                                    onClick={() => setCurrentPage(PAGE_DASHBOARD)}
-                                    className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
-                                >{PAGE_DASHBOARD.title}</li>
-                                
-                                <li
-                                    onClick={() => setCurrentPage(PAGE_DATA_ENTRY)}
-                                    className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
-                                >{PAGE_DATA_ENTRY.title}</li>
-                                
-                                <li
-                                    onClick={() => setCurrentPage(PAGE_APPROVALS)}
-                                    className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
-                                >{PAGE_APPROVALS.title}</li>
-                                
-                                <li
-                                    onClick={() => setCurrentPage(PAGE_CHARTS)}
-                                    className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
-                                >{PAGE_CHARTS.title}</li>
-                            </ul>
-                        </nav>
+                        <li
+                            onClick={() => setCurrentPage(PAGE_APPROVALS)}
+                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                        >{PAGE_APPROVALS.title}</li>
                         
-                    </div>
-                    
-                    <hr className="w-32 border-0 h-1 bg-gradient-to-r from-blue-500 to-white" />
-                </header>}
-        </>
-        
+                        <li
+                            onClick={() => setCurrentPage(PAGE_CHARTS)}
+                            className="text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3"
+                        >{PAGE_CHARTS.title}</li>
+                    </ul>
+                </nav>}
+                
+            </div>
+            
+            <hr className="w-32 border-0 h-1 bg-gradient-to-r from-blue-500 to-white" />
+        </header>
     )
 }

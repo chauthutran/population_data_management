@@ -72,7 +72,7 @@ export default function OrgUnitTree(
     
     return (
         <div
-            className="relative bg-white border rounded-md border-gray-200 focus:ring-2 focus:ring-lemon-lime"
+            className={`relative bg-white border-2 rounded-md border-gray-200 focus:ring-2 focus:ring-blue-300 ${selected ? "border-blue-300" : "border-gray-300"} `}
             tabIndex={0}
             ref={dropdownRef}
         >
@@ -103,7 +103,10 @@ export default function OrgUnitTree(
             
                 {/* Sticky Close Button */}
                 <div className="border-t border-gray-200">
-                    <button className="p-3 bg-color-4 hover:bg-deep-green text-white w-full" onClick={() => setShowed(false)}>
+                    <button 
+                        className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 transition-transform transform hover:scale-105 flex flex-row text-white space-x-3 w-full justify-center border-2" 
+                        onClick={() => setShowed(false)}
+                    >
                         Close
                     </button>
                 </div>

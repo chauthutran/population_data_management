@@ -31,7 +31,7 @@ export default function ChartTypeSelector () {
                 return ( <button
                         key={item.name}
                         onClick={() => handleOnClick(item)}
-                        className={`flex items-center gap-2 p-2 border rounded-md hover:bg-gray-100 transition ${selectedChartType?.name === item.name && "bg-color-1"}`}
+                        className={`flex items-center gap-2 p-2 transition-transform transform hover:scale-105 hover:bg-blue-400 hover:text-white border-2 rounded-md  ${selectedChartType?.name === item.name ? "bg-blue-400 text-white" : "bg-gray-200 text-black"}`}
                     >
                         {IconComponent && <IconComponent />} {/* Render icon if exists */}
                         <span>{item.name}</span>

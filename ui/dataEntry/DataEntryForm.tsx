@@ -76,17 +76,11 @@ export default function DataEntryForm() {
 
                 <button
                     type="submit"
-                    className="bg-black hover:bg-deep-green border border-gray-200 text-white disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
+                    className="bg-color-1 hover:shadow-lg border text-white disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
                     disabled={isSubmitting || loading} // Disable the button while submitting or loading
                 >
                      <span>Submit Data</span>
                      <span style={{visibility: isSubmitting ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>
-                    
-                    {/* {isSubmitting ? (
-                        <span className="animate-spin">&#x21bb;</span> // Loading spinner
-                    ) : (
-                        "Submit Data"
-                    )} */}
                 </button>
             </form>
         </div>

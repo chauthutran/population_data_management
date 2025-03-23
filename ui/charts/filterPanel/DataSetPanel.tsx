@@ -40,7 +40,7 @@ export default function DataSetPanel (
             title="Data Element and Periods"
             isOpen={activePanel === "dataSet"}
             onClick={() => handlePanelOnClick("dataSet")}
-            className={`${activePanel == "dataSet" && "bg-lemon-lime"}`}
+            className={`${activePanel == "dataSet" && "text-blue-600"}`}
         >
             <div className="flex-grow-0 space-y-4">
                 <DataSetSelect onItemSelect={handleDataSetOnChange} selected={selectedDataSet} />

@@ -49,7 +49,7 @@ export default function PeriodSelect(
     
     return (
         <div
-            className="relative bg-rich-teal border border-gray-200 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime"
+            className={`relative bg-rich-teal border-2 border-gray-200 rounded-md bg-white focus:ring-2 focus:ring-blue-300 ${selected ? "border-blue-300" : "border-gray-300"}`}
             tabIndex={0}
             ref={dropdownRef}
         >
@@ -86,16 +86,15 @@ export default function PeriodSelect(
                         </button>
                     </div>
 
-        
                     {/* Period List */}
                     <div className="border border-gray-200 min-h-96 max-h-80 overflow-y-auto rounded-b-md">
                         <ul className="divide-y divide-gray-200">
                             {periods.map((item: ISerializePeriod) => (
                                 <li 
                                     key={item.name} 
-                                    className={`cursor-pointer py-4 px-4 hover:bg-lemon-lime transition-all duration-150 ${
+                                    className={`cursor-pointer py-4 px-4 hover:bg-blue-300 transition-all duration-150 ${
                                         selected && selected?.code === item.code
-                                            && "bg-lemon-green"
+                                            && "bg-blue-300 font-semibold"
                                     }`}
                                     onClick={() => handleOnClickItem(item)}
                                 >

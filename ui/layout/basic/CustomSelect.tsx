@@ -45,7 +45,7 @@ export default function CustomSelect<T>({
     
     return (
         <div 
-            className={`relative border-2 rounded-md bg-white focus:ring-2 focus:ring-lemon-lime ${selectedItem ? "border-lemon-lime" : "border-gray-300"}`}
+            className={`relative border-2 rounded-md bg-white focus:ring-2 focus:ring-blue-200 ${selectedItem ? "border-blue-300" : "border-gray-300"}`}
             tabIndex={0}
             ref={dropdownRef}
         >
@@ -61,8 +61,8 @@ export default function CustomSelect<T>({
                         {data!.map((item: T) => (
                             <li 
                                 key={(item as any)._id} // Casting item to any for _id
-                                className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-lemon-lime ${
-                                    item && (item as any)._id === (selectedItem as any)?._id && "bg-lemon-lime font-semibold"
+                                className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-blue-300 ${
+                                    item && (item as any)._id === (selectedItem as any)?._id && "bg-blue-300 font-medium"
                                 }`}
                                 onClick={() => handleSelect(item)}
                             >

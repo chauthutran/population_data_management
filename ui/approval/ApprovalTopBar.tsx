@@ -26,7 +26,7 @@ export default function ApprovalTopBar () {
             </div>
 
             <button
-                className="w-auto hover:bg-color-4 bg-deep-green border border-gray-200 text-white font-semibold rounded-lg py-3 px-6 transition-all duration-300 transform hover:scale-105"
+                className="w-auto bg-color-1 text-white border border-gray-200 rounded-lg py-3 px-6 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                 onClick={cleanAll}
             >
                 Clear Data

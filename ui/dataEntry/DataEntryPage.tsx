@@ -4,7 +4,7 @@ import DataEntryTopBar from "./DataEntryTopBar";
 export default function DataEntryPage() {
     
     return (
-        <div>
+        <div className="w-full">
             <DataEntryTopBar />
             
             <DataEntryForm />

@@ -8,11 +8,11 @@ interface AccordionPanelProps {
 
 export default function AccordionPanel({ title, children, isOpen, onClick, className }: AccordionPanelProps) {
     return (
-        <div className={`border border-gray-300 rounded-md ${isOpen && "h-full"} flex flex-col`}>
+        <div className={`border border-gray-200 ${isOpen && "h-full"} flex flex-col`}>
             {/* Header */}
             <button
                 onClick={onClick}
-                className={`w-full flex justify-between items-center bg-gray-100 px-4 py-2 text-left  ${className}`}
+                className={`w-full flex justify-between items-center bg-gray-100 px-4 py-2 text-left ${className}`}
             >
                 <span className="font-medium">{title}</span>
             </button>

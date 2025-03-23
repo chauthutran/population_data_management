@@ -19,7 +19,7 @@ export default function OrgUnitPanel (
             title="OrgUnit"
             isOpen={activePanel === "orgUnit"}
             onClick={() => handlePanelOnClick("orgUnit")}
-            className={`${activePanel == "orgUnit" && "bg-lemon-lime"}`}
+            className={`${activePanel == "orgUnit" && "text-blue-600"}`}
         >
             <div className="flex-grow-0 space-y-4">
                 <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} disabled={false}/>
