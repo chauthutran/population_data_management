@@ -1,6 +1,7 @@
 "use client";
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import AppDetailsIntro from "../layout/AppDetailsIntro";
 
 const data = [
   { name: "Jan", value: 40 },
@@ -27,10 +28,14 @@ export default function BackgroundChart() {
 		</div>
 
 		{/* Foreground Content */}
-		<div className="z-10 text-white text-3xl">
+		<div className="z-10 text-white text-3xl justify-center items-center">
 		{/* <div className="flex-1 flex flex-col items-center justify-center bg-blue-500 text-white p-8"> */}
 			<h2 className="text-3xl font-semibold mb-4">Effortless Population Data Management</h2>
 			<p className="text-lg mb-6">Securely enter, manage, and visualize population data in one place.</p>
+			
+			<div className="flex-1 flex flex-col space-y-10 mt-10">
+				<AppDetailsIntro />
+			</div>
   		</div>
 		{/* </div> */}
 	</div>

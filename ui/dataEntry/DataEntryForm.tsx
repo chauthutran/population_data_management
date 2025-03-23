@@ -76,7 +76,8 @@ export default function DataEntryForm() {
 
                 <button
                     type="submit"
-                    className="bg-color-1 hover:shadow-lg border text-white disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
+                    
+                    className="bg-teal-700 text-white hover:bg-teal-600  hover:shadow-lg border disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
                     disabled={isSubmitting || loading} // Disable the button while submitting or loading
                 >
                      <span>Submit Data</span>

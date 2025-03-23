@@ -1,9 +1,18 @@
 import { useCurrentPage } from "@/hooks/usePage";
 import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import { MdDashboard, MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import AppIcon from "./AppIcon";
 import useClickOutside from "@/hooks/useClickOutside";
 import { useAuth } from "@/hooks/useAuth";
+import { FcApproval, FcComboChart, FcDataSheet } from "react-icons/fc";
+
+// Map of icon names to components
+export const ICON_MAP = {
+    FcDataSheet,
+    FcApproval,
+    FcComboChart,
+    MdDashboard,
+} as const; // Ensures these are treated as a fixed object;
 
 export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const { setCurrentPage } = useCurrentPage();
@@ -16,12 +25,13 @@ export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose
         if (ok) {
             setCurrentPage(PAGE_LOGIN);
             setUser(null);
+            onClose();
         }
     }
     
     return (
         <aside
-            className={`fixed left-0 top-0 h-screen z-50 w-64 bg-deep-green shadow-lg p-5 flex flex-col text-white transition-transform duration-300 ${
+            className={`drop-shadow-2xl fixed left-0 top-0 h-screen z-50 w-64 bg-gray-50 shadow-lg p-5 flex flex-col text-black transition-transform duration-300 ${
                 isOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             ref={dropdownRef}
@@ -41,18 +51,27 @@ export default function SlideBar({ isOpen, onClose }: { isOpen: boolean; onClose
                     PAGE_DATA_ENTRY,
                     PAGE_APPROVALS,
                     PAGE_CHARTS,
-                ].map((item) => (
-                    <li
-                        key={item.name}
-                        className="p-3 rounded-lg hover:bg-muted-teal transition cursor-pointer"
-                        onClick={() => {setCurrentPage(item); onClose();}}
-                    >
-                        {item.icon} {item.title}
-                    </li>
-                ))}
+                ].map((item) => {
+                    const IconComponent = ICON_MAP[item.icon as keyof typeof ICON_MAP]; // Get the actual component
+                    
+                    return (
+                        <li
+                            key={item.name}
+                            className="p-3 flex items-center space-x-2 rounded-lg hover:bg-gray-300 transition cursor-pointer"
+                            onClick={() => {setCurrentPage(item); onClose();}}
+                        >
+                            <div>
+                                {IconComponent && <IconComponent />}
+                            </div>
+                            <div>
+                                {item.title}
+                            </div>
+                        </li>
+                    )
+                })}
                 {/* Logout Button */}
                 <li 
-                    className="p-3 rounded-lg bg-red-600 hover:bg-red-700 transition cursor-pointer mt-4 text-center"
+                    className="p-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition cursor-pointer mt-4 text-center"
                     onClick={() => handleOnLogout()}
                 >
                     🔓 Logout

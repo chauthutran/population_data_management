@@ -44,7 +44,7 @@ export default function ChartTopBar ({
             {/* Button should not be affected by height changes */}
             <div className="flex space-x-4 p-3">
                 <button
-                    className="flex-1 shadow-lg hover:shadow-gray-400 bg-blue-400 to-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row text-black space-x-3 items-center justify-center p-4"
+                    className="bg-teal-700 text-white hover:bg-teal-600  hover:shadow-lg border disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
                     onClick={onClick}
                     disabled={ !selectedOrgUnit || !selectedOrgUnitLevel 
                         || !selectedDataElements || !selectedPeriods 
@@ -54,7 +54,7 @@ export default function ChartTopBar ({
                     Generate Chart
                 </button>
                 <button
-                    className="flex-1 shadow-lg hover:shadow-gray-400 border-2 border-blue-400 to-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row text-black space-x-3 items-center justify-center p-4"
+                    className="border border-teal-700 text-black hover:border-teal-600 hover:shadow-lg disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
                     onClick={cleanAll}
                     disabled={false}
                 >
