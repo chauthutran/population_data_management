@@ -13,7 +13,8 @@ export default {
         "color-2": "#ffd823",
         "color-3": "#111111",
         "color-4": "#7eb4c4",
-        
+        "color-5": "#043873",
+        "color-6": "#4f9cf9",
         
         "lemon-green": "#adf802",
         "yellow-green-shade": "#d2e100 ",
@@ -29,9 +30,9 @@ export default {
         "bright-lime-green": "#80F802",
         "soft-lavender": "#D6A2E8",
         "muted-teal": "#66B2B2",
-        "color-6": "#e8e8e8",
-        "color-7": "#f2f2f2",
-        "color-8": "#a2a2a2",
+        // "color-6": "#e8e8e8",
+        // "color-7": "#f2f2f2",
+        // "color-8": "#a2a2a2",
 
         // "deep-olive": "#4A6726",
         // "muted-teal": "#4F9D86",
