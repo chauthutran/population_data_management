@@ -18,7 +18,7 @@ export default function HomePage() {
                     </div>
                     <div>
                         <button 
-                            className="shadow-lg shadow-gray-400 px-3 py-2 bg-blue-400 font-semibold rounded-lg"
+                            className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 font-semibold rounded-lg transition-transform transform hover:scale-105"
                             onClick={() => setCurrentPage(PAGE_LOGIN)}
                         >
                             Login

@@ -67,7 +67,7 @@ export default function LoginForm () {
     
                 <div className="flex flex-row space-x-12 items-center">
                     <button
-                        className="flex-1 flex justify-center space-x-3 w-full bg-blue-400 text-black font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                       className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row text-black space-x-3"
                     >
                         <span className="pl-2">Login</span>  
                         <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin" /></span>
