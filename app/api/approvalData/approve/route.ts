@@ -23,7 +23,17 @@ export async function POST (request: NextRequest) {
                 approvedDate: new Date(),
             };
             
-            const newApprovalData = await ApprovalData.create(approvalData);
+            await ApprovalData.create(approvalData);
+            
+            // Get more details of approvedBy and acceptedBy information ( User info )
+            const condition = {
+                dataSet: new mongoose.Types.ObjectId(dataSet),
+                period: periodObj._id,
+                orgUnit: new mongoose.Types.ObjectId(orgUnit)
+            };
+                    
+            const newApprovalData = await ApprovalData.findOne(condition)
+                                            .populate( "approvedBy acceptedBy" );
             
             return NextResponse.json(newApprovalData, {status: 200});
         }

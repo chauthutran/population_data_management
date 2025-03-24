@@ -8,6 +8,10 @@ export const PAGE_APPROVALS = {name: "PAGE_APPROVALS", title: "Approvals", icon:
 export const PAGE_CHARTS = {name: "PAGE_CHARTS", title: "Charts", icon: "FcComboChart"};
 
 
+export const DATA_APPROVED = "APPROVED";
+export const DATA_UNAPPROVED = "UNAPPROVED";
+export const DATA_ACCEPTED = "ACCEPTED";
+
 export const CHART_AXIST_ORGUNITS: IChartAxist = {_id: "orgUnit", name: "OrgUnit"};
 export const CHART_AXIST_DATA_ELEMENTS: IChartAxist = {_id: "dataElement", name: "Data Element"};
 export const CHART_AXIST_PERIODS: IChartAxist = {_id: "periods", name: "Periods"};

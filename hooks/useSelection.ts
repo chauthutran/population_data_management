@@ -10,7 +10,7 @@ export const useSelection = () => {
     const selectedDataSet = useSelector((state: RootState) => state.selection.dataSet, shallowEqual);
     const selectedPeriod = useSelector((state: RootState) => state.selection.period, shallowEqual);
     const selectedOrgUnit = useSelector((state: RootState) => state.selection.orgUnit, shallowEqual);
-    const approvalData = useSelector((state: RootState) => state.selection.approvalData, shallowEqual);
+    const selectedApprovalData = useSelector((state: RootState) => state.selection.approvalData, shallowEqual);
  
     // Menoize the callback for performance
     const selectDataSet = useCallback((data: IDataSet) => {
@@ -34,5 +34,5 @@ export const useSelection = () => {
         dispatch(clearSelection());
     }, [dispatch]);
     
-    return { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData, selectDataSet, selectPeriod, selectOrgUnit, selectApprovalData, cleanAll };
+    return { selectedDataSet, selectedPeriod, selectedOrgUnit, selectedApprovalData, selectDataSet, selectPeriod, selectOrgUnit, selectApprovalData, cleanAll };
 }

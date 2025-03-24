@@ -1,3 +1,4 @@
+import { DATA_ACCEPTED, DATA_APPROVED, DATA_UNAPPROVED } from "@/constants";
 import { IApprovalData, IDataValue, JSONObject } from "@/types/definations";
 
 export const createDataValues = (dataValueMap: JSONObject, periodCode: string, orgUnitId: string) => {
@@ -24,16 +25,16 @@ export const convertDataValuesToMap = (dataValues: IDataValue[]): Record<string,
     }, {} as Record<string, string>);
 }
 
-export const getApprovalStatus = (approvalData: IApprovalData | null): JSONObject => {
+export const getApprovalStatus = (approvalData: IApprovalData | null): string => {
     if (!approvalData || !approvalData.approvedBy) {
-        return { canApprove: true, canAccept: false };
+        return DATA_UNAPPROVED;
     }
     
     if (approvalData && approvalData.approvedBy && !approvalData.acceptedBy) {
-        return  { canApprove: false, canAccept: true };
+        return DATA_APPROVED; // APPROVED
     }
     
     // if (approvalData && approvalData.acceptedBy) {
-        return { canApprove: false, canAccept: false };
+        return DATA_ACCEPTED; // ACCEPTED
     // }
 }

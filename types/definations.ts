@@ -48,7 +48,7 @@ export type IDataSet = {
 
 export type IUser = {
     _id: string;
-    username: string;
+    email: string;
 }
 
 export type IApprovalData = {

@@ -24,8 +24,9 @@ export async function POST (request: NextRequest) {
             period: periodDbObj._id,
             orgUnit: new mongoose.Types.ObjectId(orgUnit)
         };
-        
-        let result = await ApprovalData.findOne(condition);
+                
+        let result = await ApprovalData.findOne(condition)
+                                        .populate( "approvedBy acceptedBy" );
         result = (result) ? result : {};
 
         return NextResponse.json(result, {status: 200});

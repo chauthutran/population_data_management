@@ -26,7 +26,7 @@ export async function POST (request: NextRequest) {
         let periodDbObj: IPeriod = await getOrCreatePeriod(periodCode);
         
         // Find and update the document
-        const updatedApproval = await ApprovalData.findOneAndUpdate(
+        let updatedApproval = await ApprovalData.findOneAndUpdate(
             { dataSet: dataSetIdObj, period: periodDbObj._id, orgUnit: orgUnitIdObj }, // Search criteria
             {
                 acceptedBy: acceptedByIdObj,
@@ -40,6 +40,16 @@ export async function POST (request: NextRequest) {
             return NextResponse.json({message: "Approval data not found"}, {status: 404});
         }
         
+        
+        // Get more details of approvedBy and acceptedBy information ( User info )
+        const condition = {
+            dataSet: new mongoose.Types.ObjectId(dataSet),
+            period: periodDbObj._id,
+            orgUnit: new mongoose.Types.ObjectId(orgUnit)
+        };
+                
+        updatedApproval = await ApprovalData.findOne(condition)
+                                            .populate( "approvedBy acceptedBy" );
         return NextResponse.json(updatedApproval, {status: 200});
     }
     catch(error: any) {
@@ -67,7 +77,7 @@ export async function DELETE (request: NextRequest) {
         if( periodDbObj === null ) return NextResponse.json({message: "Approval data not found"}, {status: 404});
         
         // Find and update the document (remove acceptedBy and acceptedDate)
-        const updatedApproval = await ApprovalData.findOneAndUpdate(
+        let updatedApproval = await ApprovalData.findOneAndUpdate(
             { dataSet: dataSetIdObj, period: periodDbObj._id, orgUnit: orgUnitIdObj },
             {
                 $unset: { acceptedBy: "", acceptedDate: "" }, // Unset the fields (remove acceptedBy and acceptedDate from the document)
@@ -80,7 +90,17 @@ export async function DELETE (request: NextRequest) {
             return NextResponse.json({ message: "Approval data not found" }, { status: 404 });
         }
         
-        return NextResponse.json(updatedApproval, { status: 200 });
+        
+        // Get more details of approvedBy and acceptedBy information ( User info )
+        const condition = {
+            dataSet: new mongoose.Types.ObjectId(dataSet),
+            period: periodDbObj._id,
+            orgUnit: new mongoose.Types.ObjectId(orgUnit)
+        };
+                
+        updatedApproval = await ApprovalData.findOne(condition)
+                                            .populate( "approvedBy acceptedBy" );
+        return NextResponse.json(updatedApproval, {status: 200});
     }
     catch(error: any) {
         return NextResponse.json({message: error.message}, {status: 500});

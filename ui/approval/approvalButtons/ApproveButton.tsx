@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function ApproveButton( ) {
     
-    const { selectedDataSet, selectedPeriod, selectedOrgUnit, approvalData, selectApprovalData } = useSelection();
+    const { selectedDataSet, selectedPeriod, selectedOrgUnit, selectApprovalData } = useSelection();
     const { loading, error, refetch } = useAsyncData<IApprovalData | null>();
     
     const approveData = async (): Promise<IApprovalData | null> => {
@@ -27,7 +27,7 @@ export default function ApproveButton( ) {
     return (
         <button 
             onClick={() => refetch(approveData)}
-            className="bg-teal-700 text-white hover:bg-teal-600 border-2 border-gray-200 disabled:bg-gray-400 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
+            className="bg-blue-600 text-white hover:bg-blue-500 border-2 border-gray-200 disabled:bg-gray-400 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
             disabled={loading}
         >
             Approve

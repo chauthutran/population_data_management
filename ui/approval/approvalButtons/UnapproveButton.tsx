@@ -25,7 +25,7 @@ export default function UnapproveButton( ) {
     return (
         <button 
             onClick={() => refetch(approveData)}
-            className="bg-teal-700 text-white hover:bg-teal-600 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
+            className="bg-blue-600 text-white hover:bg-blue-500 px-4 py-2 rounded transition-all duration-300 transform hover:scale-105"
             disabled={loading}
         >
             Un-Approve

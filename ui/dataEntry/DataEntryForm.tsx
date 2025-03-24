@@ -1,3 +1,4 @@
+import { DATA_UNAPPROVED } from "@/constants";
 import useAsyncData from "@/hooks/useAsyncData";
 import { useDataEntry } from "@/hooks/useDataEntry";
 import { IApprovalData, IDataValue, JSONObject } from "@/types/definations";
@@ -77,6 +78,8 @@ export default function DataEntryForm() {
     
     if (loading) return (<div className="p-6">Loading ...</div>);
     
+    const approvalStatus = getApprovalStatus(selectedApprovalData);
+    
     return (
         <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
             {message && <p className="mb-4 text-green-600">{message}</p>}
@@ -89,7 +92,7 @@ export default function DataEntryForm() {
                             type="number"
                             className="border border-gray-300 p-2 w-24 rounded disabled:bg-gray-100"
                             value={dataValueMap[el._id] || ""}
-                            disabled={!getApprovalStatus(selectedApprovalData).canApprove}
+                            disabled={approvalStatus === DATA_UNAPPROVED}
                             onChange={(e) => handleOnChange(el._id, e.target.value)}
                         />
                     </div>
@@ -98,7 +101,7 @@ export default function DataEntryForm() {
                 <button
                     type="submit"
                     className="bg-teal-700 text-white hover:bg-teal-600  hover:shadow-lg border disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
-                    disabled={!getApprovalStatus(selectedApprovalData).canApprove || (getApprovalStatus(selectedApprovalData).canApprove && (isSubmitting || loading))} // Disable the button while submitting or loading
+                    disabled={approvalStatus !== DATA_UNAPPROVED || (approvalStatus === DATA_UNAPPROVED && (isSubmitting || loading))} // Disable the button while submitting or loading
                 >
                      <span>Submit Data</span>
                      <span style={{visibility: isSubmitting ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>

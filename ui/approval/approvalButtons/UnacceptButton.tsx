@@ -29,7 +29,7 @@ export default function UnacceptButton () {
         <button 
             onClick={() => unacceptData()}
             disabled={loading} // Disable the button if the request is in progress
-            className="w-auto bg-color-4 hover:bg-deep-green border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
+            className="w-auto bg-green-700 hover:bg-green-600 border border-gray-200 text-white rounded-lg disabled:bg-gray-400 py-3 px-6 transition-all duration-300 transform hover:scale-105"
         >
             Un-Accept
         </button>

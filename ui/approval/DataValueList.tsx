@@ -32,26 +32,38 @@ export default function DataValueList () {
     if (error) return <div className="text-red-500">An error occurred while fetching data. Please try again.</div>;
 
     return (
-        <div className="flex-1">
-            <div className="text-2xl font-semibold text-gray-800 mb-4">{selectedDataSet.name} - {selectedPeriod.name} - {selectedOrgUnit.name}</div>
-            
-            {data.length === 0
-                ? <span className="italic">No data values</span>
-                : <div className="overflow-y-auto overflow-x-hidden"> {/* Prevent horizontal scroll */}
-                    <table className="w-full table-auto mx-3">
-                        <tbody className="divide-y divide-gray-200">
-                            {data!.map((item: IDataValue) => (
-                                <tr key={item._id}
-                                    className="transition-transform transform hover:scale-105 hover:shadow-md hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <td className="font-semibold text-gray-700 p-4">{item.dataElement.name}:</td>
-                                    <td className="text-gray-500 p-4">{item.value}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </div>
+        <div className="flex-1"> {/* Ensure it has a height */}
+    {data.length === 0 ? (
+        <span className="italic">No data values</span>
+    ) : (
+        <div className="overflow-auto max-h-[40vh] bg-white shadow-md rounded-lg border border-gray-200">
+        <table className="w-full table-auto">
+            {/* Table Head (Sticky) */}
+            <thead className="bg-gray-100 text-gray-700 sticky top-0 shadow-md">
+                <tr>
+                    <th className="text-left p-4 font-semibold">Data Element</th>
+                    <th className="text-left p-4 font-semibold">Value</th>
+                </tr>
+            </thead>
+    
+            {/* Table Body */}
+            <tbody className="divide-y divide-gray-200">
+                {data!.map((item: IDataValue, index) => (
+                    <tr
+                        key={item._id}
+                        className={`transition-transform transform hover:scale-[1.02] hover:shadow-md cursor-pointer 
+                        ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                    >
+                        <td className="font-semibold text-gray-700 p-4">{item.dataElement.name}:</td>
+                        <td className="text-gray-600 p-4">{item.value}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    
+    )}
+</div>
+
     )
 }
