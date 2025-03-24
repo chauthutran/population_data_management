@@ -66,7 +66,7 @@ export default function DataEntryPage() {
 
                     <section>
                         <h2 className="text-lg font-semibold mb-2">Data Overview</h2>
-                            {approvalStatus.canApprove && <div className="flex space-x-3 items-center bg-yellow-400 p-2 rounded-md">
+                            {approvalStatus.canApprove && <div className="flex space-x-3 items-center bg-yellow-300 p-2 rounded-md">
                                 <FiClock className="text-white text-2xl" />
                                 <div className="">
                                     Data is ready to approve
@@ -78,7 +78,7 @@ export default function DataEntryPage() {
                                     Data is approved
                                 </div>
                             </div>}
-                            {approvalStatus.canAccept && <div className="flex space-x-3 items-center bg-green-400 p-2 rounded-md">
+                            {approvalStatus.canAccept && <div className="flex space-x-3 items-center bg-green-500 p-2 rounded-md">
                                 <FaCheckCircle className="text-white text-2xl" />
                                 <div>
                                     Data is accepted
