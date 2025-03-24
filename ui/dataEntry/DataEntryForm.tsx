@@ -1,39 +1,59 @@
 import useAsyncData from "@/hooks/useAsyncData";
 import { useDataEntry } from "@/hooks/useDataEntry";
-import { IDataValue, JSONObject } from "@/types/definations";
+import { IApprovalData, IDataValue, JSONObject } from "@/types/definations";
 import { post } from "@/utils/apiClient";
-import { convertDataValuesToMap, createDataValues } from "@/utils/dataValueUtils";
+import { convertDataValuesToMap, createDataValues, getApprovalStatus } from "@/utils/dataValueUtils";
 import { useState, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 export default function DataEntryForm() {
-    const { selectedOrgUnit, selectedPeriod, selectedDataSet } = useDataEntry();
-    const { data, error, refetch, loading } = useAsyncData<IDataValue[]>();
+    const { selectedOrgUnit, selectedPeriod, selectedDataSet, selectedApprovalData, selectApprovalData } = useDataEntry();
+    const { data, error, refetch, loading } = useAsyncData<JSONObject>();
 
     const [dataValueMap, setDataValueMap] = useState<Record<string, string>>({});
+    
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);  // State to handle submit loading
 
     useEffect(() => {
         if (selectedOrgUnit && selectedPeriod && selectedDataSet) {
-            refetch(fetchDataValues);
+            refetch(fetchData);
         }
     }, [selectedOrgUnit, selectedPeriod, selectedDataSet]);
 
     useEffect(() => {
         if (data) {
-            setDataValueMap(convertDataValuesToMap(data));
+            setDataValueMap(convertDataValuesToMap(data.dataValues));
+            selectApprovalData(data.approvalData);
         }
     }, [data]);
 
+    const fetchData = async (): Promise<JSONObject> => {
+        const dataValues = await fetchDataValues();
+        const approvalData = await fetchApprovalData();
+        
+        return { dataValues, approvalData };
+    }
+    
     const fetchDataValues = async (): Promise<IDataValue[]> => {
         const payload = {
             period: selectedPeriod?.code,
             dataElements: selectedDataSet?.dataElements.map((de) => de._id),
             orgUnit: selectedOrgUnit?._id,
         };
+        
         return await post<IDataValue[], any>("/api/dataValues/retrieve", payload);
     };
+    
+    const fetchApprovalData = async (): Promise<IApprovalData> => {
+        const payload = {
+            dataSet: selectedDataSet!._id,
+            period: selectedPeriod?.code,
+            orgUnit: selectedOrgUnit?._id,
+        }
+        
+        return await post<IApprovalData, any>("/api/approvalData", payload);
+    }
 
     const handleOnChange = (dataElementId: string, value: string) => {
         setDataValueMap((prevMap) => ({
@@ -53,12 +73,12 @@ export default function DataEntryForm() {
         setIsSubmitting(false);  // Set submitting state to false after submission
     };
 
-    if (!selectedDataSet || !selectedPeriod || !selectedOrgUnit) return <>Please select options</>;
-
+    if (!selectedDataSet || !selectedPeriod || !selectedOrgUnit) return <></>;
+    
+    if (loading) return (<div className="p-6">Loading ...</div>);
+    
     return (
-        <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Data Form</h2>
-            
+        <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
             {message && <p className="mb-4 text-green-600">{message}</p>}
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -67,8 +87,9 @@ export default function DataEntryForm() {
                         <span className="text-lg">{el.name}</span>
                         <input
                             type="number"
-                            className="border border-gray-300 p-2 w-24 rounded"
+                            className="border border-gray-300 p-2 w-24 rounded disabled:bg-gray-100"
                             value={dataValueMap[el._id] || ""}
+                            disabled={!getApprovalStatus(selectedApprovalData).canApprove}
                             onChange={(e) => handleOnChange(el._id, e.target.value)}
                         />
                     </div>
@@ -76,9 +97,8 @@ export default function DataEntryForm() {
 
                 <button
                     type="submit"
-                    
                     className="bg-teal-700 text-white hover:bg-teal-600  hover:shadow-lg border disabled:bg-gray-400 transition-all duration-300 transform hover:scale-105 px-4 py-3 rounded-lg w-full flex space-x-3 justify-center"
-                    disabled={isSubmitting || loading} // Disable the button while submitting or loading
+                    disabled={!getApprovalStatus(selectedApprovalData).canApprove || (getApprovalStatus(selectedApprovalData).canApprove && (isSubmitting || loading))} // Disable the button while submitting or loading
                 >
                      <span>Submit Data</span>
                      <span style={{visibility: isSubmitting ? "visible" : "hidden"}}> <FaSpinner className="animate-spin mr-2" /></span>

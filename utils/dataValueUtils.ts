@@ -1,4 +1,4 @@
-import { IDataValue, JSONObject } from "@/types/definations";
+import { IApprovalData, IDataValue, JSONObject } from "@/types/definations";
 
 export const createDataValues = (dataValueMap: JSONObject, periodCode: string, orgUnitId: string) => {
     const result = [];
@@ -22,4 +22,18 @@ export const convertDataValuesToMap = (dataValues: IDataValue[]): Record<string,
         acc[dv.dataElement._id] = dv.value;
         return acc;
     }, {} as Record<string, string>);
+}
+
+export const getApprovalStatus = (approvalData: IApprovalData | null): JSONObject => {
+    if (!approvalData || !approvalData.approvedBy) {
+        return { canApprove: true, canAccept: false };
+    }
+    
+    if (approvalData && approvalData.approvedBy && !approvalData.acceptedBy) {
+        return  { canApprove: false, canAccept: true };
+    }
+    
+    // if (approvalData && approvalData.acceptedBy) {
+        return { canApprove: false, canAccept: false };
+    // }
 }

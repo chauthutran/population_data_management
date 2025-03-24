@@ -67,10 +67,12 @@ export default function LoginForm () {
     
                 <div className="flex flex-row space-x-12 items-center">
                     <button
-                       className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 text-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-rowspace-x-3"
+                       className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-500 text-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row space-x-3 items-center"
                     >
-                        <span className="pl-2">Login</span>  
-                        <span style={{visibility: loading ? "visible" : "hidden"}}> <FaSpinner className="animate-spin" /></span>
+                        <span className="pl-2">Login</span>
+                        <span style={{visibility: loading ? "visible" : "hidden"}} >
+                            <FaSpinner className="animate-spin" />
+                        </span>
                     </button>
                     
                     <div className="flex justify-end">

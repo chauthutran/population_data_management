@@ -39,8 +39,6 @@ export default function CustomSelect<T>({
         setShowed(false); // Close dropdown after selection
     };
     
-    if (loading) return (<>Loading ...</>);
-    
     const displayedTitle = (selectedItem) ? (selectedItem as any)[displayProp] : title;
     
     return (
@@ -50,27 +48,24 @@ export default function CustomSelect<T>({
             ref={dropdownRef}
         >
             <SelectionHeader title={displayedTitle} showed={showed} setShowed={setShowed} disabled={false} />
-            
             {showed && <div 
                 className="absolute w-full rounded-md z-50 top-10 left-0 right-0 bg-white shadow-lg overflow-y-auto"
             >
-                {data === null ? (
-                    <div className="p-4">Loading...</div>
-                ) : (
-                    <ul className="border border-gray-200 divide-y divide-gray-300">
-                        {data!.map((item: T) => (
+                <ul className="border border-gray-200 divide-y divide-gray-300">
+                    {data === null ? (
+                        <li className="p-4 italic">Loading ...</li>
+                    ) : (data!.map((item: T) => (
                             <li 
-                                key={(item as any)._id} // Casting item to any for _id
-                                className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-blue-300 ${
-                                    item && (item as any)._id === (selectedItem as any)?._id && "bg-blue-300 font-medium"
-                                }`}
-                                onClick={() => handleSelect(item)}
-                            >
-                                {(item as any)[displayProp]}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                            key={(item as any)._id} // Casting item to any for _id
+                            className={`cursor-pointer py-3 px-4 transition duration-200 ease-in-out hover:bg-blue-300 ${
+                                item && (item as any)._id === (selectedItem as any)?._id && "bg-blue-300 font-medium"
+                            }`}
+                            onClick={() => handleSelect(item)}
+                        >
+                            {(item as any)[displayProp]}
+                        </li>  )
+                    ))}
+                </ul>
             </div>}
         </div>
     )

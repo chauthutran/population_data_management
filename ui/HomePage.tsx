@@ -1,7 +1,6 @@
 import { PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
 import Image from "next/image";
-import { FcApproval, FcComboChart, FcDataSheet } from "react-icons/fc";
 import AppDetailsIntro from "./layout/AppDetailsIntro";
 
 export default function HomePage() {
@@ -10,7 +9,7 @@ export default function HomePage() {
     
     return (
         <>
-            <div className="flex flex-row items-start w-full h-full space-x-10 my-10">
+            <div className="flex flex-row items-start w-full flex-1 space-x-10 my-10">
                 <div className="flex-1 flex-col space-y-5 mx-5">
                     <div className="text-left">
                         The Population Data Management Application is a powerful and user-friendly platform designed to help organizations collect, manage, and visualize population-related data efficiently.

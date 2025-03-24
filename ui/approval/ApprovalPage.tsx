@@ -18,11 +18,8 @@ export default function ApprovalPage () {
                     <ApprovalButtonBar />
                 </div>
                 
-                {/* <div className="mr-auto min-w-80"> */}
-                    <ApprovalSuggestion />
-                {/* </div> */}
+                <ApprovalSuggestion />
             </div>
-            
             
         </div>
     )

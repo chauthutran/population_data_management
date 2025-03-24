@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useSelection } from "@/hooks/useSelection";
 import AcceptButton from "./approvalButtons/AcceptButton";
 import { post } from "@/utils/apiClient";
-import { setApprovalData } from "@/store/selectionSlice";
 import UnapproveButton from "./approvalButtons/UnapproveButton";
 import UnacceptButton from "./approvalButtons/UnacceptButton";
 

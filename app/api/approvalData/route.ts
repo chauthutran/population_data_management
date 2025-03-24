@@ -1,10 +1,8 @@
-import { IApprovalData, IPeriod } from '@/types/definations';
+import { IPeriod } from '@/types/definations';
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
-import Period from '@/libs/db/schemas/PeriodSchema';
 import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
-import { generatePeriodByCode } from '@/utils/periodUtils';
 import { getOrCreatePeriod } from '@/helpers/periodHelper';
 
 export async function POST (request: NextRequest) {
