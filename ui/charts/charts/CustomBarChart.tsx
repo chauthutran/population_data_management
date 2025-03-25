@@ -4,14 +4,14 @@ import { sortPeriods } from "@/utils/periodUtils";
 import { useEffect } from "react";
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export default function CustomBarChart ({data, loading}: {data: IChartData, loading: boolean}) {
+export default function CustomBarChart ({data, loading}: {data: IChartData, loading?: boolean}) {
 	
     useEffect(() => {
         
     }, [data])
     
     
-	if (loading) return (<div>Loading ...</div>);
+	if (!loading && loading) return (<div>Loading ...</div>);
 	
 	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
 

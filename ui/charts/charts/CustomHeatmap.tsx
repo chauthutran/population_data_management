@@ -1,4 +1,4 @@
-import { IChartAxist, IChartData, IDataElement,ISerializePeriod,JSONObject } from "@/types/definations";
+import { IChartData } from "@/types/definations";
 import { getColorForNumber, getColorFromString } from "@/utils/colorUtils";
 import { useEffect } from "react";
 
@@ -7,12 +7,12 @@ import { useEffect } from "react";
 // City A	500	520	530	550	600	620	650	680	700	750	800	850
 // City B	450	460	470	490	500	530	550	570	600	630	650	700
 
-export default function ({data, loading}: {data: IChartData, loading: boolean}) {
+export default function ({data, loading}: {data: IChartData, loading?: boolean}) {
 	useEffect(() => {
 
 	}, [data]);
 
-	if (loading) return (<div>Loading ...</div>);
+	if (!loading && loading) return (<div>Loading ...</div>);
 	
 	if(!data) return (<></>);
 	
@@ -23,10 +23,10 @@ export default function ({data, loading}: {data: IChartData, loading: boolean}) 
 	const maxValue = Math.max(...allValues);
 	
     return (
-        <div className="overflow-x-auto bg-gray-100 p-3 rounded-md shadow-md h-full">
+        <div className="overflow-x-auto p-3 h-full">
 			<table className="min-w-full w-full table-auto">
 				<thead>
-				<tr>
+				<tr className="bg-gray-200">
 					<th className="border px-4 py-2 text-left">#</th>
 					{data.axisY.map((axisY: string) => (
 						<th key={`heatmap_th_${axisY}`} className="border px-4 py-2 text-center">{axisY}</th>

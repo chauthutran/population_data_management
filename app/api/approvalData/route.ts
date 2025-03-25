@@ -10,7 +10,7 @@ export async function POST (request: NextRequest) {
         const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
         
         if (!dataSet || !periodCode || !orgUnit ) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return NextResponse.json({message: "Missing required fields: dataSet, period, and orgUnit. Please ensure all required fields are included in your request."}, {status: 500});
         }
         
         // Connect Mongodb

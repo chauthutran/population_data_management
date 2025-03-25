@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 
-export default function CustomLineChart ({data, loading}: {data: IChartData, loading: boolean}) {
+export default function CustomLineChart ({data, loading}: {data: IChartData, loading?: boolean}) {
 	
 	// UseEffect if necessary, but currently it's not being used.
 	useEffect(() => {
 		// You can perform any side effects here
 	}, [data]);
 	
-	if (loading) return (<div>Loading ...</div>);
+	if (!loading && loading) return (<div>Loading ...</div>);
 	
 	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
 

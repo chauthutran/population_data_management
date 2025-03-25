@@ -3,13 +3,10 @@ import ApprovalButtonBar from "./ApprovalButtonBar";
 import DataValueList from "./DataValueList";
 import TopBar from "./ApprovalTopBar";
 import ApprovalRightSideBar from "./ApprovalRightSideBar";
-import { getApprovalStatus } from "@/utils/dataValueUtils";
 
 export default function ApprovalPage () {
     
-    const { selectedOrgUnit, selectedPeriod, selectedDataSet, selectedApprovalData } = useSelection();
-    
-    const approvalStatus = getApprovalStatus(selectedApprovalData);
+    const { selectedOrgUnit, selectedPeriod, selectedDataSet } = useSelection();
     
     return (
         <div className="flex flex-col w-full">

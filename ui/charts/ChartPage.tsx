@@ -19,10 +19,10 @@ export default function ChartPage () {
 		
 	const fetchData = async (): Promise<IChartData> => {
 		const data =  await retrieveAndTransformData(
-			selectedPeriods!,
-			selectedDataElements!,
-			selectedOrgUnit!,
-			selectedOrgUnitLevel!,
+			selectedPeriods!.map((item) => item.code),
+			selectedDataElements!.map((item) => item._id),
+			selectedOrgUnit!._id,
+			selectedOrgUnitLevel!._id,
 		);
 		
 		const orgUnits: JSONObject[] =  Array.from(
@@ -38,16 +38,6 @@ export default function ChartPage () {
 	
 	const handleOnClick = () => {
 		refetch(fetchData);
-		
-		// const data = await fetchData();
-		
-		// const orgUnits: JSONObject[] =  Array.from(
-		// 	new Map(data.map(item => [item.orgUnit, { _id: item.orgUnit, name: item.orgUnitName }])).values()
-		// );
-		
-		// const transformedData = transformData(data, selectedChartX!, selectedChartY!, orgUnits, selectedDataElements!, selectedPeriods! );
-
-		// setChartData(transformedData);
 	}
 	
     return (
@@ -63,7 +53,7 @@ export default function ChartPage () {
 					<ChartTypeSelector />
 				</h2>
 				
-				<div className="flex-1 abc overflow-y-auto h-full shadow-md rounded-md p-5">
+				<div className="flex-1 overflow-y-auto h-full shadow-md rounded-md p-5">
 					{selectedChartType && selectedChartType?._id === "Line" &&
 						<CustomLineChart data={chartData} loading={loading} />
 					}

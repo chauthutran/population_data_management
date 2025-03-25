@@ -4,14 +4,13 @@ import { CHART_AXIST_DATA_ELEMENTS, CHART_AXIST_ORGUNITS, CHART_AXIST_PERIODS } 
 import { sortPeriods } from "./periodUtils";
 import { sortList } from "./arrayUtils";
 
-export const retrieveAndTransformData = async (periods: ISerializePeriod[], dataElements: IDataElement[], orgUnit: JSONObject, orgUnitLevel: JSONObject): Promise<JSONObject[]> => {
-
+export const retrieveAndTransformData = async (periodCodes: string[], dataElementIds: string[], orgUnitId: string, orgUnitLevel: number): Promise<JSONObject[]> => {
     const payload = {
-                periods: periods.map((item) => item.code),
-                dataElements: dataElements.map((item) => item._id),
-                orgUnit: orgUnit._id,
-                orgUnitLevel: orgUnitLevel._id
-            }
+        periods: periodCodes,
+        dataElements: dataElementIds,
+        orgUnit: orgUnitId,
+        orgUnitLevel: orgUnitLevel
+    }
 
     return await post<JSONObject[], any>("/api/charts", payload);
 }

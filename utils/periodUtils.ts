@@ -8,6 +8,14 @@ export const getCurrentYear = () => {
     return (new Date()).getFullYear();
 }
 
+export const generatePeriodsByCode = (codes: string[]): ISerializePeriod[] => {
+    const result: ISerializePeriod[] = [];
+    for (var i=0; i<codes.length; i++) {
+        const period = serializePeriod(generatePeriodByCode(codes[i]));
+        result.push(period);
+    }
+    return result;
+}
 /**
  *
  * @param code

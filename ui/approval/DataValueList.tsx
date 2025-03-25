@@ -16,7 +16,7 @@ export default function DataValueList () {
     }, [selectedDataSet?._id, selectedPeriod?.code, selectedOrgUnit?._id]);
     
     const fetchDataValues = async (): Promise<IDataValue[]> => {
-         const payload = {
+        const payload = {
             period: selectedPeriod?.code,
             dataElements: selectedDataSet?.dataElements.map((de) => de._id),
             orgUnit: selectedOrgUnit?._id,

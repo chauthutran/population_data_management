@@ -55,6 +55,7 @@ export type IApprovalData = {
     _id: string;
     dataSet: IDataSet,
     period: ISerializePeriod,
+    orgUnit: IOrgUnit,
     approvedBy: IUser,
     approvedDate: Date,
     acceptedBy: IUser,
