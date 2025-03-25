@@ -18,10 +18,10 @@ export default function ApprovalHistory () {
                 </h3>
                 <ul className="list-disc pl-5 text-gray-600 text-sm space-y-2">
                     <li className="lowercase">
-                        {selectedApprovalData?.approvedBy.email} is <span className="font-semibold">approved</span> on {formatDate(selectedApprovalData?.approvedDate! + "")}
+                        {selectedApprovalData?.approvedBy.email} <span className="font-semibold">approved</span> on {formatDate(selectedApprovalData?.approvedDate! + "")}
                     </li>
                     {approvalStatus === DATA_ACCEPTED && <li className="lowercase">
-                        {selectedApprovalData?.acceptedBy.email} is <span className="font-semibold">accepted</span> on {formatDate(selectedApprovalData?.acceptedDate! + "")}
+                        {selectedApprovalData?.acceptedBy.email} <span className="font-semibold">accepted</span> on {formatDate(selectedApprovalData?.acceptedDate! + "")}
                     </li>}
                 </ul>
             </>}

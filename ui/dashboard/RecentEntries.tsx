@@ -32,6 +32,8 @@ export default function RecentEntries () {
                     <th className="p-3">OrgUnit</th>
                     <th className="p-3">Data Set</th>
                     <th className="p-3">Status</th>
+                    <th className="p-3">Who</th>
+                    <th className="p-3">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,14 +46,18 @@ export default function RecentEntries () {
                                 <td className="p-3">{item.period.name}</td>
                                 <td className="p-3">{item.orgUnit.name}</td>
                                 <td className="p-3">{item.dataSet.name}</td>
-                                <td className="text-blue-500">Approved on {formatDate(item.approvedDate + "")}</td>
+                                <td className="p-3 text-blue-500">Approved</td>
+                                <td className="p-3">{item.approvedBy.email}</td>
+                                <td className="p-3">{formatDate(item.approvedDate + "")}</td>
                             </tr>
                             
                             {approvalStatus === DATA_ACCEPTED && <tr className="border-b">
                                 <td className="p-3">{item.period.name}</td>
                                 <td className="p-3">{item.orgUnit.name}</td>
                                 <td className="p-3">{item.dataSet.name}</td>
-                                <td className="text-green-600">Accepted on {formatDate(item.acceptedDate + "")}</td>
+                                <td className="p-3 text-green-500">Accepted</td>
+                                <td className="p-3">{item.acceptedBy.email}</td>
+                                <td className="p-3">{formatDate(item.acceptedDate + "")}</td>
                             </tr>}
                         </>
                     )})
