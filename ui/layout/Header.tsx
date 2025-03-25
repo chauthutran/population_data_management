@@ -1,9 +1,6 @@
-import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_INTRO, PAGE_LOGIN } from "@/constants";
+import { PAGE_APPROVALS, PAGE_CHARTS, PAGE_DASHBOARD, PAGE_DATA_ENTRY, PAGE_LOGIN } from "@/constants";
 import { useCurrentPage } from "@/hooks/usePage";
-import { MdMenu } from "react-icons/md";
-import Image from "next/image";
 import AppIcon from "./AppIcon";
-import { useAuth } from "@/hooks/useAuth";
 
 export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar?: () => void}) {
     
@@ -24,7 +21,7 @@ export default function Header ({ handleOpenSlideBar } : { handleOpenSlideBar?: 
                     <div>{title}</div>
                 </div> */}
                 
-                {(curPage !== PAGE_INTRO.name && curPage !== PAGE_LOGIN.name) && <nav className="ml-auto text-sm">
+                {(curPage !== PAGE_LOGIN.name) && <nav className="ml-auto text-sm">
                     <ul className="flex space-x-6 py-5 mx-20">
                     <li
                             onClick={() => setCurrentPage(PAGE_DASHBOARD)}

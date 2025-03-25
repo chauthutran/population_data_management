@@ -40,9 +40,8 @@ export default function LoginForm () {
     
     return (
         // <div className="shadow-lg rounded-lg p-8 max-w-md w-full text-center">
-        <div className="p-8 max-w-md w-ful">
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Welcome</h2>
-            {/* <p className="text-color-1 mb-6">Manage and visualize population data with ease.</p> */}
+        <div className="max-w-md w-ful">
+            {/* <h2 className="text-lg font-bold text-gray-800 text-center mb-6">Welcome</h2> */}
             
             <form onSubmit={handleSubmit} className="space-y-3 text-gray-400">
                 <div className="relative flex items-center w-full max-w-md">
@@ -50,7 +49,7 @@ export default function LoginForm () {
                     <input type="email"
                         value={email}
                         placeholder="Email"
-                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full focus:text-gray-800"
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-gray-800"
                         required
                         onChange={(e) => setEmail(e.target.value)}/>
                 </div>
@@ -60,14 +59,14 @@ export default function LoginForm () {
                     <input type="password"
                         value={password}
                         placeholder="Password"
-                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full focus:text-gray-800"
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-gray-800"
                         required
                         onChange={(e) => setPassword(e.target.value)}/>
                 </div>
     
-                <div className="flex flex-row space-x-12 items-center">
+                <div className="flex flex-row space-x-12 items-center w-full">
                     <button
-                       className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-500 text-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row space-x-3 items-center"
+                       className="flex-1 hover:shadow-gray-400 hover:shadow-lg px-3 py-2 bg-blue-500 text-white font-semibold rounded-lg transition-transform transform hover:scale-105 flex flex-row space-x-3 items-center justify-center"
                     >
                         <span className="pl-2">Login</span>
                         <span style={{visibility: loading ? "visible" : "hidden"}} >
@@ -84,7 +83,9 @@ export default function LoginForm () {
                 {error && <p className="text-red-500">{error}</p>}
             </form>
     
-            <p className="text-gray-600 mt-4">Don't have an account? <a href="#" className="text-primary-bg font-semibold">Sign up</a></p>
+            <p className="pl-3 text-gray-500 text-sm mt-4">
+                Don't have an account? <a href="#" className="text-blue-600 hover:underline">Sign up</a>
+            </p>
         </div>
     )
 }

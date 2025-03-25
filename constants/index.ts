@@ -1,6 +1,5 @@
 import { IChartAxist, JSONObject } from "@/types/definations";
 
-export const PAGE_INTRO = {name: "PAGE_INTRO", title: "Intro Page", icon: "🏠"};
 export const PAGE_LOGIN = {name: "PAGE_LOGIN", title: "Login", icon: "AiOutlineBarChart"};
 export const PAGE_DASHBOARD = {name: "PAGE_DASHBOARD", title: "Dashboard", icon: "MdDashboard"};
 export const PAGE_DATA_ENTRY = {name: "PAGE_DATA_ENTRY", title: "Data Entry", icon: "FcDataSheet"};
