@@ -9,20 +9,28 @@ import UnapproveButton from "./approvalButtons/UnapproveButton";
 import UnacceptButton from "./approvalButtons/UnacceptButton";
 import { getApprovalStatus } from "@/utils/dataValueUtils";
 import { DATA_ACCEPTED, DATA_APPROVED, DATA_UNAPPROVED } from "@/constants";
+import { getApprovalData } from "@/utils/apiUtils";
 
 export default function ApprovalButtonBar () {
     const { selectedDataSet, selectedPeriod, selectedOrgUnit, selectedApprovalData, selectApprovalData } = useSelection();
     
     const { data, error, refetch, loading } = useAsyncData<IApprovalData>();
     
-    const fetchData = async (): Promise<IApprovalData> => {
-        const payload = {
-            dataSet: selectedDataSet!._id,
-            period: selectedPeriod?.code,
-            orgUnit: selectedOrgUnit?._id,
-        }
+    // const fetchData = async (): Promise<IApprovalData> => {
+    //     const payload = {
+    //         dataSet: selectedDataSet!._id,
+    //         period: selectedPeriod?.code,
+    //         orgUnit: selectedOrgUnit?._id,
+    //     }
         
-        const approvalData = await post<IApprovalData, any>("/api/approvalData", payload);
+    //     const approvalData = await post<IApprovalData, any>("/api/approvalData", payload);
+    //     selectApprovalData(approvalData);
+        
+    //     return approvalData;
+    // }
+    
+    const fetchData = async (): Promise<IApprovalData> => {
+        const approvalData = await getApprovalData(selectedDataSet!._id, selectedPeriod!.code, selectedOrgUnit!._id);
         selectApprovalData(approvalData);
         
         return approvalData;

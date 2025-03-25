@@ -25,7 +25,6 @@ export default function AppWrapper() {
             <main className="flex-1 overflow-y-auto flex">
                 {curPage === PAGE_LOGIN.name && <LoginPage />}
                 {curPage === PAGE_DASHBOARD.name && <DashboardPage />}
-                {curPage === PAGE_DASHBOARD.name && <DashboardPage />}
                 {curPage === PAGE_DATA_ENTRY.name && <DataEntryPage />}
                 {curPage === PAGE_APPROVALS.name && <ApprovalPage />}
                 {curPage === PAGE_CHARTS.name && <ChartPage />}

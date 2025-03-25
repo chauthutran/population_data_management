@@ -4,15 +4,17 @@ import { useEffect } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 
-export default function CustomLineChart ({data}: {data: IChartData}) {
+export default function CustomLineChart ({data, loading}: {data: IChartData, loading: boolean}) {
 	
-	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
-
 	// UseEffect if necessary, but currently it's not being used.
 	useEffect(() => {
 		// You can perform any side effects here
 	}, [data]);
 	
+	if (loading) return (<div>Loading ...</div>);
+	
+	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
+
 	
 	return (
 		<ResponsiveContainer width="100%" height={"100%"}>
@@ -40,7 +42,7 @@ export default function CustomLineChart ({data}: {data: IChartData}) {
 						type="monotone"
 						dataKey={item} // Make sure dataKey matches the year values from chartData
 						stroke={getColorFromString(item)} // Assuming you have a function to generate colors
-						strokeWidth={1}
+						strokeWidth={2}
 					/>
 				))}
 			</LineChart>

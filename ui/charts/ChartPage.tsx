@@ -8,31 +8,46 @@ import CustomBarChart from "./charts/CustomBarChart";
 import CustomPieChart from "./charts/CustomPieChart";
 import CustomLineChart from "./charts/CustomLineChart";
 import CustomHeatmap from "./charts/CustomHeatmap";
+import useAsyncData from "@/hooks/useAsyncData";
 
 export default function ChartPage () {
 	
 	const { selectedOrgUnit, selectedOrgUnitLevel, selectedDataElements, selectedPeriods, selectedChartX, selectedChartY, selectedChartType } = useChart();
     const [chartData, setChartData] = useState<IChartData>({ chartData:[], axisY: []});
 	
-	const fetchData = async (): Promise<JSONObject[]> => {
-		return await retrieveAndTransformData(
+	const { data, error, refetch, loading } = useAsyncData<IChartData>();
+		
+	const fetchData = async (): Promise<IChartData> => {
+		const data =  await retrieveAndTransformData(
 			selectedPeriods!,
 			selectedDataElements!,
 			selectedOrgUnit!,
-			selectedOrgUnitLevel!
+			selectedOrgUnitLevel!,
 		);
-	}
-	
-	const handleOnClick = async () => {
-		const data = await fetchData();
 		
 		const orgUnits: JSONObject[] =  Array.from(
 			new Map(data.map(item => [item.orgUnit, { _id: item.orgUnit, name: item.orgUnitName }])).values()
 		);
 		
-		const transformedData = transformData(data, selectedChartX!, selectedChartY!, orgUnits, selectedDataElements!, selectedPeriods! );
-
+		const transformedData = transformData(data, selectedChartX!, selectedChartY!, orgUnits, selectedDataElements!, selectedPeriods!);
+	
 		setChartData(transformedData);
+		
+		return transformedData;
+	}
+	
+	const handleOnClick = () => {
+		refetch(fetchData);
+		
+		// const data = await fetchData();
+		
+		// const orgUnits: JSONObject[] =  Array.from(
+		// 	new Map(data.map(item => [item.orgUnit, { _id: item.orgUnit, name: item.orgUnitName }])).values()
+		// );
+		
+		// const transformedData = transformData(data, selectedChartX!, selectedChartY!, orgUnits, selectedDataElements!, selectedPeriods! );
+
+		// setChartData(transformedData);
 	}
 	
     return (
@@ -43,24 +58,23 @@ export default function ChartPage () {
 			</div>
 
 			{/* Chart Display */}
-			{/* <div className="flex-1 p-6 h-full"> */}
 			<div className="flex-1 p-3 flex flex-col">
 				<h2 className="text-xl font-semibold">
 					<ChartTypeSelector />
 				</h2>
 				
-				<div className="flex-1 abc overflow-y-auto h-full shadow-md rounded-md">
-					{selectedChartType?._id === "Line" &&
-					<CustomLineChart data={chartData} />
+				<div className="flex-1 abc overflow-y-auto h-full shadow-md rounded-md p-5">
+					{selectedChartType && selectedChartType?._id === "Line" &&
+						<CustomLineChart data={chartData} loading={loading} />
 					}
 					{selectedChartType?._id === "Bar" &&
-					<CustomBarChart data={chartData} />
+						<CustomBarChart data={chartData} loading={loading}  />
 					}
 					{selectedChartType?._id === "Pie" &&
-					<CustomPieChart data={chartData} />
+						<CustomPieChart data={chartData} loading={loading}  />
 					}
 					{selectedChartType?._id === "Heatmap" &&
-					<CustomHeatmap data={chartData} />
+						<CustomHeatmap data={chartData} loading={loading}  />
 					}
 				</div>
 			</div>

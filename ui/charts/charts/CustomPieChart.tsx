@@ -4,14 +4,17 @@ import { useEffect } from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 
-export default function CustomPieChart ({data}: {data: IChartData}) {
+export default function CustomPieChart ({data, loading}: {data: IChartData, loading: boolean}) {
     
-	if (!data || !data.chartData || !data.axisY) return <></>; // Ensure chartData and axisY exist
-	
     useEffect(() => {
 
     }, [data]);
     
+	
+	if (loading) return (<div>Loading ...</div>);
+	
+	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
+
     const axisXList: string[] =  [...new Set(data.chartData.map((item: JSONObject) => item.axisX))];
     
     const getDataListByAxisX = (axisXName: string): JSONObject[] => {

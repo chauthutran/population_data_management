@@ -7,11 +7,12 @@ import { useEffect } from "react";
 // City A	500	520	530	550	600	620	650	680	700	750	800	850
 // City B	450	460	470	490	500	530	550	570	600	630	650	700
 
-export default function CustomHeatmap({data}: {data: IChartData}) {
+export default function ({data, loading}: {data: IChartData, loading: boolean}) {
 	useEffect(() => {
 
 	}, [data]);
 
+	if (loading) return (<div>Loading ...</div>);
 	
 	if(!data) return (<></>);
 	

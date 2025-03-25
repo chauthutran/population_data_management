@@ -4,17 +4,17 @@ import { sortPeriods } from "@/utils/periodUtils";
 import { useEffect } from "react";
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export default function CustomBarChart({data}: {data: IChartData}) {
-    
-	if (!data || !data.chartData || !data.axisY) return <></>; // Ensure chartData and axisY exist
+export default function CustomBarChart ({data, loading}: {data: IChartData, loading: boolean}) {
 	
     useEffect(() => {
         
     }, [data])
     
     
-    if(!data) return (<></>);
-    
+	if (loading) return (<div>Loading ...</div>);
+	
+	if (!data || !data.chartData || data.chartData.length === 0 || !data.axisY || data.axisY.length === 0) return <></>; // Ensure chartData and axisY exist and not empty
+
     return (
         <ResponsiveContainer width={"100%"} height={"100%"}>
             <BarChart data={data.chartData} margin={{ top: 20 }} accessibilityLayer>
