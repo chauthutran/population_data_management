@@ -2,15 +2,14 @@ import { IPeriod } from '@/types/definations';
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
 import mongoose from 'mongoose';
-import { NextRequest, NextResponse } from 'next/server';
 import { getOrCreatePeriod } from '@/helpers/periodHelper';
 
-export async function POST (request: NextRequest) {
+export async function POST (request: Request) {
     try {
         const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
         
         if (!dataSet || !periodCode || !orgUnit ) {
-            return NextResponse.json({message: "Missing required fields: dataSet, period, and orgUnit. Please ensure all required fields are included in your request."}, {status: 500});
+            return Response.json({message: "Missing required fields: dataSet, period, and orgUnit. Please ensure all required fields are included in your request."}, {status: 500});
         }
         
         // Connect Mongodb
@@ -29,10 +28,10 @@ export async function POST (request: NextRequest) {
                                         .populate( "approvedBy acceptedBy" );
         result = (result) ? result : {};
 
-        return NextResponse.json(result, {status: 200});
+        return Response.json(result, {status: 200});
        
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }

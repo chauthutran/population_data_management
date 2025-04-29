@@ -3,9 +3,8 @@ import connectToDatabase from "@/libs/db/mongodb";
 import DataValue from "@/libs/db/schemas/DataValueSchema";
 import { IPeriod, JSONObject } from "@/types/definations";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
         await connectToDatabase();
         
@@ -41,10 +40,10 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        return NextResponse.json(resultList, {status: 200});
+        return Response.json(resultList, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }
 

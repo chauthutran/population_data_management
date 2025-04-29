@@ -4,14 +4,13 @@ import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
 import Period from '@/libs/db/schemas/PeriodSchema';
 import { IPeriod } from '@/types/definations';
 import mongoose from 'mongoose';
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST (request: NextRequest) {
+export async function POST (request: Request) {
     try {
         const { dataSet, period: periodCode, orgUnit, acceptedBy } = await request.json(); // Get request body
         
         if (!dataSet || !periodCode || !orgUnit || !acceptedBy) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return Response.json({message: "Missing required fields"}, {status: 500});
         }
         
         // Connect Mongodb
@@ -37,7 +36,7 @@ export async function POST (request: NextRequest) {
         );
         
         if (!updatedApproval) {
-            return NextResponse.json({message: "Approval data not found"}, {status: 404});
+            return Response.json({message: "Approval data not found"}, {status: 404});
         }
         
         
@@ -50,19 +49,19 @@ export async function POST (request: NextRequest) {
                 
         updatedApproval = await ApprovalData.findOne(condition)
                                             .populate( "approvedBy acceptedBy" );
-        return NextResponse.json(updatedApproval, {status: 200});
+        return Response.json(updatedApproval, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }
 
-export async function DELETE (request: NextRequest) {
+export async function DELETE (request: Request) {
     try {
         const { dataSet, period: periodCode, orgUnit } = await request.json(); // Get request body
         
         if (!dataSet || !periodCode || !orgUnit) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return Response.json({message: "Missing required fields"}, {status: 500});
         }
         
         // Connect Mongodb
@@ -74,7 +73,7 @@ export async function DELETE (request: NextRequest) {
         
         // Find period document by code and create if the period is not existed
         let periodDbObj = await Period.findOne({code: periodCode});
-        if( periodDbObj === null ) return NextResponse.json({message: "Approval data not found"}, {status: 404});
+        if( periodDbObj === null ) return Response.json({message: "Approval data not found"}, {status: 404});
         
         // Find and update the document (remove acceptedBy and acceptedDate)
         let updatedApproval = await ApprovalData.findOneAndUpdate(
@@ -87,7 +86,7 @@ export async function DELETE (request: NextRequest) {
         );
         
         if (!updatedApproval) {
-            return NextResponse.json({ message: "Approval data not found" }, { status: 404 });
+            return Response.json({ message: "Approval data not found" }, { status: 404 });
         }
         
         
@@ -100,9 +99,9 @@ export async function DELETE (request: NextRequest) {
                 
         updatedApproval = await ApprovalData.findOne(condition)
                                             .populate( "approvedBy acceptedBy" );
-        return NextResponse.json(updatedApproval, {status: 200});
+        return Response.json(updatedApproval, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return Response.json({message: error.message}, {status: 500});
     }
 }

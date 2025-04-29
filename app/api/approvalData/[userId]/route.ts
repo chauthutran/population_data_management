@@ -1,9 +1,8 @@
 import connectToDatabase from '@/libs/db/mongodb';
 import ApprovalData from '@/libs/db/schemas/ApprovalDataSchema';
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
-    const { userId } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ userId: string }> }) {
+    const { userId } = await params;
     
     try {
         // Connect Mongodb
@@ -15,9 +14,9 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             .populate("dataSet period orgUnit approvedBy acceptedBy")
             .sort({ approvedDate: -1 });
 
-        return NextResponse.json(result, {status: 200});
+        return Response.json(result, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }

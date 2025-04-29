@@ -1,7 +1,7 @@
 import connectToDatabase from "@/libs/db/mongodb";
 import OrgUnit from "@/libs/db/schemas/OrgUnitSchema";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
@@ -20,10 +20,10 @@ export async function GET(request: NextRequest) {
         
         // await db.disconnect();
         
-        return NextResponse.json(orgUnits, {status: 200});
+        return Response.json(orgUnits, {status: 200});
     }
     catch(error) {
         console.error("Error getting org units:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return Response.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

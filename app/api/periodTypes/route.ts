@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/libs/db/mongodb";
 import PeriodType from "@/libs/db/schemas/PeriodTypeShema";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
     
     await connectToDatabase();
     
     const dataSets = await PeriodType.find();
     
-    return NextResponse.json(dataSets, { status: 200 });
+    return Response.json(dataSets, { status: 200 });
    
 }

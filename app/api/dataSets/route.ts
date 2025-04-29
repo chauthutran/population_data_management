@@ -1,8 +1,8 @@
 import DataSet from "@/libs/db/schemas/DatasetSchema";
-import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/libs/db/mongodb";
+import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest, {params}: {params: any}) {
+export async function GET(request: NextRequest,  { params }: { params: Promise<any>}) {
     
     await connectToDatabase();
     
@@ -24,6 +24,6 @@ export async function GET(request: NextRequest, {params}: {params: any}) {
     
     // await db.disconnect();
     
-    return NextResponse.json(dataSets, { status: 200 });
+    return Response.json(dataSets, { status: 200 });
    
 }

@@ -2,20 +2,19 @@ import connectToDatabase from "@/libs/db/mongodb";
 import DataValue from "@/libs/db/schemas/DataValueSchema";
 import Period from "@/libs/db/schemas/PeriodSchema";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
         await connectToDatabase();
         
         const { dataElements, period: periodCode, orgUnit } = await request.json();
         if(!dataElements || !periodCode || !orgUnit) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return Response.json({message: "Missing required fields"}, {status: 500});
         }
 
         // Find period document by code and create if the period is not existed
         let periodDbObj = await Period.findOne({code: periodCode});
-        if (!periodDbObj) return  NextResponse.json([], {status: 200});
+        if (!periodDbObj) return  Response.json([], {status: 200});
 
         const dataElementIdObjs = dataElements.map((deId: string) => new mongoose.Types.ObjectId(deId));
         const dataValues = await DataValue.find({
@@ -25,9 +24,9 @@ export async function POST(request: NextRequest) {
                                 })
                                 .populate("dataElement");
 
-        return NextResponse.json(dataValues, {status: 200});
+        return Response.json(dataValues, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }

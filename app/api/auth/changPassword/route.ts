@@ -1,13 +1,13 @@
 import connectToDatabase from "@/libs/db/mongodb";
 import User from "@/libs/db/schemas/UserSchema";
 import { comparePassword, hashPassword } from "@/utils/encryptPassword";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function POST (request: NextRequest) {
     try {
         const { email, oldPassword, newPassword } = await request.json(); // Get request body
         if (!email && !oldPassword && !newPassword) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return Response.json({message: "Missing required fields"}, {status: 500});
         }
         
         await connectToDatabase();
@@ -23,15 +23,15 @@ export async function POST (request: NextRequest) {
                     { new: true } // Return the updated user
                 );
                 
-                return { success: true, message: "Password updated successfully" };
+                return Response.json({ success: true, message: "Password updated successfully" });
             }
             
-            return NextResponse.json({error: `Password is wrong`}, {status: 401});
+            return Response.json({error: `Password is wrong`}, {status: 401});
         }
         
-        return NextResponse.json({error: `User ${email} not found.`}, {status: 404});
+        return Response.json({error: `User ${email} not found.`}, {status: 404});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }

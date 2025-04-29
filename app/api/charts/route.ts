@@ -2,14 +2,13 @@ import connectToDatabase from "@/libs/db/mongodb";
 import DataValue from "@/libs/db/schemas/DataValueSchema";
 import OrgUnit from "@/libs/db/schemas/OrgUnitSchema";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
         const { periods: periodCodes, dataElements: dataElementIds, orgUnitLevel, orgUnit: orgUnitId } = await request.json(); // Get request body
 
         if (!periodCodes && !dataElementIds && !orgUnitLevel && !orgUnitId) {
-            return NextResponse.json({message: "Missing required fields"}, {status: 500});
+            return Response.json({message: "Missing required fields"}, {status: 500});
         }
         
         const dataElementIdObjs = dataElementIds.map((deId: string) => new mongoose.Types.ObjectId(deId));
@@ -104,9 +103,9 @@ export async function POST(request: NextRequest) {
             }
         ]);
         
-        return NextResponse.json(dataValues, {status: 200});
+        return Response.json(dataValues, {status: 200});
     }
     catch(error: any) {
-        return NextResponse.json({error: error.message}, {status: 500});
+        return Response.json({error: error.message}, {status: 500});
     }
 }
