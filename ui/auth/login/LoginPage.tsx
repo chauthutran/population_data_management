@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import LoginForm from "./LoginForm";
-import AppDetailsIntro from "../layout/AppDetailsIntro";
+import AppDetailsIntro from "@/ui/layout/AppDetailsIntro";
 
 export default function LoginPage() {
     

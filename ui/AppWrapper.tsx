@@ -8,7 +8,7 @@ import { useCurrentPage } from "@/hooks/usePage";
 import { useState } from "react";
 import ChartPage from "./charts/ChartPage";
 import DataEntryPage from "./dataEntry/DataEntryPage";
-import LoginPage from "./login/LoginPage";
+import LoginPage from "./auth/login/LoginPage";
 
 export default function AppWrapper() {
     
