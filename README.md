@@ -1,4 +1,5 @@
 # App Idea: Population Data Approval & Management System
+
 Your app will focus on data approval and acceptance functionalities, ensuring that population-related data goes through a verification process before being stored and used.
 
 🚀 Core Features & Workflow

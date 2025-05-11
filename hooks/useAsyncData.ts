@@ -7,21 +7,25 @@ export default function useAsyncData<T>() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
+    const refetch = useCallback(
+        async (asyncFunction: AsyncFunction<T>) => {
+            if (loading) return; // Prevent multiple calls
 
-    const refetch = useCallback(async (asyncFunction: AsyncFunction<T>) => {
-        if (loading) return; // Prevent multiple calls
-        
-        setLoading(true);
-        
-        try {
-            const result = await asyncFunction();
-            setData(result);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
-        } finally {
-            setLoading(false); // Reset once request is complete
-        }
-    }, [loading]);
+            setLoading(true);
+
+            try {
+                const result = await asyncFunction();
+                setData(result);
+            } catch (err) {
+                setError(
+                    err instanceof Error ? err.message : 'An error occurred',
+                );
+            } finally {
+                setLoading(false); // Reset once request is complete
+            }
+        },
+        [loading],
+    );
 
     return { data, error, refetch, loading };
 }

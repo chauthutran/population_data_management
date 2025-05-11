@@ -1,6 +1,6 @@
-import useAsyncData from "@/hooks/useAsyncData";
-import useClickOutside from "@/hooks/useClickOutside";
-import { ReactNode, useEffect, useState } from "react";
+import useAsyncData from '@/hooks/useAsyncData';
+import useClickOutside from '@/hooks/useClickOutside';
+import { ReactNode, useEffect, useState } from 'react';
 
 export default function CustomMultiSelect<T>({
     title,
@@ -14,28 +14,29 @@ export default function CustomMultiSelect<T>({
     title: string;
     displayProp: string;
     valueProp: string;
-    options:  T[];
+    options: T[];
     onChange: (value: T[]) => void;
     selected?: T[] | null;
-    children?: ReactNode
+    children?: ReactNode;
 }) {
     const [selectedItems, setSelectedItems] = useState<T[]>(selected ?? []); // Default to empty array if null or undefined
     const [showed, setShowed] = useState<boolean>(false);
     const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
-    
-    useEffect(() => {
-        
-    }, [selected, options]);
-    
-    
+
+    useEffect(() => {}, [selected, options]);
+
     useEffect(() => {
         setSelectedItems(selected ?? []);
-    }, [selected])
+    }, [selected]);
 
     const toggleSelect = (item: T) => {
-        const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
+        const exists = selectedItems.some(
+            (v) => (v as any)[valueProp] === (item as any)[valueProp],
+        );
         const newValues = exists
-            ? selectedItems.filter((v) => (v as any)[valueProp] !== (item as any)[valueProp])
+            ? selectedItems.filter(
+                  (v) => (v as any)[valueProp] !== (item as any)[valueProp],
+              )
             : [...selectedItems, item];
 
         setSelectedItems(newValues);
@@ -43,7 +44,7 @@ export default function CustomMultiSelect<T>({
     };
 
     if (options === null) return <>Loading ...</>;
-    
+
     return (
         <div className="relative w-full max-h-40 " ref={dropdownRef}>
             {/* Selected Options */}
@@ -78,32 +79,42 @@ export default function CustomMultiSelect<T>({
                 {/* Arrow Icon */}
                 {showed ? <span>🞃</span> : <span>🞁</span>}
             </div>
-            
 
             {/* Dropdown Menu */}
-            {showed && <>
-                {children}
-                <div className="absolute z-10 max-h-full w-full bg-white rounded-lg shadow-lg">
-                     <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-b-lg">
-                        {options!.map((item, index) => {
-                            const exists = selectedItems.some((v) => (v as any)[valueProp] === (item as any)[valueProp]);
+            {showed && (
+                <>
+                    {children}
+                    <div className="absolute z-10 max-h-full w-full bg-white rounded-lg shadow-lg">
+                        <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-b-lg">
+                            {options!.map((item, index) => {
+                                const exists = selectedItems.some(
+                                    (v) =>
+                                        (v as any)[valueProp] ===
+                                        (item as any)[valueProp],
+                                );
 
-                            return (
-                                <div
-                                    key={index}
-                                    className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center ${
-                                        exists ? "bg-gray-200" : "bg-white"
-                                    }`}
-                                    onClick={() => toggleSelect(item)}
-                                >
-                                    <input type="checkbox" checked={exists} className="mr-2" readOnly />
-                                    {(item as any)[displayProp]}
-                                </div>
-                            );
-                        })}
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center ${
+                                            exists ? 'bg-gray-200' : 'bg-white'
+                                        }`}
+                                        onClick={() => toggleSelect(item)}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={exists}
+                                            className="mr-2"
+                                            readOnly
+                                        />
+                                        {(item as any)[displayProp]}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            </>}
+                </>
+            )}
         </div>
     );
 }

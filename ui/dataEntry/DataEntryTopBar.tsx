@@ -1,21 +1,32 @@
-import DataSetSelect from "../layout/selection/DataSetSelect";
-import PeriodSelect from "../layout/selection/PeriodSelect";
-import OrgUnitTree from "../layout/selection/OrgUnitTree";
-import { useDataEntry } from "@/hooks/useDataEntry";
-import { useState } from "react";
+import DataSetSelect from '../layout/selection/DataSetSelect';
+import PeriodSelect from '../layout/selection/PeriodSelect';
+import OrgUnitTree from '../layout/selection/OrgUnitTree';
+import { useDataEntry } from '@/hooks/useDataEntry';
+import { useState } from 'react';
 
-export default function DataEntryTopBar () {
-    const { selectedDataSet, selectedOrgUnit, selectedPeriod, cleanAll, selectPeriod, selectDataSet, selectOrgUnit } = useDataEntry();
-    
+export default function DataEntryTopBar() {
+    const {
+        selectedDataSet,
+        selectedOrgUnit,
+        selectedPeriod,
+        cleanAll,
+        selectPeriod,
+        selectDataSet,
+        selectOrgUnit,
+    } = useDataEntry();
+
     return (
         <nav className="flex gap-4 items-center mb-6 px-4 py-2 bg-gray-100 border-t-2 text-black border-gray-300">
             <div className="flex-1">
-                <DataSetSelect onItemSelect={selectDataSet} selected={selectedDataSet} />
+                <DataSetSelect
+                    onItemSelect={selectDataSet}
+                    selected={selectedDataSet}
+                />
             </div>
 
             <div className="flex-1">
-               <PeriodSelect
-                    periodType={selectedDataSet?.periodType.name || ""}
+                <PeriodSelect
+                    periodType={selectedDataSet?.periodType.name || ''}
                     selected={selectedPeriod}
                     disabled={false}
                     onChange={selectPeriod}
@@ -23,7 +34,11 @@ export default function DataEntryTopBar () {
             </div>
 
             <div className="flex-1">
-                <OrgUnitTree onItemClick={selectOrgUnit} selected={selectedOrgUnit} disabled={false} />
+                <OrgUnitTree
+                    onItemClick={selectOrgUnit}
+                    selected={selectedOrgUnit}
+                    disabled={false}
+                />
             </div>
 
             <button
@@ -33,6 +48,5 @@ export default function DataEntryTopBar () {
                 Clear Data
             </button>
         </nav>
-
-    )
+    );
 }

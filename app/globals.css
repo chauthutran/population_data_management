@@ -9,49 +9,46 @@
 } */
 
 :root {
-  --sidebar-bg: #74B3CE;
-  --navbar-bg: #F8FAFC;
-  --card-bg: #FFFFFF;
-  --button-primary: #38A169;
-  --button-danger: #E57373;
-  --text-color: #333F50;
-  --primary-bg: #74B3CE;
-  --secondary-bg: #F8FAFC;
+    --sidebar-bg: #74b3ce;
+    --navbar-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --button-primary: #38a169;
+    --button-danger: #e57373;
+    --text-color: #333f50;
+    --primary-bg: #74b3ce;
+    --secondary-bg: #f8fafc;
 }
 
-
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-    
-   }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
 .truncate-text {
-  width: 100px; /* Set a fixed width */
-  white-space: nowrap; /* Prevent text from wrapping */
-  overflow: hidden; /* Hide overflowed content */
-  text-overflow: ellipsis; /* Add ellipsis at the end of the text */
+    width: 100px; /* Set a fixed width */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowed content */
+    text-overflow: ellipsis; /* Add ellipsis at the end of the text */
 }
 
 .black-bg {
-  clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
 }
 
 .background-img {
-  clip-path: polygon(0 0, 80% 0%, 100% 100%, 30% 100%);
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 30% 100%);
 }
 
 button {
-  text-transform: uppercase;
-  /* font-family: 'Times New Roman', Times, serif; */
+    text-transform: uppercase;
+    /* font-family: 'Times New Roman', Times, serif; */
 }
-

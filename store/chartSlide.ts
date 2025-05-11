@@ -1,16 +1,30 @@
-import { CHART_AXIST_ORGUNITS, CHART_AXIST_PERIODS } from "@/constants";
-import { initChartType, initChartX, initChartY, initDataElements, initOrgUnitLevel, initPeriods, orgUnitRoot } from "@/constants/initData";
-import { IChartAxist, IDataElement, IOrgUnit, ISerializePeriod, JSONObject } from "@/types/definations";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CHART_AXIST_ORGUNITS, CHART_AXIST_PERIODS } from '@/constants';
+import {
+    initChartType,
+    initChartX,
+    initChartY,
+    initDataElements,
+    initOrgUnitLevel,
+    initPeriods,
+    orgUnitRoot,
+} from '@/constants/initData';
+import {
+    IChartAxist,
+    IDataElement,
+    IOrgUnit,
+    ISerializePeriod,
+    JSONObject,
+} from '@/types/definations';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ChartState {
-    periods: ISerializePeriod[] | null,
-    dataElements: IDataElement[] | null,
-    orgUnit: IOrgUnit | null,
-    orgUnitLevel: JSONObject | null,
-    chartX: IChartAxist[] | null,
-    chartY: IChartAxist[] | null,
-    chartType: JSONObject | null,
+    periods: ISerializePeriod[] | null;
+    dataElements: IDataElement[] | null;
+    orgUnit: IOrgUnit | null;
+    orgUnitLevel: JSONObject | null;
+    chartX: IChartAxist[] | null;
+    chartY: IChartAxist[] | null;
+    chartType: JSONObject | null;
 }
 
 const initialState: ChartState = {
@@ -21,17 +35,23 @@ const initialState: ChartState = {
     chartX: initChartX,
     chartY: initChartY,
     chartType: initChartType,
-}
+};
 
 const chartSlice = createSlice({
-    name: "chart",
+    name: 'chart',
     initialState,
-    
+
     reducers: {
-        setPeriods: (state, action: PayloadAction<ISerializePeriod[] | null>) => {
+        setPeriods: (
+            state,
+            action: PayloadAction<ISerializePeriod[] | null>,
+        ) => {
             state.periods = action.payload;
         },
-        setDataElements: (state, action: PayloadAction<IDataElement[] | null>) => {
+        setDataElements: (
+            state,
+            action: PayloadAction<IDataElement[] | null>,
+        ) => {
             state.dataElements = action.payload;
         },
         setOrgUnit: (state, action: PayloadAction<IOrgUnit | null>) => {
@@ -50,17 +70,31 @@ const chartSlice = createSlice({
             state.chartY = action.payload;
         },
         clearSelection: (state) => {
-            if (state.periods || state.dataElements || state.orgUnit || state.orgUnitLevel) {
+            if (
+                state.periods ||
+                state.dataElements ||
+                state.orgUnit ||
+                state.orgUnitLevel
+            ) {
                 state.periods = null;
                 state.dataElements = null;
                 state.orgUnit = null;
                 state.orgUnitLevel = null;
             }
-        }
-    }
+        },
+    },
 });
 
-export const { setPeriods, setDataElements, setOrgUnit, setOrgUnitLevel, setChartX, setChartY, setChartType, clearSelection } = chartSlice.actions;
+export const {
+    setPeriods,
+    setDataElements,
+    setOrgUnit,
+    setOrgUnitLevel,
+    setChartX,
+    setChartY,
+    setChartType,
+    clearSelection,
+} = chartSlice.actions;
 
 const chartReducer = chartSlice.reducer;
 export default chartReducer;

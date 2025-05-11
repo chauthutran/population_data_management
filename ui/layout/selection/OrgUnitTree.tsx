@@ -1,27 +1,30 @@
-import { IOrgUnit } from "@/types/definations";
-import { useEffect, useState } from "react";
-import SelectionHeader from "./SelectionHeader";
-import useClickOutside from "../../../hooks/useClickOutside";
-import { get } from "@/utils/apiClient";
-import DisableField from "../basic/DisableField";
+import { IOrgUnit } from '@/types/definations';
+import { useEffect, useState } from 'react';
+import SelectionHeader from './SelectionHeader';
+import useClickOutside from '../../../hooks/useClickOutside';
+import { get } from '@/utils/apiClient';
+import DisableField from '../basic/DisableField';
 
-export default function OrgUnitTree(
-{
+export default function OrgUnitTree({
     selected,
     disabled,
-    onItemClick
+    onItemClick,
 }: {
     selected?: IOrgUnit | null;
     disabled: boolean;
-    onItemClick: (orgUnit: IOrgUnit) => void
+    onItemClick: (orgUnit: IOrgUnit) => void;
 }) {
-    const [selectedOrgUnit, setSelectedOrgUnit] = useState<IOrgUnit | null>(selected || null);
+    const [selectedOrgUnit, setSelectedOrgUnit] = useState<IOrgUnit | null>(
+        selected || null,
+    );
     const [roots, setRoots] = useState<IOrgUnit[]>([]);
-    const [childrenMap, setChildrenMap] = useState<Record<string, IOrgUnit[]>>({});
+    const [childrenMap, setChildrenMap] = useState<Record<string, IOrgUnit[]>>(
+        {},
+    );
     const [expended, setExpanded] = useState<Record<string, boolean>>({});
     const [showed, setShowed] = useState<boolean>(false);
     const dropdownRef = useClickOutside(() => setShowed(false)); // Close dropdown when clicked outside
-    
+
     useEffect(() => {
         fetchRoots();
     }, []);
@@ -31,16 +34,15 @@ export default function OrgUnitTree(
             expandToSelected(selected);
         }
     }, [roots]); // Ensure expansion happens after root nodes are loaded
-    
-    
+
     useEffect(() => {
         if (selected !== undefined) {
             setSelectedOrgUnit(selected);
         }
     }, [selected]);
-    
+
     const fetchRoots = async () => {
-        const list = await get<IOrgUnit[]>("/api/orgUnits");
+        const list = await get<IOrgUnit[]>('/api/orgUnits');
         setRoots(list);
     };
 
@@ -51,7 +53,9 @@ export default function OrgUnitTree(
             return;
         }
 
-        const children = await get<IOrgUnit[]>(`/api/orgUnits?parentId=${parentId}`);
+        const children = await get<IOrgUnit[]>(
+            `/api/orgUnits?parentId=${parentId}`,
+        );
         if (children) {
             setChildrenMap((prev) => ({ ...prev, [parentId]: children }));
             setExpanded((prev) => ({ ...prev, [parentId]: true }));
@@ -67,52 +71,57 @@ export default function OrgUnitTree(
             current = await get<IOrgUnit>(`/api/orgUnits/${current.parent}`);
         }
     };
-    
-    const title = selectedOrgUnit ? selectedOrgUnit.name : "Select OrgUnit";
-    
+
+    const title = selectedOrgUnit ? selectedOrgUnit.name : 'Select OrgUnit';
+
     return (
         <div
-            className={`relative bg-white border-2 rounded-md border-gray-200 focus:ring-2 focus:ring-blue-300 ${selected ? "border-blue-300" : "border-gray-300"} `}
+            className={`relative bg-white border-2 rounded-md border-gray-200 focus:ring-2 focus:ring-blue-300 ${selected ? 'border-blue-300' : 'border-gray-300'} `}
             tabIndex={0}
             ref={dropdownRef}
         >
-            <SelectionHeader title={title} showed={showed} setShowed={setShowed} disabled={disabled} />
+            <SelectionHeader
+                title={title}
+                showed={showed}
+                setShowed={setShowed}
+                disabled={disabled}
+            />
 
             {showed && (
                 <div className="absolute flex flex-col w-full z-50 top-10 left-0 right-0 border border-gray-200 h-80 shadow-lg text-black rounded-md bg-white overflow-hidden">
-                {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto"> {/* This will allow scrollable content to take remaining space */}
-                    <div className="border border-gray-200 overflow-auto p-2">
-                        {roots.length > 0 ? (
-                            <OrgUnitNode
-                                nodes={roots}
-                                expended={expended}
-                                fetchChildren={fetchChildren}
-                                childrenMap={childrenMap}
-                                selectedOrgUnit={selectedOrgUnit}
-                                selectOrgUnit={(node) => {
-                                    setSelectedOrgUnit(node);
-                                    onItemClick(node); // Pass function to update state
-                                }}
-                            />
-                        ) : (
-                            <p>Loading...</p>
-                        )}
+                    {/* Scrollable Content */}
+                    <div className="flex-1 overflow-y-auto">
+                        {' '}
+                        {/* This will allow scrollable content to take remaining space */}
+                        <div className="border border-gray-200 overflow-auto p-2">
+                            {roots.length > 0 ? (
+                                <OrgUnitNode
+                                    nodes={roots}
+                                    expended={expended}
+                                    fetchChildren={fetchChildren}
+                                    childrenMap={childrenMap}
+                                    selectedOrgUnit={selectedOrgUnit}
+                                    selectOrgUnit={(node) => {
+                                        setSelectedOrgUnit(node);
+                                        onItemClick(node); // Pass function to update state
+                                    }}
+                                />
+                            ) : (
+                                <p>Loading...</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Sticky Close Button */}
+                    <div className="border-t border-gray-200">
+                        <button
+                            className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 transition-transform transform hover:scale-105 flex flex-row text-white space-x-3 w-full justify-center border-2"
+                            onClick={() => setShowed(false)}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
-            
-                {/* Sticky Close Button */}
-                <div className="border-t border-gray-200">
-                    <button 
-                        className="shadow-lg hover:shadow-gray-400 px-3 py-2 bg-blue-400 transition-transform transform hover:scale-105 flex flex-row text-white space-x-3 w-full justify-center border-2" 
-                        onClick={() => setShowed(false)}
-                    >
-                        Close
-                    </button>
-                </div>
-            </div>
-            
-            
             )}
         </div>
     );
@@ -133,7 +142,6 @@ const OrgUnitNode = ({
     selectedOrgUnit: IOrgUnit | null;
     selectOrgUnit: (unit: IOrgUnit) => void;
 }) => {
-    
     return (
         <ul className="ml-4 border-l border-gray-200">
             {nodes.map((node) => (
@@ -142,10 +150,10 @@ const OrgUnitNode = ({
                         onClick={() => fetchChildren(node._id)}
                         className="text-sm text-blue-600 focus:outline-none transition-all duration-300"
                     >
-                        {expended[node._id] ? "[-]" : "[+]"}
+                        {expended[node._id] ? '[-]' : '[+]'}
                     </button>
                     <span
-                        className={`ml-2 cursor-pointer ${selectedOrgUnit?._id === node._id ? "font-bold" : ""}`}
+                        className={`ml-2 cursor-pointer ${selectedOrgUnit?._id === node._id ? 'font-bold' : ''}`}
                         onClick={() => selectOrgUnit(node)}
                     >
                         {node.name}
@@ -153,16 +161,16 @@ const OrgUnitNode = ({
 
                     {expended[node._id] && childrenMap[node._id] && (
                         <OrgUnitNode
-                        nodes={childrenMap[node._id]}
-                        expended={expended}
-                        fetchChildren={fetchChildren}
-                        childrenMap={childrenMap}
-                        selectedOrgUnit={selectedOrgUnit}
-                        selectOrgUnit={selectOrgUnit}
+                            nodes={childrenMap[node._id]}
+                            expended={expended}
+                            fetchChildren={fetchChildren}
+                            childrenMap={childrenMap}
+                            selectedOrgUnit={selectedOrgUnit}
+                            selectOrgUnit={selectOrgUnit}
                         />
                     )}
                 </li>
             ))}
         </ul>
-);
+    );
 };

@@ -6,7 +6,7 @@ export default function UserRegisterForm() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
     });
 
     const [errors, setErrors] = useState<{
@@ -47,8 +47,8 @@ export default function UserRegisterForm() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: formData.email,
-                    password: formData.password
-                })
+                    password: formData.password,
+                }),
             });
 
             const result = await response.json();

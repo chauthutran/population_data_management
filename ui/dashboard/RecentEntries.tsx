@@ -1,29 +1,28 @@
-import { DATA_ACCEPTED, DATA_APPROVED } from "@/constants";
-import useAsyncData from "@/hooks/useAsyncData";
-import { useAuth } from "@/hooks/useAuth";
-import { IApprovalData } from "@/types/definations";
-import { get } from "@/utils/apiClient";
-import { getApprovalStatus } from "@/utils/dataValueUtils";
-import { formatDate } from "@/utils/dateUtils";
-import { useEffect } from "react";
+import { DATA_ACCEPTED, DATA_APPROVED } from '@/constants';
+import useAsyncData from '@/hooks/useAsyncData';
+import { useAuth } from '@/hooks/useAuth';
+import { IApprovalData } from '@/types/definations';
+import { get } from '@/utils/apiClient';
+import { getApprovalStatus } from '@/utils/dataValueUtils';
+import { formatDate } from '@/utils/dateUtils';
+import React, { useEffect } from 'react';
 
-export default function RecentEntries () {
-    
+export default function RecentEntries() {
     const { curUser } = useAuth();
     const { data, loading, error, refetch } = useAsyncData<IApprovalData[]>();
-        
+
     useEffect(() => {
         refetch(fetchApprovalData);
-    }, [])
-    
+    }, []);
+
     const fetchApprovalData = async (): Promise<IApprovalData[]> => {
-       return await get<IApprovalData[]>(`/api/approvalData/${curUser?._id}`);
-    }
-    
-    if (loading) return (<div>Loading ...</div>);
-    if (error) return (<div>{error}</div>);
-    if (!data) return (<></>);
-    
+        return await get<IApprovalData[]>(`/api/approvalData/${curUser?._id}`);
+    };
+
+    if (loading) return <div>Loading ...</div>;
+    if (error) return <div>{error}</div>;
+    if (!data) return <></>;
+
     return (
         <table className="w-full border-collapse">
             <thead>
@@ -39,30 +38,40 @@ export default function RecentEntries () {
             <tbody>
                 {data.map((item: IApprovalData) => {
                     const approvalStatus = getApprovalStatus(item);
-                    
+
                     return (
-                        <>
+                        <React.Fragment key={`fragment_${item._id}`}>
                             <tr className="border-b">
                                 <td className="p-3">{item.period.name}</td>
                                 <td className="p-3">{item.orgUnit.name}</td>
                                 <td className="p-3">{item.dataSet.name}</td>
                                 <td className="p-3 text-blue-500">Approved</td>
                                 <td className="p-3">{item.approvedBy.email}</td>
-                                <td className="p-3">{formatDate(item.approvedDate + "")}</td>
+                                <td className="p-3">
+                                    {formatDate(item.approvedDate + '')}
+                                </td>
                             </tr>
-                            
-                            {approvalStatus === DATA_ACCEPTED && <tr className="border-b">
-                                <td className="p-3">{item.period.name}</td>
-                                <td className="p-3">{item.orgUnit.name}</td>
-                                <td className="p-3">{item.dataSet.name}</td>
-                                <td className="p-3 text-green-500">Accepted</td>
-                                <td className="p-3">{item.acceptedBy.email}</td>
-                                <td className="p-3">{formatDate(item.acceptedDate + "")}</td>
-                            </tr>}
-                        </>
-                    )})
-                }
+
+                            {approvalStatus === DATA_ACCEPTED && (
+                                <tr className="border-b">
+                                    <td className="p-3">{item.period.name}</td>
+                                    <td className="p-3">{item.orgUnit.name}</td>
+                                    <td className="p-3">{item.dataSet.name}</td>
+                                    <td className="p-3 text-green-500">
+                                        Accepted
+                                    </td>
+                                    <td className="p-3">
+                                        {item.acceptedBy.email}
+                                    </td>
+                                    <td className="p-3">
+                                        {formatDate(item.acceptedDate + '')}
+                                    </td>
+                                </tr>
+                            )}
+                        </React.Fragment>
+                    );
+                })}
             </tbody>
         </table>
-    )
+    );
 }
