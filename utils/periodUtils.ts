@@ -1,4 +1,4 @@
-import { IPeriod, ISerializePeriod } from '@/types/definations';
+import { IPeriod, ISerializePeriod, JSONObject } from '@/types/definations';
 
 export const generatePeriodsByType = (
     periodType: string,
@@ -28,11 +28,10 @@ export const generatePeriodsByCode = (codes: string[]): ISerializePeriod[] => {
  *          For yearly period, code should be "YYYY", such as 2025 for "2025".
  */
 export const generatePeriodByCode = (code: string): IPeriod => {
-    if (code.length == 6) {
-        // Monthy period
-        const year = code.substring(0, 4);
-        const month = code.substring(4, 8);
-        const monthIdx = parseInt(month) - 1;
+    // Monthy period
+    if (isMonthlyPeriod(code)) {
+        const { year, month } = extractYearAndMonthFromCode(code);
+        const monthIdx = parseInt(month!) - 1;
 
         // Start Date for the first day of the month
         const startDate = new Date(`${year}-${month}-01T00:00:00`);
@@ -79,6 +78,27 @@ export const deserializePeriod = (period: ISerializePeriod): IPeriod => {
 export const sortPeriods = (periods: ISerializePeriod[]) => {
     return [...periods].sort((a, b) => a.code.localeCompare(b.code));
 };
+
+export const getNextPeriod = (code: string): IPeriod => {
+    let { year, month } = extractYearAndMonthFromCode(code);
+    // For Monthly period
+    if( month != null ) {
+        if( eval(month) === 12 ) {
+            year = String(Number(year) + 1);
+        }
+        else {
+            month = String(Number(month) + 1);
+            month = month.padStart(2, '0');
+        }
+    }
+    else {
+        year = String(Number(year) + 1);
+        month = "";
+    }
+    
+    return generatePeriodByCode(year + month);
+}
+
 
 // ==================================================================================
 // Supportive methods
@@ -128,3 +148,17 @@ const generateYears = (endYear: number): ISerializePeriod[] => {
 
     return periods.reverse();
 };
+
+const isMonthlyPeriod = (code: string): boolean => {
+    return (code.length == 6);
+}
+
+const extractYearAndMonthFromCode = (code: string ): Record<string, string | null> => {
+    const year = code.substring(0, 4);
+    let month = null;
+    if( isMonthlyPeriod(code) ) {
+        month = code.substring(4, 8);
+    }
+    
+    return { year, month: month};
+}

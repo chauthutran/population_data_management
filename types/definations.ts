@@ -18,6 +18,7 @@ export type IDataElement = {
     name: string;
     shortName: string;
     description: string;
+    periodType?: IPeriodType;
 };
 
 // Used for Database Layer (IPeriod type)
@@ -79,3 +80,11 @@ export type IChartData = {
     chartData: JSONObject[];
     axisY: string[];
 };
+
+// {
+//     2015: 12000,
+//     2016: 12500,
+//     2017: 13500,
+//     2028: 14500,
+//   }
+export type IPredictData = Record<string, string>

@@ -56,14 +56,14 @@ export const initDataSet = {
     orgUnits: [
         {
             _id: '65f123000000000000000009',
-            name: 'District A1',
+            name: 'Highland East',
             code: 'DTR-A1',
             parent: '65f123000000000000000004',
             level: 4,
         },
         {
             _id: '65f123000000000000000010',
-            name: 'District B-1',
+            name: 'Riverbend North',
             code: 'DTR-B1',
             parent: '65f123000000000000000005',
             level: 4,
@@ -81,7 +81,7 @@ export const initPeriod = {
 
 export const orgUnitDistrictA1 = {
     _id: '65f123000000000000000009',
-    name: 'District A1',
+    name: 'Highland East',
     code: 'DTR-A1',
     parent: '65f123000000000000000004',
     level: 4,

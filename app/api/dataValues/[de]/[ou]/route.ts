@@ -13,10 +13,29 @@ export async function GET(
 
         const dataElementIdObj = new mongoose.Types.ObjectId(de);
         const orgUnitObj = new mongoose.Types.ObjectId(ou);
-        const dataValues = await DataValue.find({
-            dataElement: dataElementIdObj,
-            orgUnit: orgUnitObj,
-        }).populate("dataElement period orgUnit");
+        const dataValues = await DataValue.aggregate([
+            {
+              $match: {
+                dataElement: dataElementIdObj,
+                orgUnit: orgUnitObj,
+              },
+            },
+            {
+              $lookup: {
+                from: "periods", // match your Period collection name
+                localField: "period",
+                foreignField: "_id",
+                as: "period",
+              },
+            },
+            { $unwind: "$period" },
+            {
+              $sort: {
+                "period.code": -1, // sort by period.code descending
+              },
+            },
+          ]);
+          
 
         return Response.json(dataValues, { status: 200 });
     } catch (error: any) {

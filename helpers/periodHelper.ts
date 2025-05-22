@@ -11,6 +11,6 @@ export const getOrCreatePeriod = async (code: string): Promise<IPeriod> => {
         periodDbObj = await Period.create(periodObj);
     }
 
-    console.log('DB: ', periodDbObj._id);
+    // console.log('DB: ', periodDbObj._id);
     return periodDbObj;
 };

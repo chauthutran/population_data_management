@@ -114,7 +114,7 @@ export default function DataEntryForm() {
                             type="number"
                             className="border border-gray-300 p-2 w-24 rounded disabled:bg-gray-100"
                             value={dataValueMap[el._id] || ''}
-                            disabled={approvalStatus === DATA_UNAPPROVED}
+                            disabled={approvalStatus !== DATA_UNAPPROVED}
                             onChange={(e) =>
                                 handleOnChange(el._id, e.target.value)
                             }

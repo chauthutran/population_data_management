@@ -1,93 +1,105 @@
-import useAsyncData from '@/hooks/useAsyncData';
 import { get, post } from '@/utils/apiClient';
-import { useRef, useState } from 'react';
-import DataElementSingleSelect from '../layout/selection/DataElementSingleSelect';
-import { IDataElement, IDataValue, IOrgUnit } from '@/types/definations';
-import OrgUnitTree from '../layout/selection/OrgUnitTree';
-import { setOrgUnit } from '@/store/selectionSlice';
+import { useEffect, useState } from 'react';
+import { IDataValue, IPeriod, JSONObject } from '@/types/definations';
 import { formatNumber } from '@/utils/numberUtils';
+import ForecastTopBar from './ForecastTopBar';
+import { useForecast } from '@/hooks/useForecast';
+import { getNextPeriod } from '@/utils/periodUtils';
+import { data } from '@tensorflow/tfjs';
 
 export default function ForecasePage() {
-    const [selectedDataElement, setSeletedDataElement] =
-        useState<IDataElement | null>(null);
-    const [selectedOrgUnit, setSelectedOrgUnit] = useState<IOrgUnit | null>(
-        null,
-    );
-    const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
-    const [predictValue, setPredictValue] = useState<number | null>(null);
+    // const { selectedDataElement, selectedPeriod, selectedOrgUnit } = useForecast();
+    
+    const [params, setParams] = useState<JSONObject>({});
+    const [dataValues, setDataValues] = useState<JSONObject[] | null>(null);
+    const [predictValues, setPredictValues] = useState<number[] | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const predictData = async (deId: string, orgUnitId: string) => {
+    const predictData = async (deId: string, orgUnitId: string, periodCode: string) => {
         setLoading(true);
         
-        const _dataValues = await getDataValues(deId, orgUnitId);
+        const _dataValues: JSONObject[] = await getDataValues();
         setDataValues(_dataValues);
         
         const payload = {
             data: _dataValues.map(
-                (dv: IDataValue) => dv.value,
+                (dv: JSONObject) => dv.value,
             ),
         };
-        const predict = await post<any, any>('/api/forecast', payload);
-        setPredictValue(predict.predictedValue);
+        
+        const predict = await post<any, any>('/api/predict', payload);
+        setPredictValues(predict.predicted);
         
         setLoading(false);
     };
 
-    const getDataValues = async (deId: string, orgUnitId: string) => {
-        return await get<IDataValue[]>(
-            `/api/dataValues/${deId}/${orgUnitId}`,
+    const getDataValues = async () => {
+        return await post<JSONObject[], any>(
+            `/api/dataValues/filter`, params
         );
     };
 
-    const handleDEOnSelect = async (item: IDataElement) => {
-        setSeletedDataElement(item);
-        if (selectedOrgUnit) {
-            await predictData(item._id, selectedOrgUnit!._id);
+    useEffect(() => {
+        if (params.dataElements.length > 0 && params.periods.length > 0 && params.orgUnits.length > 0) {
+            // predictData(selectedDataElement._id, selectedOrgUnit._id, selectedPeriod.code);
         }
-    };
-
-    const handleOrgUnitOnSelect = async (item: IOrgUnit) => {
-        setOrgUnit(item);
-        if (selectedDataElement) {
-            await predictData(selectedDataElement!._id, item._id);
-        }
-    };
+    }, [params])
+    
+    // const nextPeriods = () => {
+    //     const list = [];
+    //     if( dataValues && dataValues.length > 0 ) {
+    //         const latestPeriodCode = dataValues[0].period.code;
+    //         const next = getNextPeriod(latestPeriodCode);
+    //         list.push(next);
+    //     }
+        
+    //     return list;
+    // }
+    
+    const handleForecastResult = (data: JSONObject) => {
+        setParams(data);
+    }
 
     return (
-        <div className="w-full p-3">
-            <div className="grid grid-cols-2 gap-4 mb-7">
-                <DataElementSingleSelect
-                    selected={selectedDataElement}
-                    onItemSelect={handleDEOnSelect}
-                />
-
-                <OrgUnitTree
-                    onItemClick={handleOrgUnitOnSelect}
-                    selected={selectedOrgUnit}
-                    disabled={false}
-                />
+        <div className="w-full">
+            <ForecastTopBar onResult={handleForecastResult} />
+            
+            { (params.dataElements.length === 0 || params.periods.length === 0 || params.orgUnits.length === 0) 
+                && <div>Missing some data</div> }
+            <div className='flex flex-row'>
+                <div>Data Elements: <span className='font-semibold'>{params.dataElements.join(", ")}</span></div>
+                <div>Periods: <span className='font-semibold'>{params.periods.join(", ")}</span></div>
+                <div>Organisation Units: <span className='font-semibold'>{params.orgUnits.join(", ")}</span></div>
             </div>
             
             {loading && <div className="italic">Loading ...</div>}
             
-            {predictValue && (
+            {predictValues && (
                 <>
-                    <h2 className="text-2xl font-semibold">{selectedDataElement!.name}</h2>
-                    
-                    <p className="text-green-700 p-3 font-bold text-xl">Predict value for next year: {formatNumber(Math.round(predictValue))}</p>
+                    {/* <h2 className="text-2xl font-semibold">{selectedDataElement!.name}</h2> */}
                     
                     <table className="w-full border-collapse m-3">
                         <thead>
                             <tr className="bg-gray-200 text-left">
                                 <th className="p-3">Period</th>
+                                <th className="p-3">dataElement</th>
                                 <th className="p-3">Value</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {dataValues!.map((item: IDataValue) => (
+                             {/* {nextPeriods()!.map((pe: IPeriod, idx: number) => (
+                                <tr key={pe.code} className="border-b text-orange-500 font-bold">
+                                    <td className="p-3">{pe.name}</td>
+                                    <td className="p-3">{formatNumber(predictValues[idx])}</td>
+                                </tr>
+                            ))} */}
+                            
+                            <td className="p-3">{item.orgUnit.name}</td>
+                            
+                            {dataValues!.map((item: JSONObject) => (
                                 <tr key={item._id} className="border-b">
                                     <td className="p-3">{item.period.name}</td>
+                                    <td className="p-3">{item.dataElement.name}</td>
                                     <td className="p-3">{formatNumber(item.value)}</td>
                                 </tr>
                             ))}

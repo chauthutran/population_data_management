@@ -29,6 +29,7 @@ export default function DashboardChart1() {
             '2022',
             '2023',
             '2024',
+            '2025',
         ];
         const periods = generatePeriodsByCode(periodCodes);
 
