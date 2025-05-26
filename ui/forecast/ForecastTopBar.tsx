@@ -8,7 +8,7 @@ export default function ForecastTopBar({
 }: {
     onResult: (data: JSONObject) => void;
 }) {
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("Can you show the Death Rate and birth rate in Highland East and Highland West between 2020 and 2030?");
     
     const handleMessageOnchange = async (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
@@ -30,6 +30,7 @@ export default function ForecastTopBar({
                 value={message} 
                 onChange={(e) => setMessage(e.target.value)} 
                 onKeyDown={handleMessageOnchange}
+                className="w-full p-2 rounded-md border border-gray-200"
             />
             
             <button

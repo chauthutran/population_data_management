@@ -1,4 +1,3 @@
-import { IPredictData, JSONObject } from '@/types/definations';
 import * as tf from '@tensorflow/tfjs';
 
 const SEQUENCE_LENGTH = 3;

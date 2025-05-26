@@ -9,6 +9,57 @@ export const generatePeriodsByType = (
         : generateMonthsInYear(year);
 };
 
+export const generatePeriodsByDateRange = (start: string, end: string, periodType: string): IPeriod[] => {
+    const result: IPeriod[] = [];
+    
+    let { startDate: cursor, endDate } = normalizeWitDateRangeInterval({from: start, to: end, type: periodType});
+  
+    while (cursor <= endDate) {
+        const year  = cursor.getFullYear();
+        let code: string, periodStart: Date, periodEnd: Date;
+    
+        if (periodType === "Monthly") {
+            const month = cursor.getMonth() + 1; // 1–12
+            code = `${year}${String(month).padStart(2, "0")}`;
+            periodStart = new Date(year, month - 1, 1);
+            // last day of this month:
+            periodEnd = new Date(year, month, 0);
+            // advance cursor to start of next month:
+            cursor = new Date(year, month, 1);
+        } else {
+            // yearly
+            code = `${year}`;
+            periodStart = new Date(year, 0, 1);
+            periodEnd   = new Date(year, 11, 31);
+            // advance cursor to Jan 1 next year
+            cursor = new Date(year + 1, 0, 1);
+        }
+    
+        // only include this period if it overlaps [start,end] at all
+        if (periodEnd >= new Date(start) && periodStart <= endDate) {
+            const period = generatePeriodByCode(code);
+            result.push(period);
+        }
+    }
+      
+    return result;
+}
+
+const normalizeWitDateRangeInterval = ({from, to, type}: JSONObject): JSONObject => {
+    // witInterval: { from:{...}, to:{ grain:"year", value:"YYYY-01-01..." }, type:"interval" }
+    const startDate = new Date(from);
+    
+    let endDate = new Date(to);
+    if (type === "Yearly") { // subtract 1 because 'to' is start of next year
+        endDate.setFullYear(endDate.getFullYear() - 1);
+    }
+    else if (type === "Monthly") {
+        endDate.setMonth(endDate.getMonth() - 1);
+    }
+  
+    return { startDate, endDate };
+  }
+  
 export const getCurrentYear = () => {
     return new Date().getFullYear();
 };
@@ -117,6 +168,10 @@ const MONTHS = [
     'Nov',
     'Dec',
 ];
+
+const formatDate = (d: Date) => {
+    return d.toISOString().slice(0, 10);
+}
 
 const generateMonthsInYear = (year: number): ISerializePeriod[] => {
     const periods: ISerializePeriod[] = [];

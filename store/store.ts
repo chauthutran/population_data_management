@@ -4,7 +4,6 @@ import currentPageReducer from './currentPageSlide';
 import authReducer from './authSlide';
 import chartReducer from './chartSlide';
 import dataEntryReducer from './dataEntrySlice';
-import forecastReducer from './forecastSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +11,6 @@ export const store = configureStore({
         selection: selectionReducer,
         chart: chartReducer,
         currentPage: currentPageReducer,
-        forecast: forecastReducer,
         auth: authReducer,
     },
 });

@@ -16,7 +16,7 @@ import { useState } from 'react';
 import ChartPage from './charts/ChartPage';
 import DataEntryPage from './dataEntry/DataEntryPage';
 import LoginPage from './auth/login/LoginPage';
-import ForecasePage from './forecast/ForecasePage';
+import ForecastPage from './forecast/ForecastPage';
 
 export default function AppWrapper() {
     const { curPage } = useCurrentPage();
@@ -39,7 +39,7 @@ export default function AppWrapper() {
                 {curPage === PAGE_DATA_ENTRY.name && <DataEntryPage />}
                 {curPage === PAGE_APPROVALS.name && <ApprovalPage />}
                 {curPage === PAGE_CHARTS.name && <ChartPage />}
-                {curPage === PAGE_FORECAST.name && <ForecasePage />}
+                {curPage === PAGE_FORECAST.name && <ForecastPage />}
             </main>
 
             <Footer />

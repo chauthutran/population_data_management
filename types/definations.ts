@@ -82,9 +82,6 @@ export type IChartData = {
 };
 
 // {
-//     2015: 12000,
-//     2016: 12500,
-//     2017: 13500,
-//     2028: 14500,
+//     <orgUnitName 1>: <data value list>,
 //   }
-export type IPredictData = Record<string, string>
+export type IPredictData = Record<string, IDataValue[]>;

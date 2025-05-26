@@ -1,5 +1,5 @@
 import { IPeriod, JSONObject } from "@/types/definations";
-import { generatePeriodByCode } from "./periodUtils";
+import { generatePeriodByCode, generatePeriodsByDateRange } from "./periodUtils";
 
 const WITAI_TOKEN = process.env.WIT_AI_TOKEN; // store in .env.local
 
@@ -51,8 +51,11 @@ const getPeriodsFromWitAi = (witData: JSONObject) => {
         // [ {"from": { "grain": "year", "value": "2026-01-01T00:00:00.000-08:00"},
         //     "to": { "grain": "year", "value": "2030-01-01T00:00:00.000-08:00"}}, ...]
         dateRange.forEach((item: JSONObject) => {
-            periods.push(createPeriod(item.from));
-            periods.push(createPeriod(item.to));
+            // periods.push(createPeriod(item.from));
+            // periods.push(createPeriod(item.to));
+            const type = ( item.from.grain === "month" ) ? "Monthly" : "Yearly";
+            const result = generatePeriodsByDateRange(item.from.value, item.to.value, type);
+            periods.push(...result);
         });
     }
     // Not support yet
@@ -251,7 +254,7 @@ const extractDateRangeFromWitResponse = (witResponse: JSONObject): JSONObject[] 
 const extractDurationFromWitResponse = (witResponse: JSONObject): JSONObject[] | null => {
     const durationEntities = witResponse.wit.entities['wit$duration:duration'];
   
-    if (durationEntities) return null;
+    if (!durationEntities) return null;
     
     const values: JSONObject[] = [];
     durationEntities.forEach((item: JSONObject) => {

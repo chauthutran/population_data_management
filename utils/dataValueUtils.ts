@@ -1,4 +1,6 @@
 import { DATA_ACCEPTED, DATA_APPROVED, DATA_UNAPPROVED } from '@/constants';
+import connectToDatabase from '@/libs/db/mongodb';
+import DataValue from '@/libs/db/schemas/DataValueSchema';
 import { IApprovalData, IDataValue, JSONObject } from '@/types/definations';
 
 export const createDataValues = (
