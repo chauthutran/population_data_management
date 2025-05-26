@@ -2,7 +2,7 @@
 import { Predictor } from '@/libs/aiml/predictor';
 import connectToDatabase from '@/libs/db/mongodb';
 import DataValue from '@/libs/db/schemas/DataValueSchema';
-import { IDataValue, IPeriod, JSONObject } from '@/types/definations';
+import { IDataValue, JSONObject } from '@/types/definations';
 import { roundNumber } from '@/utils/numberUtils';
 import * as tf from '@tensorflow/tfjs';
 
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
                     sequence.push(next);
                     
                     const futurePeriodCode = futurePeriods[k];
-                    predictionValues[futurePeriodCode] = { value: roundNumber(next), predited: true};
+                    predictionValues[futurePeriodCode] = { value: roundNumber(next, 4), predited: true};
                 }
                 
                 insertPeriodValuesToGroup({
