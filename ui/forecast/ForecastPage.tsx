@@ -83,20 +83,19 @@ export default function ForecasePage() {
     return (
         <div className="w-full">
             <ForecastTopBar onResult={handleForecastResult} />
-           
-           <pre>{JSON.stringify(params)}</pre> 
+            <div className='flex flex-col'>
+                <div>Data Elements: <span className='font-semibold'>{params.dataElements.join(", ")}</span></div>
+                <div>Periods: <span className='font-semibold'>{params.periods.map((item: IPeriod) => item.code).join(", ")}</span></div>
+                <div>Organisation Units: <span className='font-semibold'>{params.orgUnits.join(", ")}</span></div>
+            </div>
+            
             { (!params.dataElements?.length || !params.periods?.length || !params.orgUnits?.length) 
                 ? <div>Missing some data</div> 
                 : <div> 
-                    <div className='flex flex-col'>
-                        <div>Data Elements: <span className='font-semibold'>{params.dataElements.join(", ")}</span></div>
-                        <div>Periods: <span className='font-semibold'>{params.periods.map((item: IPeriod) => item.code).join(", ")}</span></div>
-                        <div>Organisation Units: <span className='font-semibold'>{params.orgUnits.join(", ")}</span></div>
-                    </div>
-            
-                        {loading 
-                            ? <div className="italic">Loading ...</div>
-                            :predictValues && <ForecastTable params={params!} data={predictValues!} />}
+                   
+                    {loading 
+                        ? <div className="italic">Loading ...</div>
+                        :predictValues && <ForecastTable params={params!} data={predictValues!} />}
                 </div>}
         </div>
     );
