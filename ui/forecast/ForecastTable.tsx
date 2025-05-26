@@ -9,60 +9,37 @@ export default function ForecastTable ({
     params: JSONObject,
     data: JSONObject,
 }) {
-    
-  //   const groupDataValues = () => {
-  //       return dataValues.reduce<JSONObject>((acc, dv) => {
-  //           const ouName  = dv.orgUnit.name;
-  //           const deName  = dv.dataElement.name;
-  //           const pCode   = dv.period.code;
-  //           const val     = dv.value;
-        
-  //           // ensure orgUnit bucket
-  //           if (!acc[ouName]) {
-  //             acc[ouName] = {};
-  //           }
-        
-  //           // ensure dataElement bucket
-  //           if (!acc[ouName][deName]) {
-  //             acc[ouName][deName] = {};
-  //           }
-        
-  //           // set the period→value mapping
-  //           acc[ouName][deName][pCode] = val;
-        
-  //           return acc;
-  //         }, {});
-  //   }
-  //  console.log( groupDataValues() );
-   
-  //  const groupedData = groupDataValues();
-   
+	
     return (
-        <table className="w-full table-auto">
-            <thead className="bg-gray-200 text-gray-700 sticky top-0 border">
-                <tr>
-                    <th className="text-left p-4 font-semibold border border-gray-300">Data Element</th>
-                    {params.periods.map((pe: IPeriod) => (
-                        <th
-                            key={pe.code}
-                            className="text-left p-4 border border-gray-300"
-                        >
-                            {pe.name}
-                        </th>
-                    ))}
-                </tr>
-            </thead>
-            
-            {params.orgUnits.map((ouName: string, index: number) => (
-                createTableRow({
-                    ouName,
-                    deNames: params.dataElements,
-                    periods: params.periods,
-                    values: data[ouName] || {},
-                    index,
-                })
-            ))}
-        </table>
+		<>
+			<h2 className="text-sm text-gray-600 italic pb-3">*** Predicted values are shown in <span className="text-blue-600 font-medium">blue</span>.</h2>
+			
+			<table className="w-full table-auto">
+				<thead className="bg-gray-200 text-gray-700 sticky top-0 border">
+					<tr>
+						<th className="text-left p-4 font-semibold border border-gray-300">Data Element</th>
+						{params.periods.map((pe: IPeriod) => (
+							<th
+								key={pe.code}
+								className="text-left p-4 border border-gray-300"
+							>
+								{pe.name}
+							</th>
+						))}
+					</tr>
+				</thead>
+				
+				{params.orgUnits.map((ouName: string, index: number) => (
+					createTableRow({
+						ouName,
+						deNames: params.dataElements,
+						periods: params.periods,
+						values: data[ouName] || {},
+						index,
+					})
+				))}
+			</table>
+		</>
     )
 }
 
@@ -111,7 +88,7 @@ const createTableRow = ({
 					}`}
 				>
                   	{values[deName]?.[pe.code]?.value 
-						? <span className={`${values[deName]?.[pe.code]?.predited ? "italic text-red-500" : "text-gray-700"}`}>{values[deName]?.[pe.code]?.value}</span>
+						? <span className={`${values[deName]?.[pe.code]?.predited ? "italic text-blue-600" : "text-gray-700"}`}>{values[deName]?.[pe.code]?.value}</span>
 						: <span className="text-gray-400 italic">—</span>
 					}
                 </td>

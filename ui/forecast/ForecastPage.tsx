@@ -9,7 +9,6 @@ import ForecastTable from './ForecastTable';
 
 export default function ForecasePage() {
     const [params, setParams] = useState<JSONObject>({});
-    // const [dataValues, setDataValues] = useState<IDataValue[] | null>(null);
     const [predictValues, setPredictValues] = useState<JSONObject | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -43,36 +42,6 @@ export default function ForecasePage() {
         
         // setLoading(false);
     };
-
-    // const getDataValues = async () => {
-    //     const payload = {
-    //         deNames: params.dataElements,
-    //         peCodes: params.periods.map((item: IPeriod) => item.code),
-    //         orgUnitNames: params.orgUnits
-    //     };
-        
-    //     return await post<IDataValue[], any>(
-    //         `/api/dataValues/filter`, payload
-    //     );
-    // };
-
-    // useEffect(() => {
-    //     if (params.dataElements?.length && params.periods?.length && params.orgUnits?.length) {
-    //         const periodCode = params.periods.map((item: IPeriod) => item.code);
-    //         predictData();
-    //     }
-    // }, [params])
-    
-    // const getFuturePeriods = () => {
-    //     const list = [];
-    //     if( dataValues && dataValues.length > 0 ) {
-    //         const latestPeriodCode = dataValues[0].period.code;
-    //         const next = getNextPeriod(latestPeriodCode);
-    //         list.push(next);
-    //     }
-        
-    //     return list;
-    // }
     
     const handleForecastResult = (data: JSONObject) => {
         console.log(data);
@@ -83,15 +52,15 @@ export default function ForecasePage() {
     return (
         <div className="w-full">
             <ForecastTopBar onResult={handleForecastResult} />
-            <div className='flex flex-col'>
-                <div>Data Elements: <span className='font-semibold'>{params.dataElements.join(", ")}</span></div>
-                <div>Periods: <span className='font-semibold'>{params.periods.map((item: IPeriod) => item.code).join(", ")}</span></div>
-                <div>Organisation Units: <span className='font-semibold'>{params.orgUnits.join(", ")}</span></div>
+            <div className='flex flex-col px-5'>
+                <div>Data Elements: <span className='font-semibold'>{params.dataElements?.join(", ") || "[None]"}</span></div>
+                <div>Periods: <span className='font-semibold'>{params.periods?.map((item: IPeriod) => item.code).join(", ") || "[None]"}</span></div>
+                <div>Organisation Units: <span className='font-semibold'>{params.orgUnits?.join(", ") || "[None]"}</span></div>
             </div>
             
             { (!params.dataElements?.length || !params.periods?.length || !params.orgUnits?.length) 
-                ? <div>Missing some data</div> 
-                : <div> 
+                ? <div className='px-5 italic text-red-500 py-3 font-semibold'>Missing params to retrieve data</div> 
+                : <div className='p-5'> 
                    
                     {loading 
                         ? <div className="italic">Loading ...</div>
