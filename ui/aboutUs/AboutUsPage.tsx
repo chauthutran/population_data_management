@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function AboutUsPage () {
     
     return (
-        <div className="max-w-3xl mx-auto p-6 md:p-10 bg-white rounded-2xl shadow-lg space-y-10">
+        <div className="mx-auto p-6 md:p-10 bg-white rounded-2xl shadow-lg space-y-10">
             {/* Header */}
             <div className="text-center">
                 <h1 className="text-4xl font-extrabold text-gray-800">About The Application</h1>
@@ -13,11 +13,14 @@ export default function AboutUsPage () {
             {/* Core Features */}
             <section>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">🚀 Core Features</h2>
-                <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2">
-                <li><span className="font-medium">Data Entry & Validation:</span> Add and verify population records easily.</li>
-                <li><span className="font-medium">Approval Workflows:</span> Secure and structured data validation system.</li>
-                <li><span className="font-medium">Charts & Analytics:</span> Visual insights on trends and demographics.</li>
-                <li><span className="font-medium">Population Forecasting:</span> Predict future changes using analytics.</li>
+                <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-md shadow-sm">
+                    <li><span className="font-medium">Data Entry & Validation:</span> Add and verify population records easily.</li>
+                    <li><span className="font-medium">Approval Workflows:</span> Secure and structured data validation system.</li>
+                    <li><span className="font-medium">Charts & Analytics:</span> Visual insights on trends and demographics.</li>
+                    <li>
+                        <span className="font-semibold">🌟 Population Forecasting:</span>
+                        <span className="text-gray-700 ml-1">A standout feature that predicts future demographic trends using powerful analytics.</span>
+                    </li>
                 </ul>
             </section>
 
