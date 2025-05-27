@@ -1,4 +1,5 @@
 import {
+    PAGE_ABOUT_US,
     PAGE_APPROVALS,
     PAGE_CHARTS,
     PAGE_DASHBOARD,
@@ -63,6 +64,13 @@ export default function Header({
                                 className={` ${curPage === PAGE_FORECAST.name && 'border-b font-semibold'} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
                             >
                                 {PAGE_FORECAST.title}
+                            </li>
+
+                            <li
+                                onClick={() => setCurrentPage(PAGE_ABOUT_US)}
+                                className={` ${curPage === PAGE_ABOUT_US.name && 'border-b font-semibold'} text-gray-600 hover:text-black cursor-pointer transition-transform transform hover:scale-105 hover:border-b border-gray-400 pr-3`}
+                            >
+                                {PAGE_ABOUT_US.title}
                             </li>
                         </ul>
                     </nav>

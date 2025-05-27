@@ -30,6 +30,14 @@ export const PAGE_FORECAST = {
     title: 'Forcast',
     icon: 'MdDashboard',
 };
+export const PAGE_ABOUT_US = {
+    name: 'PAGE_ABOUT_US',
+    title: 'About Us',
+    icon: 'MdDashboard',
+};
+
+
+// ===========================================================================================
 
 export const DATA_APPROVED = 'APPROVED';
 export const DATA_UNAPPROVED = 'UNAPPROVED';

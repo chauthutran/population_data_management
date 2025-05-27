@@ -4,7 +4,7 @@ import AppDetailsIntro from '@/ui/layout/AppDetailsIntro';
 
 export default function LoginPage() {
     return (
-        <div className="lg:flex lg:flex-row items-start w-full flex-1 space-x-10 my-10 space-y-10">
+        <div className="lg:flex lg:flex-row items-start w-full flex-1 space-x-10 my-10 space-y-5">
             <div className="flex-1 flex-col space-y-5 mx-5">
                 <div className="text-left">
                     The Population Data Management Application is a powerful and
@@ -40,7 +40,7 @@ export default function LoginPage() {
                 />
             </div>
 
-            <div className="flex-1 flex flex-col space-y-10">
+            <div className="flex-1 flex flex-col space-y-8">
                 <AppDetailsIntro />
             </div>
         </div>

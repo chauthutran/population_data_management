@@ -51,6 +51,18 @@ export default function AppDetailsIntro() {
 
             <div className="flex flex-row space-x-2">
                 <div className="">
+                    <FcComboChart size={35} />
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold">Forecast</h3>
+                    <div className="text-sm">
+                       Very valuable for planning and policy-making (e.g., urban development, healthcare, education).
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex flex-row space-x-2">
+                <div className="">
                     <FcPhoneAndroid size={35} />
                 </div>
                 <div>

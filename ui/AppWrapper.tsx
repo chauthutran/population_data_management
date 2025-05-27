@@ -10,6 +10,7 @@ import {
     PAGE_DATA_ENTRY,
     PAGE_FORECAST,
     PAGE_LOGIN,
+    PAGE_ABOUT_US,
 } from '@/constants';
 import { useCurrentPage } from '@/hooks/usePage';
 import { useState } from 'react';
@@ -17,6 +18,7 @@ import ChartPage from './charts/ChartPage';
 import DataEntryPage from './dataEntry/DataEntryPage';
 import LoginPage from './auth/login/LoginPage';
 import ForecastPage from './forecast/ForecastPage';
+import AboutUsPage from './aboutUs/AboutUsPage';
 
 export default function AppWrapper() {
     const { curPage } = useCurrentPage();
@@ -40,6 +42,7 @@ export default function AppWrapper() {
                 {curPage === PAGE_APPROVALS.name && <ApprovalPage />}
                 {curPage === PAGE_CHARTS.name && <ChartPage />}
                 {curPage === PAGE_FORECAST.name && <ForecastPage />}
+                {curPage === PAGE_ABOUT_US.name && <AboutUsPage />}
             </main>
 
             <Footer />
