@@ -9,27 +9,29 @@ import {
 } from '@/constants';
 import { useCurrentPage } from '@/hooks/usePage';
 import AppIcon from './AppIcon';
+import { HiDotsVertical } from 'react-icons/hi';
 
 export default function Header({
     handleOpenSlideBar,
 }: {
-    handleOpenSlideBar?: () => void;
+    handleOpenSlideBar: () => void;
 }) {
     const { setCurrentPage, curPage, title } = useCurrentPage();
 
     return (
         <header className="text-xl text-gray-700 flex flex-col">
             <div className="flex flex-row items-center pl-3">
-                <button
-                    className="text-white cursor-pointer rounded-full bg-white w-12 h-12 flex items-center justify-center"
-                    onClick={handleOpenSlideBar}
-                >
-                    <AppIcon size={50} />
+                
+                <button className='flex lg:hidden' onClick={() => handleOpenSlideBar()}>
+                    <HiDotsVertical />
                 </button>
+                
+                <AppIcon size={50} />
+                
                 <div className="truncate ml-3">Population Data Management</div>
 
                 {curPage !== PAGE_LOGIN.name && (
-                    <nav className="ml-auto text-sm">
+                    <nav className="ml-auto text-sm hidden lg:block">
                         <ul className="flex space-x-6 py-5 mx-20">
                             <li
                                 onClick={() => setCurrentPage(PAGE_DASHBOARD)}

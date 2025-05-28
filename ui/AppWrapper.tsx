@@ -19,6 +19,7 @@ import DataEntryPage from './dataEntry/DataEntryPage';
 import LoginPage from './auth/login/LoginPage';
 import ForecastPage from './forecast/ForecastPage';
 import AboutUsPage from './aboutUs/AboutUsPage';
+import { HiDotsVertical } from "react-icons/hi";
 
 export default function AppWrapper() {
     const { curPage } = useCurrentPage();
@@ -27,7 +28,7 @@ export default function AppWrapper() {
     return (
         <div className="flex flex-col h-screen">
             <Header handleOpenSlideBar={() => setOpenSlideBar(true)} />
-
+            
             {curPage !== PAGE_LOGIN.name && (
                 <SlideBar
                     isOpen={openSlideBar}

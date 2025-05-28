@@ -4,6 +4,7 @@ import {
     PAGE_CHARTS,
     PAGE_DASHBOARD,
     PAGE_DATA_ENTRY,
+    PAGE_FORECAST,
     PAGE_LOGIN,
 } from '@/constants';
 import { MdDashboard, MdKeyboardDoubleArrowLeft } from 'react-icons/md';
@@ -43,14 +44,14 @@ export default function SlideBar({
 
     return (
         <aside
-            className={`drop-shadow-2xl fixed left-0 top-0 h-screen z-50 w-64 bg-gray-50 shadow-lg p-5 flex flex-col text-black transition-transform duration-300 ${
+            className={`flex lg:hidden drop-shadow-2xl fixed left-0 top-0 h-screen z-50 w-64 bg-gray-50 shadow-lg p-5 flex-col text-black transition-transform duration-300 ${
                 isOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
             ref={dropdownRef}
         >
             {/* Sidebar Header */}
             <div className="flex justify-between items-center mb-6">
-                <AppIcon size={32} />
+                <AppIcon size={45} />
                 <button
                     onClick={onClose}
                     className="text-2xl hover:text-gray-300 transition"
@@ -66,6 +67,7 @@ export default function SlideBar({
                     PAGE_DATA_ENTRY,
                     PAGE_APPROVALS,
                     PAGE_CHARTS,
+                    PAGE_FORECAST,
                 ].map((item) => {
                     const IconComponent =
                         ICON_MAP[item.icon as keyof typeof ICON_MAP]; // Get the actual component
