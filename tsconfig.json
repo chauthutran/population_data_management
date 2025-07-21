@@ -15,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve", // This is required to properly transpile JSX
+    "jsx": "react-jsx", // This is required to properly transpile JSX
     "incremental": true,
     "plugins": [
       {
