@@ -1,4 +1,3 @@
-import { AiOutlineLineChart } from 'react-icons/ai';
 import {
     CHART_AXIST_ORGUNITS,
     CHART_AXIST_PERIODS,

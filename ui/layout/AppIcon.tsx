@@ -13,8 +13,5 @@ export default function AppIcon({ size }: { size: number }) {
                 height={size * 0.8}
             />
         </div>
-        // <div className="text-lg font-bold rounded-full bg-white p-2">
-        //     <Image src="/lego1.svg" alt="Population Icon" />
-        // </div>
     );
 }
