@@ -1,5 +1,6 @@
 import { useCurrentPage } from '@/hooks/usePage';
 import {
+    PAGE_ABOUT_US,
     PAGE_APPROVALS,
     PAGE_CHARTS,
     PAGE_DASHBOARD,
@@ -68,6 +69,7 @@ export default function SlideBar({
                     PAGE_APPROVALS,
                     PAGE_CHARTS,
                     PAGE_FORECAST,
+                    PAGE_ABOUT_US,
                 ].map((item) => {
                     const IconComponent =
                         ICON_MAP[item.icon as keyof typeof ICON_MAP]; // Get the actual component

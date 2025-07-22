@@ -16,7 +16,7 @@ export default function Header({
 }: {
     handleOpenSlideBar: () => void;
 }) {
-    const { setCurrentPage, curPage, title } = useCurrentPage();
+    const { setCurrentPage, curPage } = useCurrentPage();
 
     return (
         <header className="text-xl text-gray-700 flex flex-col">
