@@ -1,34 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+import registrationSchema from '@/validation/registrationSchema';
+import { JSONObject } from '@/types/definations';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
 
-export default function UserRegisterForm() {
+export default function UserRegisterForm({ onClose }: { onClose: () => void }) {
+    
+    const router = useRouter();
+    const { setUser } = useAuth();
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
     });
-
-    const [errors, setErrors] = useState<{
-        email?: string;
-        password?: string;
-        confirmPassword?: string;
-    }>({});
+    const [errors, setErrors] = useState<JSONObject>({});
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-
-    const validateForm = () => {
-        let newErrors: typeof errors = {};
-        if (!formData.email) newErrors.email = 'Email is required';
-        if (!formData.password) newErrors.password = 'Password is required';
-        else if (formData.password.length < 6)
-            newErrors.password = 'Password must be at least 6 characters';
-        if (formData.confirmPassword !== formData.password)
-            newErrors.confirmPassword = 'Passwords do not match';
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,88 +26,133 @@ export default function UserRegisterForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!validateForm()) return;
-
-        setLoading(true);
-        setMessage('');
-
-        try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                }),
+        const { error } = registrationSchema.validate(formData, {
+            abortEarly: false,
+        });
+        if (error) {
+            const newErrors: JSONObject = {};
+            error.details.forEach((err) => {
+                newErrors[err.path[0] as string] = err.message;
             });
+            setErrors(newErrors);
+        } else {
+            setLoading(true);
+            setMessage('');
 
-            const result = await response.json();
-            if (!response.ok)
-                throw new Error(result.message || 'Something went wrong');
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: formData.email,
+                        password: formData.password,
+                    }),
+                });
 
-            setMessage('Registration successful! Please log in.');
-            setFormData({ email: '', password: '', confirmPassword: '' }); // Reset form
-        } catch (error: any) {
-            setMessage(error.message);
-        } finally {
-            setLoading(false);
+                const result = await response.json();
+                if (!response.ok)
+                    throw new Error(result.message || 'Something went wrong');
+
+                setUser(result);
+                router.push('/dashboard');
+            } catch (error: any) {
+                setMessage(error.message);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4 text-center">Register</h2>
-            {message && <p className="text-red-500 text-sm">{message}</p>}
+        <div className="max-w-md p-8 bg-white rounded-xl shadow-lg mx-auto">
+            <header className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Register</h2>
+                <button
+                    onClick={onClose}
+                    aria-label="Close registration form"
+                    className="text-gray-500 hover:text-gray-800 text-3xl font-bold focus:outline-none"
+                >
+                    &times;
+                </button>
+            </header>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {message && (
+                <p className="text-red-600 text-sm mb-4 font-medium">
+                    {message}
+                </p>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Email Field */}
                 <div>
-                    <label className="block text-sm font-medium">Email</label>
+                    <label
+                        htmlFor="email"
+                        className="block text-base font-semibold mb-1"
+                    >
+                        Email
+                    </label>
                     <input
                         type="email"
                         name="email"
+                        id="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-lg"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg"
+                        placeholder="you@example.com"
+                        autoComplete="email"
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-xs">{errors.email}</p>
+                        <p className="text-red-600 text-sm mt-1">
+                            {errors.email}
+                        </p>
                     )}
                 </div>
 
                 {/* Password Field */}
                 <div>
-                    <label className="block text-sm font-medium">
+                    <label
+                        htmlFor="password"
+                        className="block text-base font-semibold mb-1"
+                    >
                         Password
                     </label>
                     <input
                         type="password"
                         name="password"
+                        id="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-lg"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg"
+                        placeholder="Enter your password"
+                        autoComplete="new-password"
                     />
                     {errors.password && (
-                        <p className="text-red-500 text-xs">
+                        <p className="text-red-600 text-sm mt-1">
                             {errors.password}
                         </p>
                     )}
                 </div>
 
-                {/* Confirm Password */}
+                {/* Confirm Password Field */}
                 <div>
-                    <label className="block text-sm font-medium">
+                    <label
+                        htmlFor="confirmPassword"
+                        className="block text-base font-semibold mb-1"
+                    >
                         Confirm Password
                     </label>
                     <input
                         type="password"
                         name="confirmPassword"
+                        id="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-lg"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg"
+                        placeholder="Confirm your password"
+                        autoComplete="new-password"
                     />
                     {errors.confirmPassword && (
-                        <p className="text-red-500 text-xs">
+                        <p className="text-red-600 text-sm mt-1">
                             {errors.confirmPassword}
                         </p>
                     )}
@@ -126,8 +161,12 @@ export default function UserRegisterForm() {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
                     disabled={loading}
+                    className={`w-full py-3 rounded-lg text-white text-lg font-semibold transition-colors ${
+                        loading
+                            ? 'bg-blue-300 cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-700'
+                    }`}
                 >
                     {loading ? 'Registering...' : 'Register'}
                 </button>

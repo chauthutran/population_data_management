@@ -1,14 +1,16 @@
-import ChartTopBar from './filterPanel/ChartFilterPanel';
+'use client';
+
 import { useChart } from '@/hooks/useChart';
 import { retrieveAndTransformData, transformData } from '@/utils/chartUtils';
-import ChartTypeSelector from './filterPanel/ChartTypeOption';
 import { useState } from 'react';
 import { IChartData, JSONObject } from '@/types/definations';
-import CustomBarChart from './charts/CustomBarChart';
-import CustomPieChart from './charts/CustomPieChart';
-import CustomLineChart from './charts/CustomLineChart';
-import CustomHeatmap from './charts/CustomHeatmap';
 import useAsyncData from '@/hooks/useAsyncData';
+import ChartTopBar from '@/ui/charts/filterPanel/ChartFilterPanel';
+import ChartTypeSelector from '@/ui/charts/filterPanel/ChartTypeOption';
+import CustomLineChart from '@/ui/charts/charts/CustomLineChart';
+import CustomBarChart from '@/ui/charts/charts/CustomBarChart';
+import CustomPieChart from '@/ui/charts/charts/CustomPieChart';
+import CustomHeatmap from '@/ui/charts/charts/CustomHeatmap';
 
 export default function ChartPage() {
     const {

@@ -12,6 +12,7 @@ const currentPageSlide = createSlice({
         setPage: (state, action: PayloadAction<JSONObject>) => {
             state.name = action.payload.name;
             state.title = action.payload.title;
+            state.message = action.payload.message;
         },
     },
 });

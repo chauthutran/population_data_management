@@ -1,8 +1,16 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-    content: ['./app/*.{js,ts,jsx,tsx}', './ui/**/*.{js,ts,jsx,tsx}'],
+    content: [
+        './app/*.{js,ts,jsx,tsx}',
+        "./app/**/*.{js,ts,jsx,tsx}",
+        './ui/**/*.{js,ts,jsx,tsx}',
+    ],
     theme: {
+        screens: {
+            lg: '1024px',
+            // ...
+        },
         extend: {
             colors: {
                 background: '#f1f3f4',

@@ -15,6 +15,7 @@
         "@types/mongoose": "^5.11.97",
         "bcryptjs": "^3.0.2",
         "dotenv": "^16.4.7",
+        "joi": "^18.0.0",
         "mongoose": "^8.12.1",
         "next": "15.2.1",
         "postcss": "^8.5.3",

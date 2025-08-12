@@ -1,13 +1,11 @@
+'use client';
+
 import { useDataEntry } from '@/hooks/useDataEntry';
-import DataEntryForm from './DataEntryForm';
-import DataEntryTopBar from './DataEntryTopBar';
-import RecentEntriesTimeline from './RecentEntriesTimeline';
 import { getApprovalStatus } from '@/utils/dataValueUtils';
-import { FiClock, FiThumbsUp } from 'react-icons/fi';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
-import { FaCheckCircle } from 'react-icons/fa';
-import DataApprovalStatus from './DataApprovalStatus';
-import DataAccuracyTips from './DataAccuracyTips';
+import DataEntryTopBar from '@/ui/dataEntry/DataEntryTopBar';
+import DataEntryForm from '@/ui/dataEntry/DataEntryForm';
+import DataAccuracyTips from '@/ui/dataEntry/DataAccuracyTips';
+import DataApprovalStatus from '@/ui/dataEntry/DataApprovalStatus';
 
 export default function DataEntryPage() {
     const {

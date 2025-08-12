@@ -11,7 +11,14 @@ const config: Config = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   setupFilesAfterEnv: ["@testing-library/jest-dom"], // Ensure jest-dom matchers are available
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',  // Transform .tsx files with ts-jest
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          jsx: 'react-jsx', // or 'react-jsxdev' for dev mode
+        },
+      },
+    ],
   },
 };
 

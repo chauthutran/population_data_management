@@ -23,7 +23,7 @@ describe("DataElementMultiSelect", () => {
         expect(screen.getByText("Select Data Element")).toBeInTheDocument();
     });
     
-    it("renders CustomMultiSelect when disable is false", () => {
+    it("renders CustomMultiSelect when disable is false", async () => {
         render(
             <DataElementMultiSelect 
                 options={mockDataElements}
@@ -34,6 +34,12 @@ describe("DataElementMultiSelect", () => {
         );
         
         expect(screen.getByText("Select Data Element")).toBeInTheDocument();
+        
+        // Open the dropdown (assuming there's a button or input to click)
+        const selectInput = screen.getByText("Select Data Element");
+        fireEvent.click(selectInput);
+
+        // Now the options should be visible
         mockDataElements.forEach((opt => {
             expect(screen.getByText(opt.name)).toBeInTheDocument();
         }));
@@ -49,6 +55,12 @@ describe("DataElementMultiSelect", () => {
             />
         );
         
+        
+        // Open the dropdown (assuming there's a button or input to click)
+        const selectInput = screen.getByText("Select Data Element");
+        fireEvent.click(selectInput);
+
+        // Now the options should be visible
         const optionTag = screen.getByText(de1.name);
         fireEvent.click(optionTag);
         

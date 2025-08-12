@@ -16,7 +16,7 @@ export async function POST(request: Request) {
         // Hash(encrypt) password before creating
         const hashedPassword = await hashPassword(password);
 
-        const newUser = await User.create({ email, hashedPassword });
+        const newUser = await User.create({ email, password: hashedPassword });
 
         return Response.json(newUser, { status: 200 });
     } catch (error: any) {
