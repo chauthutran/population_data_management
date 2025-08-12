@@ -1,4 +1,5 @@
 import useAsyncData from '@/hooks/useAsyncData';
+import { useAuth } from '@/hooks/useAuth';
 import { useSelection } from '@/hooks/useSelection';
 import { IApprovalData } from '@/types/definations';
 import { post } from '@/utils/apiClient';
@@ -11,6 +12,7 @@ const AcceptButton = () => {
         selectedOrgUnit,
         selectApprovalData,
     } = useSelection();
+    const { curUser } = useAuth();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
 
     const acceptData = async (): Promise<IApprovalData> => {
@@ -18,7 +20,7 @@ const AcceptButton = () => {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
             orgUnit: selectedOrgUnit?._id,
-            acceptedBy: '67cfb5d42edec25886c547a4',
+            acceptedBy: curUser!._id,
         };
 
         const result = await post<IApprovalData, any>(

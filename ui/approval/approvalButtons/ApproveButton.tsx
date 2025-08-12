@@ -1,4 +1,5 @@
 import useAsyncData from '@/hooks/useAsyncData';
+import { useAuth } from '@/hooks/useAuth';
 import { useSelection } from '@/hooks/useSelection';
 import { IApprovalData } from '@/types/definations';
 import { post } from '@/utils/apiClient';
@@ -11,6 +12,7 @@ export default function ApproveButton() {
         selectedOrgUnit,
         selectApprovalData,
     } = useSelection();
+    const { curUser } = useAuth();
     const { loading, error, refetch } = useAsyncData<IApprovalData | null>();
 
     const approveData = async (): Promise<IApprovalData | null> => {
@@ -18,7 +20,7 @@ export default function ApproveButton() {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
             orgUnit: selectedOrgUnit?._id,
-            approvedBy: '67cfb5d42edec25886c547a4',
+            approvedBy: curUser!._id,
         };
 
         const result = await post<IApprovalData, any>(

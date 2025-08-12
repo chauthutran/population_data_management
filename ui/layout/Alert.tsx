@@ -1,16 +1,31 @@
 import { JSONObject } from '@/types/definations';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Alert({
+    id = 1,
     message,
     type,
+    duration = 3000, // default 3 seconds
 }: {
+    id?: number; // some unique value to reload alert when the same message comes
     message: string;
     type: string;
+    duration?: number;
 }) {
     const [show, setShow] = useState(true);
 
-    if (!message || !show) return null;
+    useEffect(() => {
+        if (message) {
+            setShow(true); // show alert when new message comes
+            
+            const timer = setTimeout(() => {
+                setShow(false);
+            }, duration);
+            return () => clearTimeout(timer); // cleanup on unmount
+        }
+    }, [message, duration, id]);
+    
+    if (!message || !show) return <div></div>;
 
     const colors: JSONObject = {
         error: 'bg-red-100 border-red-400 text-red-700',

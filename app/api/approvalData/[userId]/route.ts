@@ -14,8 +14,8 @@ export async function GET(
         let result = await ApprovalData.find({
             $or: [{ approvedBy: userId }, { acceptedBy: userId }],
         })
-            .populate('dataSet period orgUnit approvedBy acceptedBy')
-            .sort({ approvedDate: -1 });
+        .populate('dataSet period orgUnit approvedBy acceptedBy')
+        .sort({ approvedDate: -1 });
 
         return Response.json(result, { status: 200 });
     } catch (error: any) {

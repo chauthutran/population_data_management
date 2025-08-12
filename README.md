@@ -1,3 +1,7 @@
+# Build the app
+
+Use Node version 22
+
 # App Idea: Population Data Approval & Management System
 
 Your app will focus on data approval and acceptance functionalities, ensuring that population-related data goes through a verification process before being stored and used.

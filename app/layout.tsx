@@ -3,6 +3,7 @@ import './globals.css';
 // import { Provider } from 'react-redux';
 // import { store } from '@/store/store';
 import AppWrapper from '@/ui/AppWrapper';
+import RouterLoader from '@/ui/RouteLoader';
 
 export const metadata: Metadata = {
     title: 'Population Data Management',
@@ -17,7 +18,7 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <AppWrapper>
-                    {/* <div className={`antialiased`}>{children}</div> */}
+                    <RouterLoader />
                     {children}
                 </AppWrapper>
             </body>

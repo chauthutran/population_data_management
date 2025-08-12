@@ -1,4 +1,5 @@
 import useAsyncData from '@/hooks/useAsyncData';
+import { useAuth } from '@/hooks/useAuth';
 import { useSelection } from '@/hooks/useSelection';
 import { IApprovalData } from '@/types/definations';
 import { deleteData } from '@/utils/apiClient';
@@ -10,6 +11,7 @@ export default function UnapproveButton() {
         selectedOrgUnit,
         selectApprovalData,
     } = useSelection();
+    const { curUser } = useAuth();
     const { loading, error, refetch } = useAsyncData<IApprovalData>();
 
     const approveData = async (): Promise<IApprovalData> => {
@@ -17,7 +19,7 @@ export default function UnapproveButton() {
             dataSet: selectedDataSet!._id,
             period: selectedPeriod?.code,
             orgUnit: selectedOrgUnit?._id,
-            approvedBy: '67cfb5d42edec25886c547a4',
+            approvedBy: curUser!._id,
         };
 
         const result = await deleteData<IApprovalData, any>(

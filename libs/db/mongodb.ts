@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import OrgUnit from './schemas/OrgUnitSchema';
 import DataElement from './schemas/DataElementSchema';
 import PeriodType from './schemas/PeriodTypeShema';
+import Period from './schemas/PeriodSchema';
 import DataSet from './schemas/DatasetSchema';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
@@ -79,6 +80,7 @@ function loadModels() {
     if (!mongoose.models.OrgUnit) OrgUnit.findOne().select('_id'); // use ".select("_id")", just for performance
     if (!mongoose.models.DataElement) DataElement.findOne().select('_id');
     if (!mongoose.models.PeriodType) PeriodType.findOne().select('_id');
+    if (!mongoose.models.Period) Period.findOne().select('_id');
     if (!mongoose.models.DataSet) DataSet.findOne().select('_id');
 }
 
